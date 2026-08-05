@@ -1,0 +1,81 @@
+{
+  "name": "Editf - 专为出海设计的SaaS模版",
+  "short_name": "Editf",
+  "description": "Editf是专为出海设计的现代化SaaS模版，集成完整的用户认证、支付系统、多语言支持等功能。快速启动您的SaaS产品，专注业务逻辑开发。",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "scope": "/",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "categories": ["productivity", "business", "utilities"],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "16x16 32x32 48x48",
+      "type": "image/x-icon",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/logo.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Editf 主界面"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "功能展示",
+      "short_name": "功能",
+      "description": "查看SaaS模版核心功能",
+      "url": "/zh#features",
+      "icons": [
+        {
+          "src": "/favicon.ico",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "定价方案",
+      "short_name": "定价",
+      "description": "查看SaaS模版定价方案",
+      "url": "/zh#pricing",
+      "icons": [
+        {
+          "src": "/favicon.ico",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "技术博客",
+      "short_name": "博客",
+      "description": "SaaS开发技术分享",
+      "url": "/zh/blog",
+      "icons": [
+        {
+          "src": "/favicon.ico",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}

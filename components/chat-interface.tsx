@@ -1,0 +1,2711 @@
+"use client"
+
+import type React from "react"
+
+import { useState, useRef, useEffect, useCallback } from "react"
+import { Button } from "@/components/ui/button"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Input } from "@/components/ui/input"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogAction } from "@/components/ui/alert-dialog"
+import { PricingDialog } from "@/components/pricing-dialog"
+import { AlertCircle } from "lucide-react"
+import { Plus, Sparkles, X, Zap, Crop, Link, Upload, Loader2, Eye, Send, MessageSquare, ChevronLeft, ChevronRight, Download, Copy, Settings2, FileUp, Play, Music, Image as ImageIcon, Video, Wand2 } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { useTranslations } from "next-intl"
+import { useSession } from "next-auth/react"
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
+import { SignInDialog } from "@/components/auth/signin-dialog"
+import { useToast } from "@/hooks/use-toast"
+import Pusher from "pusher-js"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
+
+const MAX_CHARACTERS = 20000
+
+// ========== 类型定义 ==========
+
+type MessageStatus = "pending" | "completed" | "error"
+
+interface ChatMessage {
+  id: string
+  sessionId: string
+  role: "user" | "assistant"
+  content: string
+  inputImageUrls: string[]
+  outputImageUrls: string[]
+  outputVideoUrls: string[]
+  metadata: Record<string, any>
+  status: MessageStatus
+  errorMessage?: string
+  createdAt: string
+}
+
+interface UploadingItem {
+  id: string
+  filename: string
+  localUrl: string
+  status: "uploading" | "done" | "error"
+  url?: string
+  fileType: "image" | "video" | "audio"
+}
+
+// ========== 主组件 ==========
+
+interface ChatInterfaceProps {
+  currentSessionId: string | null
+  onSessionCreated?: (session: { id: string; title: string; type?: string }) => void
+  initialPrompt?: string
+  initialContentType?: "image" | "video"
+  initialModel?: string
+  initialAspectRatio?: string
+  initialResolution?: string
+  initialVideoDuration?: number
+  initialVideoGenerateMode?: string
+}
+
+export function ChatInterface({
+  currentSessionId,
+  onSessionCreated,
+  initialPrompt,
+  initialContentType,
+  initialModel,
+  initialAspectRatio,
+  initialResolution,
+  initialVideoDuration,
+  initialVideoGenerateMode,
+}: ChatInterfaceProps) {
+  const [messages, setMessages] = useState<ChatMessage[]>([])
+  const [message, setMessage] = useState("")
+  const [selectedImages, setSelectedImages] = useState<File[]>([])
+  const [imageUrls, setImageUrls] = useState<string[]>([])
+  const [uploadingItems, setUploadingItems] = useState<UploadingItem[]>([])
+  const [aspectRatio, setAspectRatio] = useState("1:1")
+  const [resolution, setResolution] = useState("1K")
+  const [quality, setQuality] = useState("medium")
+  const [selectedModel, setSelectedModel] = useState("nanoBanana2")
+  const [selectedVideoModel, setSelectedVideoModel] = useState("seedance2")
+  const [contentType, setContentType] = useState<"image" | "video">("image")
+  // 视频编辑参数
+  const [videoAspectRatio, setVideoAspectRatio] = useState("16:9")
+  const [videoResolution, setVideoResolution] = useState("720p")
+  const [videoDuration, setVideoDuration] = useState(5)
+  const [audioSetting, setAudioSetting] = useState("auto")
+  // 视频生成模式: text2video(文生视频), image2video(图生视频), firstlast2video(首尾帧), reference2video(参考生视频), videoEdit(视频编辑)
+  const [videoGenerateMode, setVideoGenerateMode] = useState<"text2video" | "image2video" | "firstlast2video" | "reference2video" | "videoEdit">("text2video")
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [pointsCost, setPointsCost] = useState(10)
+  const [showUploadPopover, setShowUploadPopover] = useState(false)
+  const [showLinkInput, setShowLinkInput] = useState(false)
+  const [linkInput, setLinkInput] = useState("")
+  const [showDurationPopover, setShowDurationPopover] = useState(false)
+  const [showSignInDialog, setShowSignInDialog] = useState(false)
+  const [showPurchaseDialog, setShowPurchaseDialog] = useState(false)
+  const [showErrorDialog, setShowErrorDialog] = useState(false)
+  const [errorDialogMessage, setErrorDialogMessage] = useState("")
+  const [previewImage, setPreviewImage] = useState<string | null>(null)
+  const [previewIndex, setPreviewIndex] = useState<number | null>(null)
+  const [previewImages, setPreviewImages] = useState<string[]>([])
+  const [downloadingImages, setDownloadingImages] = useState<Set<string>>(new Set())
+  /** 正在生成中时是否为编辑模式（用于按钮文字） */
+  const [isEditMode, setIsEditMode] = useState(false)
+  /** 复制的消息ID（用于显示复制成功反馈） */
+  const [copiedMsgId, setCopiedMsgId] = useState<string | null>(null)
+  const [initialPromptApplied, setInitialPromptApplied] = useState(false)
+
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const messageListRef = useRef<HTMLDivElement>(null)
+  /** 本组件内新建会话后跳过首次拉取，避免在 POST 完成前把消息列表刷成空 */
+  const skipFetchOnceRef = useRef(false)
+  const prevSessionIdRef = useRef<string | null>(null)
+  /** 标记是否正在恢复历史会话的设置 */
+  const isRestoringSettingsRef = useRef(false)
+
+  const { data: session, status } = useSession()
+  const { toast } = useToast()
+  const t = useTranslations("home")
+  const tAi = useTranslations("aiImage")
+  const router = useRouter()
+
+  const [subscriptionTier, setSubscriptionTier] = useState<string | null>(null)
+  const [maxUploadBytes, setMaxUploadBytes] = useState<number>(10 * 1024 * 1024) // default 10MB for free users
+  const [purchaseReason, setPurchaseReason] = useState<'points' | 'quota' | null>(null)
+
+  const formatBytes = (bytes: number) => {
+    if (!isFinite(bytes)) return "无限制"
+    return `${Math.round(bytes / (1024 * 1024))}MB`
+  }
+
+  useEffect(() => {
+    const fetchSubscription = async () => {
+      try {
+        const res = await fetch("/api/user/subscription")
+        if (!res.ok) return
+        const json = await res.json()
+        const tier = json?.tier || json?.data?.tier || null
+        setSubscriptionTier(tier)
+        let limit = 10 * 1024 * 1024 // 免费用户 10MB
+        if (tier === "trial") limit = 50 * 1024 * 1024
+        else if (tier === "pro") limit = 100 * 1024 * 1024
+        else if (tier === "annual" || tier === "annual_plan" || tier === "annual_subscription") limit = Number.POSITIVE_INFINITY // 不限制
+        setMaxUploadBytes(limit)
+      } catch (err) {
+        console.error("fetch subscription error:", err)
+      }
+    }
+
+    if (status === "authenticated") {
+      fetchSubscription()
+    }
+  }, [status])
+
+  // ========== 数据获取 ==========
+
+  const fetchMessages = useCallback(async (sessionId: string) => {
+    try {
+      const res = await fetch(`/api/chat/messages?sessionId=${sessionId}`)
+      if (res.ok) {
+        const json = await res.json()
+        const fetchedMessages = json.data || []
+        setMessages(fetchedMessages)
+
+        // 从第一条用户消息中恢复生成设置（仅当切换到新会话时）
+        if (isRestoringSettingsRef.current) {
+          const firstUserMessage = fetchedMessages.find((msg: ChatMessage) => msg.role === "user")
+          if (firstUserMessage?.metadata) {
+            const meta = firstUserMessage.metadata
+            if (meta.contentType === "video") {
+              setContentType("video")
+              if (meta.model) setSelectedVideoModel(meta.model)
+              if (meta.aspectRatio) setVideoAspectRatio(meta.aspectRatio)
+              if (meta.resolution) setVideoResolution(meta.resolution)
+              if (meta.duration) setVideoDuration(meta.duration)
+              if (meta.audioSetting) setAudioSetting(meta.audioSetting)
+              if (meta.videoGenerateMode) setVideoGenerateMode(meta.videoGenerateMode)
+            } else {
+              setContentType("image")
+              if (meta.model) setSelectedModel(meta.model)
+              if (meta.aspectRatio) setAspectRatio(meta.aspectRatio)
+              if (meta.resolution) setResolution(meta.resolution)
+              if (meta.quality) setQuality(meta.quality)
+            }
+          }
+          isRestoringSettingsRef.current = false
+        }
+      }
+    } catch (err) {
+      console.error("fetch messages error:", err)
+    }
+  }, [])
+
+  // ========== Pusher 实时监听 ==========
+  useEffect(() => {
+    if (status !== "authenticated") return
+    const userId = (session as any)?.user?.id
+    if (!userId) return
+
+    const PusherLib = require("pusher-js")
+    const pusher = new PusherLib(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
+    })
+
+    const channel = pusher.subscribe(`user-${userId}`)
+    channel.bind("kie-result", (data: any) => {
+      if (!data.chatMessageId || !currentSessionId) {
+        return
+      }
+      // 通过 chatMessageId 精准更新对应消息
+      setMessages((prev) =>
+        prev.map((msg) => {
+          if (msg.id !== data.chatMessageId) return msg
+          return {
+            ...msg,
+            status: data.status === "completed" ? "completed" : data.status === "error" ? "error" : msg.status,
+            // 视频结果用 videoUrl，图片用 imageUrl
+            outputImageUrls: data.imageUrl ? [...msg.outputImageUrls, data.imageUrl] : msg.outputImageUrls,
+            outputVideoUrls: data.videoUrl ? [...msg.outputVideoUrls, data.videoUrl] : msg.outputVideoUrls,
+            errorMessage: data.errorMessage || msg.errorMessage,
+          }
+        })
+      )
+      // 重新拉取完整消息列表确保数据一致性
+      if (currentSessionId) {
+        fetchMessages(currentSessionId)
+      }
+    })
+
+    return () => {
+      channel.unbind_all()
+      pusher.unsubscribe(`user-${userId}`)
+    }
+  }, [status, session, currentSessionId, fetchMessages])
+
+  useEffect(() => {
+    if (!currentSessionId) {
+      setMessages([])
+      return
+    }
+    if (skipFetchOnceRef.current) {
+      skipFetchOnceRef.current = false
+      return
+    }
+    // 标记为恢复设置（当会话ID发生变化时）
+    const prev = prevSessionIdRef.current
+    if (prev !== currentSessionId) {
+      isRestoringSettingsRef.current = true
+    }
+    prevSessionIdRef.current = currentSessionId
+    fetchMessages(currentSessionId)
+  }, [currentSessionId, fetchMessages])
+
+  // 模型切换时重置默认质量
+  useEffect(() => {
+    if (selectedModel === "seedream5Lite" || selectedModel === "seedream5Pro") {
+      setQuality("basic")
+    }
+  }, [selectedModel])
+
+  // 积分消耗动态设置
+  useEffect(() => {
+    let cost: number
+    if (contentType === 'video') {
+      // 检查是否有参考视频
+      const videoFiles = uploadingItems.filter((item) => item.fileType === 'video')
+      const hasReferenceVideo = videoFiles.length > 0
+      const imageFiles = uploadingItems.filter((item) => item.fileType === 'image')
+      const imageCount = imageFiles.length
+
+      if (selectedVideoModel === "seedance2fast") {
+        // Seedance 2.0 Fast: 有视频=15/35, 无视频=25/55 (480p/720p)
+        const effectiveResolution = videoResolution === "1080p" ? "720p" : videoResolution
+        const pointsPerSecond = hasReferenceVideo
+          ? (effectiveResolution === "480p" ? 15 : 35)
+          : (effectiveResolution === "480p" ? 25 : 55)
+        cost = pointsPerSecond * videoDuration
+      } else if (selectedVideoModel === "seedance2mini") {
+        // Seedance 2.0 Mini: 有视频=10/20, 无视频=15/35 (480p/720p)
+        const effectiveResolution = videoResolution === "1080p" ? "720p" : videoResolution
+        const pointsPerSecond = hasReferenceVideo
+          ? (effectiveResolution === "480p" ? 10 : 20)
+          : (effectiveResolution === "480p" ? 15 : 35)
+        cost = pointsPerSecond * videoDuration
+      } else if (selectedVideoModel === "wan27") {
+        // Wan 2.7: 720p=25积分/s, 1080p=40积分/s
+        const pointsPerSecond = videoResolution === "1080p" ? 40 : 25
+        cost = pointsPerSecond * videoDuration
+      } else if (selectedVideoModel === "happyhorse") {
+        // HappyHorse 1.0: 720p=45积分/s, 1080p=80积分/s
+        const pointsPerSecond = videoResolution === "1080p" ? 80 : 45
+        cost = pointsPerSecond * videoDuration
+      } else if (selectedVideoModel === "happyhorse11") {
+        // HappyHorse 1.1: 720p=35积分/s, 1080p=45积分/s
+        const pointsPerSecond = videoResolution === "1080p" ? 45 : 35
+        cost = pointsPerSecond * videoDuration
+      } else if (selectedVideoModel === "klingV3Turbo") {
+        // Kling V3 Turbo: 720p=25积分/s, 1080p=40积分/s
+        const pointsPerSecond = videoResolution === "1080p" ? 40 : 25
+        cost = pointsPerSecond * videoDuration
+      } else if (selectedVideoModel === "kling30") {
+        // Kling 3.0: Standard=25/35, Pro=30/45, 4K=110 (积分/s, 有/无音频)
+        const hasAudio = audioSetting === "on"
+        if (videoResolution === "4K") {
+          cost = 110 * videoDuration
+        } else if (videoResolution === "Pro") {
+          // Pro 模式
+          cost = hasAudio ? 45 * videoDuration : 30 * videoDuration
+        } else {
+          // Standard 模式
+          cost = hasAudio ? 35 * videoDuration : 25 * videoDuration
+        }
+      } else if (selectedVideoModel.startsWith("veo")) {
+        // Veo 3.1 系列: 固定价格
+        // Veo 3.1 Lite: 50
+        // Veo 3.1 Fast: 100
+        // Veo 3.1 Quality: 400
+        if (selectedVideoModel === "veo3") {
+          cost = 400
+        } else if (selectedVideoModel === "veo3fast") {
+          cost = 100
+        } else {
+          cost = 50
+        }
+      } else if (selectedVideoModel === "geminiOmniVideo") {
+        // Gemini Omni Video 积分计算
+        // 有视频输入: 720p/1080p = 135积分, 4K = 200积分
+        // 无视频输入: 720p/1080p - 4s=50, 6s=65, 8s=80, 10s=95
+        // 无视频输入: 4K - 4s=115, 6s=130, 8s=150, 10s=165
+        if (hasReferenceVideo) {
+          cost = videoResolution === "4K" ? 200 : 135
+        } else {
+          if (videoResolution === "4K") {
+            const costMap4k: Record<number, number> = { 4: 115, 6: 130, 8: 150, 10: 165 }
+            cost = costMap4k[videoDuration] || 165
+          } else {
+            const costMap: Record<number, number> = { 4: 50, 6: 65, 8: 80, 10: 95 }
+            cost = costMap[videoDuration] || 95
+          }
+        }
+      } else if (selectedVideoModel === "minimaxH3") {
+        // MiniMax H3: 768p=30积分/s, 2K=50积分/s; 参考生视频 5+ 图片 +15 积分/张
+        const pointsPerSecond = videoResolution === "768p" ? 30 : 50
+        cost = pointsPerSecond * videoDuration
+        if (videoGenerateMode === "reference2video" && imageCount > 5) {
+          cost += 15 * (imageCount - 5)
+        }
+      } else {
+        // Seedance 2.0: 有视频=20/40/100, 无视频=30/70/170 (480p/720p/1080p)
+        const pointsPerSecond = hasReferenceVideo
+          ? (videoResolution === "480p" ? 20 : videoResolution === "720p" ? 40 : 100)
+          : (videoResolution === "480p" ? 30 : videoResolution === "720p" ? 70 : 170)
+        cost = pointsPerSecond * videoDuration
+      }
+    } else if (selectedModel === "gptImage2") {
+      const pointsMap2: { "1K": number; "2K": number; "4K": number } = { "1K": 5, "2K": 8, "4K": 15 }
+      cost = pointsMap2[resolution as keyof typeof pointsMap2] || 8
+    } else if (selectedModel === "seedream5Lite") {
+      cost = 9
+    } else if (selectedModel === "seedream5Pro") {
+      // Seedream 5.0 Pro: basic=10积分, high=25积分
+      cost = quality === "high" ? 25 : 10
+    } else if (selectedModel === "nanoBanana2Lite") {
+      // Nano Banana 2 Lite: 1K=6积分
+      cost = 6
+    } else {
+      const pointsMap: { [key: string]: { "1K": number; "2K": number; "4K": number } } = {
+        nanoBananaPro: { "1K": 15, "2K": 15, "4K": 30 },
+        nanoBanana2: { "1K": 8, "2K": 15, "4K": 20 }
+      }
+      cost = pointsMap[selectedModel]?.[resolution as keyof typeof pointsMap[typeof selectedModel]] || 15
+    }
+    setPointsCost(cost)
+  }, [resolution, selectedModel, quality, videoResolution, videoDuration, contentType, selectedVideoModel, uploadingItems])
+
+  // 滚动到底部
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [messages])
+
+  // ========== 会话同步 ==========
+
+  useEffect(() => {
+    if (initialPromptApplied) return
+    if (initialPrompt === undefined) return
+    if (currentSessionId) return
+
+    setMessage(initialPrompt)
+    if (initialContentType) setContentType(initialContentType)
+    if (initialModel) {
+      if (initialContentType === "video") {
+        setSelectedVideoModel(initialModel)
+      } else {
+        setSelectedModel(initialModel)
+      }
+    }
+    if (initialAspectRatio) {
+      if (initialContentType === "video") setVideoAspectRatio(initialAspectRatio)
+      else setAspectRatio(initialAspectRatio)
+    }
+    if (initialResolution) {
+      if (initialContentType === "video") setVideoResolution(initialResolution)
+      else setResolution(initialResolution)
+    }
+    if (typeof initialVideoDuration === "number" && !Number.isNaN(initialVideoDuration)) {
+      setVideoDuration(initialVideoDuration)
+    }
+    if (initialVideoGenerateMode) {
+      setVideoGenerateMode(initialVideoGenerateMode as typeof videoGenerateMode)
+    }
+    setInitialPromptApplied(true)
+  }, [
+    currentSessionId,
+    initialAspectRatio,
+    initialContentType,
+    initialModel,
+    initialPrompt,
+    initialPromptApplied,
+    initialResolution,
+    initialVideoDuration,
+    initialVideoGenerateMode,
+  ])
+
+  // ========== 图片上传 ==========
+
+  const uploadFile = async (file: File, subDir: string = "images"): Promise<string | null> => {
+    const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+    const localUrl = URL.createObjectURL(file)
+    const fileType: "image" | "video" | "audio" = file.type.startsWith("video/") ? "video" : file.type.startsWith("audio/") ? "audio" : "image"
+    setUploadingItems((prev) => [...prev, { id, filename: file.name, localUrl, status: "uploading", fileType }])
+
+    try {
+      const reader = new FileReader()
+      const dataUrl: string = await new Promise((resolve, reject) => {
+        reader.onerror = () => reject(new Error("File read error"))
+        reader.onload = () => resolve(String(reader.result))
+        reader.readAsDataURL(file)
+      })
+      const match = dataUrl.match(/^data:(.+);base64,(.+)$/)
+      if (!match) throw new Error("Invalid file data")
+      const [, contentType, base64] = match
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ filename: file.name, contentType, data: base64, subDir }),
+      })
+
+      if (!res.ok) throw new Error("Upload failed")
+      const json = await res.json()
+      if (!json?.url) throw new Error("No URL returned")
+
+      setUploadingItems((prev) => prev.map((it) => (it.id === id ? { ...it, status: "done", url: json.url } : it)))
+      setImageUrls((prev) => [...prev, json.url])
+      URL.revokeObjectURL(localUrl)
+      return json.url
+    } catch (err) {
+      console.error("Upload error:", err)
+      setUploadingItems((prev) => prev.map((it) => (it.id === id ? { ...it, status: "error" } : it)))
+      return null
+    }
+  }
+
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || [])
+    if (files.length === 0) return
+
+    if (status !== "authenticated") {
+      setShowSignInDialog(true)
+      return
+    }
+
+    // filter only supported mime types
+    const validTypes = ["image/", "video/", "audio/"]
+    const validFiles = files.filter((f) => typeof f.type === "string" && validTypes.some(t => f.type.startsWith(t)))
+    const invalidCount = files.length - validFiles.length
+    if (invalidCount > 0) {
+      toast({ title: tAi("invalidImageFile") || "Only image, video and audio files are supported", variant: "destructive" })
+    }
+    if (validFiles.length === 0) return
+
+    // filter by subscription max size
+    const tooLarge = validFiles.filter((f) => f.size > maxUploadBytes)
+    const allowed = validFiles.filter((f) => f.size <= maxUploadBytes)
+    if (tooLarge.length > 0) {
+      setPurchaseReason('quota')
+      setShowPurchaseDialog(true)
+      return
+    }
+
+    // 分类文件
+    const imageFiles = allowed.filter((f) => f.type.startsWith("image/"))
+    const videoFiles = allowed.filter((f) => f.type.startsWith("video/"))
+    const audioFiles = allowed.filter((f) => f.type.startsWith("audio/"))
+
+    setSelectedImages((prev) => [...prev, ...imageFiles])
+
+    // 上传各类文件
+    await Promise.all([
+      ...imageFiles.map(f => uploadFile(f, "images")),
+      ...videoFiles.map(f => uploadFile(f, "videos")),
+      ...audioFiles.map(f => uploadFile(f, "audios")),
+    ])
+
+    if (fileInputRef.current) fileInputRef.current.value = ""
+    setShowUploadPopover(false)
+  }
+
+  const handlePaste = async (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    const items = e.clipboardData?.items
+    if (!items) return
+
+    const files: File[] = []
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i]
+      const file = item.getAsFile()
+      if (file) files.push(file)
+    }
+    if (files.length === 0) return
+
+    // filter only supported mime types
+    const validTypes = ["image/", "video/", "audio/"]
+    const validFiles = files.filter((f) => typeof f.type === "string" && validTypes.some(t => f.type.startsWith(t)))
+    if (validFiles.length === 0) return
+
+    e.preventDefault()
+
+    if (status !== "authenticated") {
+      setShowSignInDialog(true)
+      return
+    }
+
+    // filter by subscription max size
+    const tooLarge = validFiles.filter((f) => f.size > maxUploadBytes)
+    const allowed = validFiles.filter((f) => f.size <= maxUploadBytes)
+    if (tooLarge.length > 0) {
+      setPurchaseReason('quota')
+      setShowPurchaseDialog(true)
+      return
+    }
+
+    // 分类文件
+    const imageFiles = allowed.filter((f) => f.type.startsWith("image/"))
+    const videoFiles = allowed.filter((f) => f.type.startsWith("video/"))
+    const audioFiles = allowed.filter((f) => f.type.startsWith("audio/"))
+
+    setSelectedImages((prev) => [...prev, ...imageFiles])
+
+    // 上传各类文件
+    await Promise.all([
+      ...imageFiles.map(f => uploadFile(f, "images")),
+      ...videoFiles.map(f => uploadFile(f, "videos")),
+      ...audioFiles.map(f => uploadFile(f, "audios")),
+    ])
+  }
+
+  const removeImageUrl = (index: number) => {
+    setSelectedImages((prev) => prev.filter((_, i) => i !== index))
+    setImageUrls((prev) => prev.filter((_, i) => i !== index))
+  }
+
+  // 判断文件类型
+  const getFileType = (url: string): "image" | "video" | "audio" => {
+    const ext = url.split(".").pop()?.toLowerCase().split("?")[0] || ""
+    const imageExts = ["jpg", "jpeg", "png", "gif", "webp", "bmp", "svg", "avif", "apng"]
+    const videoExts = ["mp4", "webm", "mov", "avi", "mkv", "flv", "wmv", "m4v", "3gp"]
+    const audioExts = ["mp3", "wav", "ogg", "flac", "aac", "m4a", "wma", "aiff"]
+    if (imageExts.includes(ext)) return "image"
+    if (videoExts.includes(ext)) return "video"
+    if (audioExts.includes(ext)) return "audio"
+    // 尝试从 URL 推断
+    if (url.includes("/videos/")) return "video"
+    if (url.includes("/audios/")) return "audio"
+    return "image"
+  }
+
+  const addImageUrl = (url: string) => {
+    if (url.trim() && !imageUrls.includes(url.trim())) {
+      setImageUrls((prev) => [...prev, url.trim()])
+    }
+  }
+
+  const handleAddLink = () => {
+    if (linkInput.trim()) {
+      addImageUrl(linkInput.trim())
+      setLinkInput("")
+      setShowLinkInput(false)
+    }
+  }
+
+  // ========== 发送消息 ==========
+
+  const sendMessage = async () => {
+    if (status !== "authenticated") {
+      setShowSignInDialog(true)
+      return
+    }
+
+    // 视频模式验证（使用当前状态变量）
+    if (contentType === 'video') {
+      const imageFiles = uploadingItems.filter((item) => item.fileType === 'image')
+      const videoFiles = uploadingItems.filter((item) => item.fileType === 'video')
+      const audioFiles = uploadingItems.filter((item) => item.fileType === 'audio')
+      const isVeoModel = selectedVideoModel.startsWith("veo")
+
+      if (videoGenerateMode === 'text2video') {
+        // 文生视频：不需要任何输入
+      } else if (videoGenerateMode === 'image2video') {
+        // 图生视频：需要至少一张图片
+        // Veo 模型不支持此模式（UI 已过滤）
+        if (imageFiles.length === 0) {
+          setErrorDialogMessage(t("operate.imageRequired"))
+          setShowErrorDialog(true)
+          return
+        }
+        // MiniMax H3 图生视频最多支持 1 张图片
+        if (selectedVideoModel === "minimaxH3" && imageFiles.length > 1) {
+          setErrorDialogMessage(t("operate.minimaxH3MaxImages") || "MiniMax H3 图生视频最多支持 1 张图片")
+          setShowErrorDialog(true)
+          return
+        }
+      } else if (videoGenerateMode === 'firstlast2video') {
+        // 首尾帧视频：需要至少两张图片
+        // Veo 模型不支持此模式（UI 已过滤）
+        // HappyHorse 不支持此模式（UI 已过滤）
+        if (imageFiles.length < 2) {
+          setErrorDialogMessage(t("operate.twoImagesRequired"))
+          setShowErrorDialog(true)
+          return
+        }
+      } else if (videoGenerateMode === 'reference2video') {
+        // 参考生视频
+        if (selectedVideoModel.startsWith("veo")) {
+          // Veo 3.1 Fast: 只支持 1-3 张图片
+          if (imageFiles.length === 0) {
+            setErrorDialogMessage(t("operate.referenceFileRequired"))
+            setShowErrorDialog(true)
+            return
+          }
+          if (imageFiles.length > 3) {
+            setErrorDialogMessage(t("operate.veoMaxImagesHint") || "Veo 模型最多支持 3 张参考图片")
+            setShowErrorDialog(true)
+            return
+          }
+        } else if (selectedVideoModel === "happyhorse") {
+          // HappyHorse: 需要 1-9 张图片
+          if (imageFiles.length === 0) {
+            setErrorDialogMessage(t("operate.referenceFileRequired"))
+            setShowErrorDialog(true)
+            return
+          }
+          if (imageFiles.length > 9) {
+            setErrorDialogMessage(t("operate.happyhorseMaxImages"))
+            setShowErrorDialog(true)
+            return
+          }
+        } else if (selectedVideoModel === "happyhorse11") {
+          // HappyHorse 1.1 参考生视频: 需要 1-9 张图片
+          if (imageFiles.length === 0) {
+            setErrorDialogMessage(t("operate.referenceFileRequired"))
+            setShowErrorDialog(true)
+            return
+          }
+          if (imageFiles.length > 9) {
+            setErrorDialogMessage(t("operate.happyhorse11MaxImages") || "HappyHorse 1.1 参考图生视频最多支持 9 张参考图片，请检查上传数量")
+            setShowErrorDialog(true)
+            return
+          }
+        } else if (selectedVideoModel === "wan27") {
+          // Wan: 需要至少 1 个图片或视频，最多 5 个图片和 5 个视频
+          const hasImage = imageFiles.length > 0
+          const hasVideo = videoFiles.length > 0
+          if (!hasImage && !hasVideo) {
+            setErrorDialogMessage(t("operate.wanReferenceFileRequired"))
+            setShowErrorDialog(true)
+            return
+          }
+          if (imageFiles.length > 5) {
+            setErrorDialogMessage(t("operate.wanMaxImages"))
+            setShowErrorDialog(true)
+            return
+          }
+          if (videoFiles.length > 5) {
+            setErrorDialogMessage(t("operate.wanMaxVideos"))
+            setShowErrorDialog(true)
+            return
+          }
+        } else if (selectedVideoModel === "geminiOmniVideo") {
+          // Gemini Omni: 最多 7 张图片或 1 个视频
+          if (imageFiles.length > 7) {
+            setErrorDialogMessage(t("operate.geminiOmniMaxImages") || "Gemini Omni 参考生视频最多支持 7 张参考图片，请检查上传数量")
+            setShowErrorDialog(true)
+            return
+          }
+          if (videoFiles.length > 1) {
+            setErrorDialogMessage(t("operate.geminiOmniMaxVideos") || "Gemini Omni 参考生视频最多支持 1 个参考视频，请检查上传数量")
+            setShowErrorDialog(true)
+            return
+          }
+        } else if (selectedVideoModel === "minimaxH3") {
+          // MiniMax H3: 最多 9 张图片 + 3 个视频 + 3 个音频
+          if (imageFiles.length > 9) {
+            setErrorDialogMessage(t("operate.minimaxH3MaxImages") || "MiniMax H3 参考生视频最多支持 9 张参考图片")
+            setShowErrorDialog(true)
+            return
+          }
+          if (videoFiles.length > 3) {
+            setErrorDialogMessage(t("operate.minimaxH3MaxVideos") || "MiniMax H3 参考生视频最多支持 3 个参考视频")
+            setShowErrorDialog(true)
+            return
+          }
+        } else {
+          // Seedance: 多模态参考生视频，支持图片/视频/音频任意组合
+          const hasImage = imageFiles.length > 0
+          const hasVideo = videoFiles.length > 0
+          const hasAudio = audioFiles.length > 0
+          if (!hasImage && !hasVideo && !hasAudio) {
+            setErrorDialogMessage(t("operate.referenceFileRequired"))
+            setShowErrorDialog(true)
+            return
+          }
+          if (imageFiles.length > 9) {
+            setErrorDialogMessage(t("operate.seedanceMaxImages") || "Seedance 最多支持 9 张参考图片")
+            setShowErrorDialog(true)
+            return
+          }
+          if (videoFiles.length > 3) {
+            setErrorDialogMessage(t("operate.seedanceMaxVideos") || "Seedance 最多支持 3 部参考视频")
+            setShowErrorDialog(true)
+            return
+          }
+          if (audioFiles.length > 3) {
+            setErrorDialogMessage(t("operate.seedanceMaxAudios") || "Seedance 最多支持 3 部参考音频")
+            setShowErrorDialog(true)
+            return
+          }
+        }
+      } else if (videoGenerateMode === 'videoEdit') {
+        if (videoFiles.length === 0) {
+          setErrorDialogMessage(selectedVideoModel === "happyhorse" ? t("operate.happyhorseVideoEditRequired") : t("operate.wanVideoEditRequired"))
+          setShowErrorDialog(true)
+          return
+        }
+      }
+    } else {
+      if (!message.trim() && imageUrls.length === 0) return
+    }
+
+    // 如果没有当前会话，先创建一个
+    let sessionId = currentSessionId
+    if (!sessionId) {
+      setIsGenerating(true)
+      try {
+        const res = await fetch("/api/chat/sessions", { method: "POST" })
+        if (!res.ok) throw new Error("Failed to create session")
+        const json = await res.json()
+        sessionId = json.data.id
+        const newSession = json.data
+        skipFetchOnceRef.current = true
+        onSessionCreated?.(newSession)
+      } catch (err) {
+        console.error("create session error:", err)
+        setIsGenerating(false)
+        return
+      }
+    }
+
+    setIsGenerating(true)
+    // 保存当前选择状态，确保提交后保持不变（使用闭包捕获当前值）
+    const currentModel = selectedModel
+    const currentAspectRatio = aspectRatio
+    const currentResolution = resolution
+    const currentQuality = quality
+    const currentContentType = contentType
+    const currentVideoModel = selectedVideoModel
+    const currentVideoAspectRatio = videoAspectRatio
+    const currentVideoResolution = videoResolution
+    const currentVideoDuration = videoDuration
+    const currentVideoGenerateMode = videoGenerateMode
+    const currentAudioSetting = audioSetting
+    const currentMessage = message
+    const currentImageUrls = [...imageUrls]
+    const currentUploadingItems = [...uploadingItems]
+    const currentIsEditMode = currentImageUrls.length > 0
+    setIsEditMode(currentIsEditMode)
+    const tempBase = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
+    const nowIso = new Date().toISOString()
+
+    const optimisticUser: ChatMessage = {
+      id: `temp-user-${tempBase}`,
+      sessionId: sessionId!,
+      role: "user",
+      content: currentMessage,
+      inputImageUrls: currentImageUrls,
+      outputImageUrls: [],
+      outputVideoUrls: [],
+      metadata: { aspectRatio: currentAspectRatio, resolution: currentResolution, model: currentModel, contentType: currentContentType },
+      status: "completed",
+      createdAt: nowIso,
+    }
+    const optimisticAssistant: ChatMessage = {
+      id: `temp-assistant-${tempBase}`,
+      sessionId: sessionId!,
+      role: "assistant",
+      content: "",
+      inputImageUrls: [],
+      outputImageUrls: [],
+      outputVideoUrls: [],
+      metadata: { aspectRatio: currentAspectRatio, resolution: currentResolution, model: currentModel, isEditMode: currentIsEditMode, contentType: currentContentType },
+      status: "pending",
+      createdAt: nowIso,
+    }
+
+    // 清空输入，并立即在对话区展示用户气泡 + 生成中占位
+    setMessage("")
+    setSelectedImages([])
+    setImageUrls([])
+    setUploadingItems([])
+    // 重置 textarea 高度
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto"
+    }
+    setMessages((prev) => [...prev, optimisticUser, optimisticAssistant])
+
+    const rollbackOptimistic = () => {
+      setMessages((prev) => prev.filter((m) => !m.id.startsWith("temp-")))
+      setMessage(currentMessage)
+      setImageUrls(currentImageUrls)
+      // 重置 textarea 高度
+      if (textareaRef.current) {
+        textareaRef.current.style.height = "auto"
+      }
+    }
+
+    try {
+      // 根据内容类型选择不同的 API
+      if (currentContentType === 'video') {
+        // 视频生成模式
+        const imageFiles = currentUploadingItems.filter((item) => item.fileType === 'image')
+        const videoFiles = currentUploadingItems.filter((item) => item.fileType === 'video')
+        const audioFiles = currentUploadingItems.filter((item) => item.fileType === 'audio')
+
+        // 根据生成模式构建请求参数
+        const apiBody: any = {
+          prompt: currentMessage,
+          model: currentVideoModel,
+          aspectRatio: currentVideoAspectRatio,
+          resolution: currentVideoResolution,
+          duration: currentVideoDuration,
+          audioSetting: currentAudioSetting,
+          videoGenerateMode: currentVideoGenerateMode,
+        }
+
+        let videoApiEndpoint = '/api/ai/kie/seedance'
+        let videoRequestBody: any = apiBody
+
+        if (currentVideoModel.startsWith("veo")) {
+          // Veo 3.1 系列使用 veo API
+          videoApiEndpoint = '/api/ai/kie/veo'
+
+          // Veo 3.1 generationType 映射
+          const veoGenerationTypeMap: Record<string, string> = {
+            "text2video": "TEXT_2_VIDEO",
+            "image2video": "FIRST_AND_LAST_FRAMES_2_VIDEO",
+            "firstlast2video": "FIRST_AND_LAST_FRAMES_2_VIDEO",
+            "reference2video": "REFERENCE_2_VIDEO",
+          }
+
+          // 根据模型选择对应的 API model 参数
+          const veoModelMap: Record<string, string> = {
+            "veo3": "veo3",
+            "veo3fast": "veo3_fast",
+            "veo3lite": "veo3_lite",
+          }
+
+          videoRequestBody = {
+            prompt: currentMessage,
+            model: veoModelMap[currentVideoModel] || "veo3_lite",
+            generationType: veoGenerationTypeMap[currentVideoGenerateMode] || "TEXT_2_VIDEO",
+            aspectRatio: currentVideoAspectRatio,
+            resolution: currentVideoResolution,
+          }
+
+          // 根据不同模式设置不同的参数
+          if (currentVideoGenerateMode === 'image2video' || currentVideoGenerateMode === 'firstlast2video') {
+            // 图生视频/首尾帧：使用图片
+            videoRequestBody.imageUrls = imageFiles.slice(0, 2).map((f) => f.url).filter(Boolean)
+          } else if (currentVideoGenerateMode === 'reference2video') {
+            // 参考图生视频：使用图片
+            videoRequestBody.imageUrls = imageFiles.slice(0, 3).map((f) => f.url).filter(Boolean)
+          }
+        } else if (currentVideoModel === "wan27") {
+          // Wan 2.7 使用 wan API
+          videoApiEndpoint = '/api/ai/kie/wan'
+
+          videoRequestBody = {
+            prompt: currentMessage,
+            model: "wan27",
+            aspectRatio: currentVideoAspectRatio,
+            resolution: currentVideoResolution,
+            duration: currentVideoDuration,
+            videoGenerateMode: currentVideoGenerateMode,
+          }
+
+          // 根据不同模式设置不同的参数
+          if (currentVideoGenerateMode === 'image2video') {
+            // 图生视频：使用第一张图片作为首帧
+            if (imageFiles.length > 0) {
+              videoRequestBody.firstFrameUrl = imageFiles[0]?.url
+            }
+          } else if (currentVideoGenerateMode === 'firstlast2video') {
+            // 首尾帧视频：使用前两张图片
+            videoRequestBody.firstFrameUrl = imageFiles[0]?.url
+            videoRequestBody.lastFrameUrl = imageFiles[1]?.url
+          } else if (currentVideoGenerateMode === 'reference2video') {
+            // 参考生视频：使用图片/视频
+            const imageUrls = imageFiles.slice(0, 5).map((f) => f.url).filter(Boolean)
+            const videoUrls = videoFiles.slice(0, 5).map((f) => f.url).filter(Boolean)
+            if (imageUrls.length > 0) {
+              videoRequestBody.referenceImage = imageUrls
+            }
+            if (videoUrls.length > 0) {
+              videoRequestBody.referenceVideo = videoUrls
+            }
+          } else if (currentVideoGenerateMode === 'videoEdit') {
+            // 视频编辑：使用视频文件作为待编辑视频
+            if (videoFiles.length > 0) {
+              videoRequestBody.videoUrl = videoFiles[0]?.url
+            }
+            // 可选：使用图片作为参考图
+            if (imageFiles.length > 0) {
+              videoRequestBody.referenceImage = imageFiles[0]?.url
+            }
+          }
+        } else if (currentVideoModel === "happyhorse") {
+          // HappyHorse 1.0 使用 happyhorse API
+          videoApiEndpoint = '/api/ai/kie/happyhorse'
+
+          videoRequestBody = {
+            prompt: currentMessage,
+            model: "happyhorse",
+            aspectRatio: currentVideoAspectRatio,
+            resolution: currentVideoResolution,
+            duration: currentVideoDuration,
+            videoGenerateMode: currentVideoGenerateMode,
+            audioSetting: currentAudioSetting,
+          }
+
+          // 根据不同模式设置不同的参数
+          if (currentVideoGenerateMode === 'image2video') {
+            // 图生视频：使用图片
+            videoRequestBody.imageUrls = imageFiles.slice(0, 1).map((f) => f.url).filter(Boolean)
+          } else if (currentVideoGenerateMode === 'reference2video') {
+            // 参考生视频：使用图片（最多9张）
+            videoRequestBody.imageUrls = imageFiles.slice(0, 9).map((f) => f.url).filter(Boolean)
+          } else if (currentVideoGenerateMode === 'videoEdit') {
+            // 视频编辑：使用视频文件
+            if (videoFiles.length > 0) {
+              videoRequestBody.videoUrl = videoFiles[0]?.url
+            }
+            // 可选：使用图片作为参考图
+            if (imageFiles.length > 0) {
+              videoRequestBody.referenceImage = imageFiles.slice(0, 5).map((f) => f.url).filter(Boolean)
+            }
+          }
+        } else if (currentVideoModel === "happyhorse11") {
+          // HappyHorse 1.1 使用 happyhorse11 API
+          videoApiEndpoint = '/api/ai/kie/happyhorse11'
+
+          videoRequestBody = {
+            prompt: currentMessage,
+            model: "happyhorse11",
+            aspectRatio: currentVideoAspectRatio,
+            resolution: currentVideoResolution,
+            duration: currentVideoDuration,
+            videoGenerateMode: currentVideoGenerateMode,
+          }
+
+          // 根据不同模式设置不同的参数
+          if (currentVideoGenerateMode === 'image2video') {
+            // 图生视频：使用第一张图片
+            videoRequestBody.imageUrls = imageFiles.slice(0, 1).map((f) => f.url).filter(Boolean)
+          } else if (currentVideoGenerateMode === 'reference2video') {
+            // 参考生视频：使用图片（最多9张）
+            videoRequestBody.referenceImage = imageFiles.slice(0, 9).map((f) => f.url).filter(Boolean)
+          }
+        } else if (currentVideoModel === "klingV3Turbo") {
+          // Kling V3 Turbo 使用 kling-v3-turbo API
+          videoApiEndpoint = '/api/ai/kie/kling-v3-turbo'
+
+          videoRequestBody = {
+            prompt: currentMessage,
+            model: "klingV3Turbo",
+            aspectRatio: currentVideoAspectRatio,
+            resolution: currentVideoResolution,
+            duration: currentVideoDuration,
+            videoGenerateMode: currentVideoGenerateMode,
+          }
+
+          // 根据不同模式设置不同的参数
+          if (currentVideoGenerateMode === 'image2video') {
+            // 图生视频：使用第一张图片
+            videoRequestBody.imageUrls = imageFiles.slice(0, 1).map((f) => f.url).filter(Boolean)
+          }
+        } else if (currentVideoModel === "kling30") {
+          // Kling 3.0 使用 kling30 API
+          videoApiEndpoint = '/api/ai/kie/kling30'
+
+          // Kling 3.0 分辨率映射: Standard/std, Pro/pro, 4K/4K
+          const klingMode = currentVideoResolution
+
+          videoRequestBody = {
+            prompt: currentMessage,
+            model: "kling30",
+            aspectRatio: currentVideoAspectRatio,
+            mode: klingMode,
+            duration: currentVideoDuration,
+            videoGenerateMode: currentVideoGenerateMode,
+            audioSetting: audioSetting,
+          }
+
+          // Kling 3.0 只支持单镜头: text2video, image2video, firstlast2video
+          if (currentVideoGenerateMode === 'image2video') {
+            // 图生视频：使用第一张图片
+            videoRequestBody.imageUrls = imageFiles.slice(0, 1).map((f) => f.url).filter(Boolean)
+          } else if (currentVideoGenerateMode === 'firstlast2video') {
+            // 首尾帧视频：使用前两张图片
+            if (imageFiles.length >= 2) {
+              videoRequestBody.imageUrls = [imageFiles[0]?.url, imageFiles[1]?.url]
+            } else if (imageFiles.length === 1) {
+              videoRequestBody.imageUrls = [imageFiles[0]?.url]
+            }
+          }
+        } else if (currentVideoModel === "geminiOmniVideo") {
+          // Gemini Omni Video 使用专门的 API
+          videoApiEndpoint = '/api/ai/kie/gemini-omni-video'
+
+          videoRequestBody = {
+            prompt: currentMessage,
+            model: "gemini-omni-video",
+            aspectRatio: currentVideoAspectRatio,
+            resolution: currentVideoResolution,
+            duration: currentVideoDuration,
+            imageUrls: [],
+            videoList: [],
+          }
+
+          // Gemini Omni Video 支持: text2video, image2video, reference2video
+          if (currentVideoGenerateMode === 'image2video') {
+            // 图生视频：使用图片（最多7张）
+            videoRequestBody.imageUrls = imageFiles.slice(0, 7).map((f) => f.url).filter(Boolean)
+          } else if (currentVideoGenerateMode === 'reference2video') {
+            // 参考生视频：使用图片（最多7张）和视频（最多1个，10秒）
+            videoRequestBody.imageUrls = imageFiles.slice(0, 7).map((f) => f.url).filter(Boolean)
+            if (videoFiles.length > 0 && videoFiles[0]?.url) {
+              videoRequestBody.videoList = [{
+                url: videoFiles[0]?.url,
+                start: 0,
+                ends: 10,
+              }]
+            }
+          }
+          // text2video 不需要额外参数
+        } else if (currentVideoModel === "minimaxH3") {
+          // MiniMax H3 使用专门的 minimax-h3 API
+          videoApiEndpoint = '/api/ai/kie/minimax-h3'
+
+          videoRequestBody = {
+            prompt: currentMessage,
+            aspectRatio: currentVideoAspectRatio,
+            duration: currentVideoDuration,
+            videoGenerateMode: currentVideoGenerateMode,
+          }
+
+          // MiniMax H3 支持: text2video, image2video, firstlast2video, reference2video
+          if (currentVideoGenerateMode === 'image2video') {
+            // 图生视频：使用图片（最多1张）
+            videoRequestBody.imageUrls = imageFiles.slice(0, 1).map((f) => f.url).filter(Boolean)
+          } else if (currentVideoGenerateMode === 'firstlast2video') {
+            // 首尾帧视频：使用前两张图片（复用 image-to-video 端点，传 first/last_frame_url）
+            videoRequestBody.referenceImageUrls = imageFiles.slice(0, 2).map((f) => f.url).filter(Boolean)
+          } else if (currentVideoGenerateMode === 'reference2video') {
+            // 参考生视频：使用图片（最多9张）和视频（最多3个）
+            videoRequestBody.referenceImageUrls = imageFiles.slice(0, 9).map((f) => f.url).filter(Boolean)
+            videoRequestBody.referenceVideoUrls = videoFiles.slice(0, 3).map((f) => f.url).filter(Boolean)
+            videoRequestBody.referenceAudioUrls = audioFiles.slice(0, 3).map((f) => f.url).filter(Boolean)
+          }
+          // text2video 不需要额外参数
+        } else {
+          // Seedance 使用原有逻辑
+          if (currentVideoGenerateMode === 'text2video') {
+            // 文生视频：不需要额外参数
+          } else if (currentVideoGenerateMode === 'image2video') {
+            // 图生视频：使用第一张图片作为首帧
+            apiBody.videoUrl = imageFiles[0]?.url
+          } else if (currentVideoGenerateMode === 'firstlast2video') {
+            // 首尾帧视频：使用前两张图片
+            apiBody.firstFrameUrl = imageFiles[0]?.url
+            apiBody.lastFrameUrl = imageFiles[1]?.url
+          } else if (currentVideoGenerateMode === 'reference2video') {
+            // Seedance: 多模态参考生视频，支持图片/视频/音频任意组合
+            if (imageFiles.length > 0) {
+              apiBody.referenceImageUrls = imageFiles.slice(0, 9).map((f) => f.url).filter(Boolean)
+            }
+            if (videoFiles.length > 0) {
+              apiBody.referenceVideoUrls = videoFiles.slice(0, 3).map((f) => f.url).filter(Boolean)
+            }
+            if (audioFiles.length > 0) {
+              apiBody.referenceAudioUrls = audioFiles.slice(0, 3).map((f) => f.url).filter(Boolean)
+            }
+          }
+        }
+
+        // 发送到聊天 API 记录消息
+        const chatRes = await fetch("/api/chat/messages", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sessionId,
+            content: currentMessage,
+            inputImageUrls: currentImageUrls,
+            contentType: "video",
+            videoGenerateMode: currentVideoGenerateMode,
+            model: currentVideoModel,
+            aspectRatio: currentVideoAspectRatio,
+            resolution: currentVideoResolution,
+            duration: currentVideoDuration,
+            audioSetting: currentAudioSetting,
+          }),
+        })
+
+        if (!chatRes.ok) {
+          const data = await chatRes.json().catch(() => ({}))
+          if (chatRes.status === 402) {
+            toast({ title: t("operate.insufficientPoints"), description: t("operate.insufficientPointsDesc"), variant: "destructive" })
+            setShowPurchaseDialog(true)
+          } else {
+            toast({ title: t("operate.error"), description: (data as { error?: string }).error || t("operate.errorDesc"), variant: "destructive" })
+          }
+          rollbackOptimistic()
+          setIsGenerating(false)
+          return
+        }
+
+        // 视频模式：chat/messages 返回后，再调用对应的视频 API
+        const chatData = await chatRes.json()
+        const assistantMessageId = chatData.assistantMessageId
+
+        // 添加 userId 和 chatMessageId 用于内部调用
+        const finalVideoBody = {
+          ...videoRequestBody,
+          userId: (session as any)?.user?.id,
+          chatMessageId: assistantMessageId,
+        }
+
+        const videoRes = await fetch(videoApiEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(finalVideoBody),
+        })
+
+        if (!videoRes.ok) {
+          const data = await videoRes.json().catch(() => ({}))
+          if (videoRes.status === 402) {
+            toast({ title: t("operate.insufficientPoints"), description: t("operate.insufficientPointsDesc"), variant: "destructive" })
+            setShowPurchaseDialog(true)
+          } else {
+            toast({ title: t("operate.error"), description: (data as { error?: string }).error || t("operate.errorDesc"), variant: "destructive" })
+          }
+          rollbackOptimistic()
+          setIsGenerating(false)
+          return
+        }
+
+      } else {
+        // 图片模式
+        const res = await fetch("/api/chat/messages", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sessionId,
+            content: currentMessage,
+            inputImageUrls: currentImageUrls,
+            aspectRatio: currentAspectRatio,
+            resolution: currentResolution,
+            model: currentModel,
+            ...(currentModel === "seedream5Lite" && { quality: currentQuality }),
+            ...(currentModel === "seedream5Pro" && { quality: currentQuality }),
+          }),
+        })
+
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}))
+          if (res.status === 402) {
+            toast({ title: t("operate.insufficientPoints"), description: t("operate.insufficientPointsDesc"), variant: "destructive" })
+            setShowPurchaseDialog(true)
+          } else {
+            toast({ title: t("operate.error"), description: (data as { error?: string }).error || t("operate.errorDesc"), variant: "destructive" })
+          }
+          rollbackOptimistic()
+          setIsGenerating(false)
+          return
+        }
+      }
+
+      // 用服务端真实消息替换乐观更新
+      await fetchMessages(sessionId!)
+      setIsGenerating(false)
+    } catch (err) {
+      console.error("send message error:", err)
+      toast({ title: t("operate.error"), description: t("operate.errorDesc"), variant: "destructive" })
+      rollbackOptimistic()
+      setIsGenerating(false)
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault()
+      sendMessage()
+    }
+  }
+
+  // ========== 图片预览 ==========
+
+  const openPreview = (images: string[], index: number) => {
+    setPreviewImages(images)
+    setPreviewIndex(index)
+    setPreviewImage(images[index])
+    document.body.classList.add("preview-open")
+  }
+
+  const closePreview = () => {
+    setPreviewImage(null)
+    setPreviewIndex(null)
+    setPreviewImages([])
+    document.body.classList.remove("preview-open")
+  }
+
+  const showPrevPreview = () => {
+    if (previewIndex == null || previewImages.length === 0) return
+    const prev = (previewIndex - 1 + previewImages.length) % previewImages.length
+    setPreviewIndex(prev)
+    setPreviewImage(previewImages[prev])
+  }
+
+  const showNextPreview = () => {
+    if (previewIndex == null || previewImages.length === 0) return
+    const next = (previewIndex + 1) % previewImages.length
+    setPreviewIndex(next)
+    setPreviewImage(previewImages[next])
+  }
+
+  // ========== 下载图片/视频 ==========
+
+  const downloadFile = async (fileUrl: string, isVideo: boolean = false) => {
+    const key = fileUrl
+    setDownloadingImages((prev) => {
+      const next = new Set(prev)
+      next.add(key)
+      return next
+    })
+
+    try {
+      let downloadUrl = fileUrl
+      if (fileUrl.includes("kie.ai") || fileUrl.includes("tempfile")) {
+        const res = await fetch("/api/ai/kie/download-url", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: fileUrl }),
+        })
+        if (res.ok) {
+          const data = await res.json()
+          downloadUrl = data.downloadUrl
+        }
+      }
+
+      const response = await fetch(downloadUrl)
+      const blob = await response.blob()
+      const blobUrl = URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = blobUrl
+      a.download = isVideo
+        ? `editf-video-${Date.now()}.mp4`
+        : `editf-${Date.now()}.png`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(blobUrl)
+      toast({
+        title: isVideo
+          ? t("chat.videoDownloadSuccess") || "视频下载成功"
+          : t("chat.downloadSuccess")
+      })
+    } catch (err) {
+      console.error("Download error:", err)
+      toast({
+        title: isVideo
+          ? t("chat.videoDownloadFailed") || "视频下载失败"
+          : t("chat.downloadFailed"),
+        variant: "destructive"
+      })
+    } finally {
+      setDownloadingImages((prev) => {
+        const next = new Set(prev)
+        next.delete(key)
+        return next
+      })
+    }
+  }
+
+  // ========== 一键复制用户消息内容 ==========
+
+  const copyMessageContent = async (content: string, msgId: string) => {
+    try {
+      await navigator.clipboard.writeText(content)
+      setCopiedMsgId(msgId)
+      toast({ title: t("chat.copied") })
+      setTimeout(() => setCopiedMsgId(null), 2000)
+    } catch (err) {
+      console.error("Copy error:", err)
+      toast({ title: t("chat.copyFailed"), variant: "destructive" })
+    }
+  }
+
+  // ========== 渲染 ==========
+
+  const characterCount = message.length
+  const isNearLimit = characterCount > MAX_CHARACTERS * 0.9
+
+  return (
+    <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+      {/* 主聊天区域：仅消息列表滚动 */}
+      <div className="flex min-h-0 flex-1 flex-col min-w-0">
+        {/* 消息列表 */}
+        <div ref={messageListRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain pt-8">
+          {messages.length === 0 && (
+            <div className="flex flex-col items-center justify-center h-full text-center px-8">
+              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                <Sparkles className="w-8 h-8 text-primary" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2">
+                {t("chat.startTitle")}
+              </h3>
+              <p className="text-sm text-muted-foreground max-w-sm">
+                {t("chat.startDesc")}
+              </p>
+            </div>
+          )}
+
+          {messages.map((msg) => (
+            <div key={msg.id} className="px-4 py-3">
+              <div className="max-w-3xl mx-auto">
+                {/* 用户消息：右侧显示头像 */}
+                {msg.role === "user" && (
+                  <div className="flex items-start gap-3">
+                    <div className="flex flex-col items-end gap-2 flex-1">
+                      {(msg.content || msg.inputImageUrls.length > 0) && (
+                        <div className="group relative flex items-start gap-1.5">
+                          {/* 悬停显示复制按钮（在气泡左边，垂直居中） */}
+                          <div className="flex items-center self-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <button
+                                  onClick={() => copyMessageContent(msg.content, msg.id)}
+                                  className="p-1.5 rounded-md hover:bg-slate-200/60 dark:hover:bg-slate-700/60"
+                                >
+                                  {copiedMsgId === msg.id ? (
+                                    <span className="text-xs text-green-600">{t("chat.copied")}</span>
+                                  ) : (
+                                    <Copy className="w-3.5 h-3.5 text-slate-500" />
+                                  )}
+                                </button>
+                              </TooltipTrigger>
+                              <TooltipContent side="left">
+                                <p>{t("chat.copyContent")}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </div>
+                          {/* 气泡 */}
+                          <div className="inline-flex max-w-[min(100%,28rem)] flex-col items-end gap-2 rounded-[1.35rem] bg-slate-100/90 dark:bg-slate-800/80 px-4 py-2.5 text-foreground shadow-sm border border-slate-200/60 dark:border-slate-700/60">
+                            {msg.content && (
+                              <p className="text-sm leading-relaxed whitespace-pre-wrap text-left w-full">{msg.content}</p>
+                            )}
+                            {msg.inputImageUrls.length > 0 && (
+                              <div className="flex flex-wrap gap-2 justify-end">
+                                {msg.inputImageUrls.map((url, idx) => (
+                                  <div key={idx} className="relative w-20 h-20 rounded-xl border overflow-hidden shrink-0">
+                                    <img
+                                      src={url}
+                                      alt={t("chat.uploadedImage", { index: idx + 1 })}
+                                      className="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform"
+                                      onClick={() => openPreview(msg.inputImageUrls, idx)}
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    {/* 用户头像 */}
+                    <div className="flex-shrink-0 w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden">
+                      {session?.user?.image ? (
+                        <img src={session.user.image} alt={t("chat.userAvatar")} className="w-full h-full object-cover" />
+                      ) : (
+                        <span className="text-sm font-medium text-primary">
+                          {session?.user?.name?.[0]?.toUpperCase() || session?.user?.email?.[0]?.toUpperCase() || "U"}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                    {/* AI 消息 */}
+                {msg.role === "assistant" && (
+                  <div className="flex items-start gap-3">
+                    {/* 平台头像 */}
+                    {msg.status === "pending" ? (
+                      <div className="relative flex h-9 w-9 shrink-0 items-center justify-center">
+                        {/* 外层渐变旋转环 - 赛博朋克电光蓝，发光效果 */}
+                        <div
+                          className="absolute inset-0 rounded-full animate-spin"
+                          style={{
+                            background: "conic-gradient(from 0deg, #00F0FF, #FFFFFF, #00F0FF)",
+                            padding: "3px",
+                            animationDuration: "0.8s",
+                            boxShadow: "0 0 8px 2px rgba(0, 240, 255, 0.6)",
+                          }}
+                        />
+                        {/* 白色内圆遮罩背景 */}
+                        <div className="relative flex h-full w-full items-center justify-center rounded-full bg-background">
+                          <Sparkles className="h-4 w-4 text-primary animate-pulse" />
+                        </div>
+                      </div>
+                    ) : (
+                      <div
+                        className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full p-[2px] shadow-sm"
+                        style={{
+                          background: "linear-gradient(135deg, #00F0FF 0%, #00E5E5 50%, #00CCDD 100%)",
+                        }}
+                      >
+                        <div className="flex h-full w-full items-center justify-center rounded-full bg-background">
+                          <Sparkles className="h-4 w-4 text-primary" />
+                        </div>
+                      </div>
+                    )}
+                    <div className="flex flex-col items-start gap-2 flex-1">
+                      {msg.status === "pending" && (
+                        <div className="flex items-center gap-3 py-0.5">
+                          <span className="text-sm font-medium text-foreground animate-pulse">
+                            {msg.metadata?.isEditMode ? t("operate.editingTitle") : t("operate.generatingTitle")}
+                          </span>
+                          <span className="flex gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: "0ms" }} />
+                            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: "150ms" }} />
+                            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: "300ms" }} />
+                          </span>
+                        </div>
+                      )}
+
+                      {msg.status === "error" && (
+                        <div className="flex items-center gap-2 text-destructive text-sm">
+                          <X className="w-4 h-4" />
+                          <span>{msg.errorMessage || t("chat.generateFailed")}</span>
+                        </div>
+                      )}
+
+                      {msg.status === "completed" && (
+                        <>
+                          {msg.content && (
+                            <p className="text-sm text-muted-foreground leading-relaxed mb-3 italic">
+                              {msg.content}
+                            </p>
+                          )}
+                          {msg.outputImageUrls.length > 0 && (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                              {msg.outputImageUrls.map((url, idx) => (
+                                <div key={idx} className="relative group">
+                                  <div
+                                    className="relative rounded-lg border overflow-hidden bg-muted cursor-pointer hover:shadow-lg transition-shadow"
+                                    onClick={() => openPreview(msg.outputImageUrls, idx)}
+                                  >
+                                    <img
+                                      src={url}
+                                      alt={`${t("operate.generatingTitle")} ${idx + 1}`}
+                                      className="w-full h-auto object-contain hover:scale-105 transition-transform"
+                                    />
+                                    {/* 左下角 Edit 按钮 - 始终显示 */}
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation()
+                                        setImageUrls((prev) => [...prev, url])
+                                        toast({ title: t("imageEdit.referenced"), description: url.substring(0, 50) + "..." })
+                                      }}
+                                      className="absolute bottom-2 left-2 px-2 py-1 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors shadow-md flex items-center gap-1 text-xs font-medium z-10"
+                                      title={t("imageEdit.edit")}
+                                    >
+                                      <Wand2 className="w-3 h-3" />
+                                      {t("imageEdit.edit")}
+                                    </button>
+                                    {/* 悬停覆盖层 */}
+                                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
+                                      {/* 右上角下载按钮 */}
+                                      <button
+                                        onClick={(e) => { e.stopPropagation(); downloadFile(url, false); }}
+                                        disabled={downloadingImages.has(url)}
+                                        className="absolute top-2 right-2 p-2 bg-white/90 rounded-full hover:bg-white transition-colors shadow-md disabled:opacity-50"
+                                        title={t("operate.download")}
+                                      >
+                                        {downloadingImages.has(url) ? (
+                                          <Loader2 className="w-4 h-4 text-gray-800 animate-spin" />
+                                        ) : (
+                                          <Download className="w-4 h-4 text-gray-800" />
+                                        )}
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                          {/* 视频渲染 */}
+                          {msg.outputVideoUrls.length > 0 && (
+                            <div className="grid grid-cols-1 gap-3">
+                              {msg.outputVideoUrls.map((url, idx) => (
+                                <div key={idx} className="relative group">
+                                  <video
+                                    src={url}
+                                    controls
+                                    className="w-full rounded-lg border bg-black"
+                                    playsInline
+                                  />
+                                  {/* 右上角操作按钮组 */}
+                                  <div className="absolute top-2 right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    {/* Edit 按钮 */}
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation()
+                                        setImageUrls((prev) => [...prev, url])
+                                        toast({ title: t("imageEdit.referenced"), description: url.substring(0, 50) + "..." })
+                                      }}
+                                      className="p-2 bg-white/90 rounded-full hover:bg-white transition-colors shadow-md"
+                                      title={t("imageEdit.edit")}
+                                    >
+                                      <Wand2 className="w-4 h-4 text-gray-800" />
+                                    </button>
+                                    {/* 下载按钮 */}
+                                    <button
+                                      onClick={(e) => { e.stopPropagation(); downloadFile(url, true); }}
+                                      disabled={downloadingImages.has(url)}
+                                      className="p-2 bg-white/90 rounded-full hover:bg-white transition-colors shadow-md disabled:opacity-50"
+                                      title={t("operate.download")}
+                                    >
+                                      {downloadingImages.has(url) ? (
+                                        <Loader2 className="w-4 h-4 text-gray-800 animate-spin" />
+                                      ) : (
+                                        <Download className="w-4 h-4 text-gray-800" />
+                                      )}
+                                    </button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                          {msg.outputImageUrls.length === 0 && msg.outputVideoUrls.length === 0 && !msg.content && (
+                            <p className="text-sm text-muted-foreground">{t("chat.noResult")}</p>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* 输入区域：固定在底部不随消息滚动 */}
+        <div className="shrink-0 bg-background/95 backdrop-blur-sm p-4 pb-8 md:p-6 md:pb-6">
+          <div className="w-full max-w-2xl px-2 md:px-0 mx-auto">
+            {/* 输入框容器 */}
+            <div className="relative rounded-[28px] bg-background/95 backdrop-blur-md border border-border px-6 py-8 shadow-2xl shadow-primary/5 focus-within:ring-2 focus-within:ring-primary/20 transition-all duration-300">
+              {/* 右上角积分预计 */}
+              <div className="absolute top-2 right-3 flex items-center gap-1 px-2.5 py-1 bg-primary/10 border border-primary/20 rounded-full text-xs text-primary">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                </svg>
+                <span>{pointsCost}</span>
+              </div>
+              {/* 上传的图片预览 */}
+              {(imageUrls.length > 0 || uploadingItems.length > 0) && (
+                <div className="mb-3 flex flex-wrap gap-2">
+                  {imageUrls.map((url, index) => {
+                    const fileType = getFileType(url)
+                    return (
+                      <div key={`input-${index}`} className="relative w-20 h-20 rounded-lg border bg-muted overflow-hidden group cursor-pointer" onClick={() => { setPreviewImage(url); setPreviewImages(imageUrls); setPreviewIndex(index) }}>
+                        {fileType === "image" ? (
+                          <img src={url} alt={`${t("operate.preview")} ${index + 1}`} className="w-full h-full object-cover transition-transform group-hover:scale-105" />
+                        ) : fileType === "video" ? (
+                          <>
+                            <video src={url} className="w-full h-full object-cover" preload="metadata" />
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                              <Play className="w-8 h-8 text-white" />
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="w-full h-full flex items-center justify-center bg-muted">
+                              <Music className="w-8 h-8 text-muted-foreground" />
+                            </div>
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                              <Play className="w-8 h-8 text-white" />
+                            </div>
+                          </>
+                        )}
+                        <button
+                          onClick={(e) => { e.stopPropagation(); removeImageUrl(index) }}
+                          className="absolute top-1 right-1 w-5 h-5 bg-background/80 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive hover:text-destructive-foreground"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </div>
+                    )
+                  })}
+                  {uploadingItems.filter((it) => it.status !== "done").map((it) => {
+                    return (
+                      <div key={`upload-${it.id}`} className="relative w-20 h-20 rounded-lg border bg-muted overflow-hidden group cursor-pointer" onClick={() => { if (it.url) { setPreviewImage(it.url); setPreviewImages(imageUrls) } }}>
+                        {it.fileType === "image" ? (
+                          <img src={it.url || it.localUrl} alt={it.filename} className="w-full h-full object-cover opacity-60" />
+                        ) : it.fileType === "video" ? (
+                          <>
+                            <video src={it.url || it.localUrl} className="w-full h-full object-cover opacity-60" preload="metadata" />
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                              <Play className="w-8 h-8 text-white" />
+                            </div>
+                          </>
+                        ) : it.fileType === "audio" ? (
+                          <>
+                            <div className="w-full h-full flex items-center justify-center bg-muted opacity-60">
+                              <Music className="w-8 h-8 text-muted-foreground" />
+                            </div>
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                              <Play className="w-8 h-8 text-white" />
+                            </div>
+                          </>
+                        ) : (
+                          <img src={it.url || it.localUrl} alt={it.filename} className="w-full h-full object-cover opacity-60" />
+                        )}
+                        {it.status === "uploading" && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                            <Loader2 className="w-5 h-5 animate-spin text-white" />
+                          </div>
+                        )}
+                        {it.status === "error" && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/40 text-white text-xs">
+                            {t("chat.downloadFailed")}
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+
+              {/* 链接输入弹窗 */}
+              <Dialog open={showLinkInput} onOpenChange={(open) => { if (!open) { setShowLinkInput(false); setLinkInput("") } else { setShowLinkInput(true) } }}>
+                <DialogContent className="sm:max-w-lg p-0 overflow-hidden">
+                  <div className="p-6 pb-4">
+                    <DialogHeader className="space-y-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                          <Link className="w-5 h-5 text-primary" />
+                        </div>
+                        <div>
+                          <DialogTitle className="text-lg font-semibold">{t("operate.addLinkTitle")}</DialogTitle>
+                          <p className="text-sm text-muted-foreground mt-1">{t("operate.addLinkDesc")}</p>
+                        </div>
+                      </div>
+                    </DialogHeader>
+                  </div>
+
+                  <div className="px-6 pb-6">
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-foreground">{t("operate.linkLabel")}</label>
+                        <Input
+                          placeholder={t("chat.pasteImageLink")}
+                          value={linkInput}
+                          onChange={(e) => setLinkInput(e.target.value)}
+                          onKeyDown={(e) => e.key === "Enter" && handleAddLink()}
+                          className="h-11"
+                        />
+                      </div>
+
+                      <div className="flex items-center justify-end gap-3 pt-2">
+                        <Button
+                          variant="outline"
+                          onClick={() => {
+                            setShowLinkInput(false)
+                            setLinkInput("")
+                          }}
+                          className="px-4"
+                        >
+                          {t("operate.cancel")}
+                        </Button>
+                        <Button
+                          onClick={handleAddLink}
+                          disabled={!linkInput.trim()}
+                          className="px-6"
+                        >
+                          <Link className="w-4 h-4 mr-2" />
+                          {t("operate.addLink")}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+
+              {/* 输入框区域 */}
+              <div className="flex items-start gap-2 mb-4">
+                <textarea
+                  ref={textareaRef}
+                  value={message}
+                  onChange={(e) => {
+                    if (e.target.value.length <= MAX_CHARACTERS) setMessage(e.target.value)
+                  }}
+                  onKeyDown={handleKeyDown}
+                  onPaste={handlePaste}
+                  placeholder={t("chat.inputPlaceholder")}
+                  rows={1}
+                  disabled={isGenerating}
+                  className={cn(
+                    "flex-1 bg-transparent",
+                    "text-foreground placeholder:text-muted-foreground placeholder:text-sm",
+                    "resize-none outline-none",
+                    "text-base leading-7",
+                    "max-h-32 overflow-y-auto",
+                    isGenerating && "opacity-50 cursor-not-allowed",
+                  )}
+                  style={{ minHeight: "48px", height: "auto" }}
+                  onInput={(e) => {
+                    const target = e.target as HTMLTextAreaElement
+                    target.style.height = "auto"
+                    target.style.height = target.scrollHeight + "px"
+                  }}
+                />
+              </div>
+
+              {characterCount > 0 && (
+                <div className="mb-3 flex justify-end">
+                  <span className={cn("text-xs transition-colors", isNearLimit ? "text-destructive" : "text-muted-foreground")}>
+                    {characterCount} / {MAX_CHARACTERS}
+                  </span>
+                </div>
+              )}
+
+              <div className="flex flex-row items-center gap-3 overflow-x-auto whitespace-nowrap">
+                {/* 添加按钮菜单 */}
+                <Popover open={showUploadPopover} onOpenChange={setShowUploadPopover}>
+                  <PopoverTrigger asChild>
+                    <button className="w-10 h-10 rounded-full flex-shrink-0 hover:bg-primary hover:shadow-lg hover:shadow-primary/20 transition-all duration-200 flex items-center justify-center">
+                      <Plus className="w-5 h-5 text-muted-foreground hover:text-white transition-colors" />
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent side="bottom" sideOffset={12} avoidCollisions={true} className="w-full md:w-56 p-3 bg-background border border-border shadow-xl" align="start">
+                    <div className="text-xs text-muted-foreground mb-2 px-1 text-center">
+                      {t("operate.uploadSizeInfo", { size: formatBytes(maxUploadBytes) })}
+                    </div>
+                    <div className="space-y-1">
+                      <button
+                        onClick={() => {
+                          if (status !== "authenticated") {
+                            setShowSignInDialog(true)
+                            setShowUploadPopover(false)
+                            return
+                          }
+                          fileInputRef.current?.click()
+                          setShowUploadPopover(false)
+                        }}
+                        className="w-full flex items-center justify-center gap-2 px-3 py-1.5 text-sm rounded-full hover:bg-primary hover:text-primary-foreground border border-transparent hover:border-primary transition-all duration-200"
+                      >
+                        <FileUp className="w-4 h-4" />
+                        {t("operate.uploadFile")}
+                      </button>
+                      <button
+                        onClick={() => { setShowLinkInput(true); setShowUploadPopover(false) }}
+                        className="w-full flex items-center justify-center gap-2 px-3 py-1.5 text-sm rounded-full hover:bg-primary hover:text-primary-foreground border border-transparent hover:border-primary transition-all duration-200"
+                      >
+                        <Link className="w-4 h-4" />
+                        {t("operate.inputLink")}
+                      </button>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+
+                {/* 内容类型选择 */}
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <button className="h-9 px-3 rounded-full border border-border bg-background hover:bg-background/80 hover:border-primary/40 transition-all duration-200 flex-shrink-0">
+                      <div className="flex items-center gap-1.5">
+                        {contentType === "image" ? <ImageIcon className="w-4 h-4" /> : <Video className="w-4 h-4" />}
+                        <span className="hidden md:inline text-xs font-medium">{contentType === "image" ? t("operate.imageMode") : t("operate.videoMode")}</span>
+                      </div>
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent side="top" sideOffset={12} avoidCollisions={true} className="w-auto p-1.5 bg-secondary/80 backdrop-blur-sm border border-border shadow-xl" align="start">
+                    <div className="flex flex-col gap-1">
+                      <button
+                        onClick={() => setContentType("image")}
+                        className={cn(
+                          "flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200",
+                          contentType === "image"
+                            ? "bg-primary text-primary-foreground"
+                            : "hover:bg-primary/5"
+                        )}
+                      >
+                        <ImageIcon className="w-4 h-4" />
+                        {t("operate.imageMode")}
+                      </button>
+                      <button
+                        onClick={() => setContentType("video")}
+                        className={cn(
+                          "flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200",
+                          contentType === "video"
+                            ? "bg-primary text-primary-foreground"
+                            : "hover:bg-primary/5"
+                        )}
+                      >
+                        <Video className="w-4 h-4" />
+                        {t("operate.videoMode")}
+                      </button>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+
+                <input ref={fileInputRef} type="file" accept="image/*,video/*,audio/*" multiple onChange={handleFileSelect} className="hidden" />
+
+                {/* 统一设置面板 */}
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <button className="w-10 h-10 md:w-auto md:h-9 px-0 md:px-3 rounded-full border border-border bg-background hover:bg-background/80 hover:border-primary/40 hover:shadow-md transition-all duration-200 flex items-center gap-1.5 flex-shrink-0 justify-center">
+                      <Settings2 className="w-4 h-4 text-primary" />
+                      <span className="hidden md:inline text-sm font-medium flex-1 text-center truncate">
+                        {contentType === "image" ? (
+                          <>
+                            {`${selectedModel === "nanoBananaPro" ? "Nano Banana Pro" : selectedModel === "nanoBanana2" ? "Nano Banana 2" : selectedModel === "nanoBanana2Lite" ? "Nano Banana 2 Lite" : selectedModel === "gptImage2" ? "GPT Image 2" : selectedModel === "seedream5Pro" ? "Seedream 5.0 Pro" : "Seedream 5.0 Lite"} · ${aspectRatio}${selectedModel === "nanoBanana2Lite" ? "" : ` · ${selectedModel === "seedream5Lite" || selectedModel === "seedream5Pro" ? quality : resolution}`}`}
+                          </>
+                        ) : (
+                          <>
+                            {`${selectedVideoModel === "happyhorse" ? "HappyHorse 1.0" : selectedVideoModel === "happyhorse11" ? "HappyHorse 1.1" : selectedVideoModel === "wan27" ? "Wan 2.7" : selectedVideoModel === "kling30" ? "Kling 3.0" : selectedVideoModel === "klingV3Turbo" ? "Kling V3 Turbo" : selectedVideoModel === "seedance2" ? "Seedance 2.0" : selectedVideoModel === "seedance2fast" ? "Seedance 2.0 Fast" : selectedVideoModel === "seedance2mini" ? "Seedance 2.0 Mini" : selectedVideoModel === "veo3" ? "Veo 3.1 Quality" : selectedVideoModel === "veo3fast" ? "Veo 3.1 Fast" : selectedVideoModel === "veo3lite" ? "Veo 3.1 Lite" : selectedVideoModel === "geminiOmniVideo" ? "Gemini Omni" : selectedVideoModel === "minimaxH3" ? "MiniMax H3" : selectedVideoModel}`}
+                          </>
+                        )}
+                      </span>
+                      <span className="md:hidden">
+                        <Settings2 className="w-4 h-4 text-primary" />
+                      </span>
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent side="top" sideOffset={8} avoidCollisions={true} className="w-72 p-3 bg-background border border-border shadow-xl h-[400px] overflow-y-auto" align="start">
+                    <div className="space-y-3">
+                      {contentType === "image" ? (
+                        <>
+                          {/* 图片模型选择 */}
+                          <div className="space-y-2">
+                            <div className="text-xs font-medium text-muted-foreground px-1">{tAi("modelLabel")}</div>
+                            <div className="flex flex-col gap-1.5">
+                              {[
+                                { key: "nanoBananaPro", label: "Nano Banana Pro" },
+                                { key: "nanoBanana2", label: "Nano Banana 2" },
+                                { key: "nanoBanana2Lite", label: "Nano Banana 2 Lite" },
+                                { key: "gptImage2", label: "GPT Image 2" },
+                                { key: "seedream5Lite", label: "Seedream 5.0 Lite" },
+                                { key: "seedream5Pro", label: "Seedream 5.0 Pro" }
+                              ].map((model) => (
+                                <button
+                                  key={model.key}
+                                  onClick={() => setSelectedModel(model.key)}
+                                  className={cn(
+                                    "px-3 py-1.5 text-xs rounded-full border transition-all duration-200",
+                                    selectedModel === model.key
+                                      ? "bg-primary text-primary-foreground border-primary"
+                                      : "border-border hover:border-primary/40 hover:bg-primary/5"
+                                  )}
+                                >
+                                  {model.label}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* 图片模型提示 */}
+                          <div className="text-xs text-muted-foreground px-1 leading-relaxed">
+                            {t(`operate.imageModelHint.${selectedModel}`)}
+                          </div>
+
+                          {/* 图片比例 */}
+                          <div className="space-y-2">
+                            <div className="text-xs font-medium text-muted-foreground px-1">{t("operate.aspectRatio")}</div>
+                            <div className="flex flex-wrap gap-1.5">
+                              {(selectedModel === "seedream5Lite" || selectedModel === "seedream5Pro"
+                                ? ["1:1", "4:3", "3:4", "16:9", "9:16", "2:3", "3:2", "21:9"]
+                                : selectedModel === "nanoBanana2Lite"
+                                ? ["1:1", "1:4", "1:8", "2:3", "3:2", "3:4", "4:1", "4:3", "4:5", "5:4", "8:1", "9:16", "16:9", "21:9", "auto"]
+                                : ["1:1", "2:3", "3:2", "4:3", "4:5", "9:16", "16:9"]).map((r) => (
+                                <button
+                                  key={r}
+                                  onClick={() => setAspectRatio(r)}
+                                  className={cn(
+                                    "px-2.5 py-1 text-xs rounded-full border transition-all duration-200",
+                                    aspectRatio === r
+                                      ? "bg-primary text-primary-foreground border-primary"
+                                      : "border-border hover:border-primary/40 hover:bg-primary/5"
+                                  )}
+                                >
+                                  {r}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* 图片分辨率/质量 */}
+                          {selectedModel === "seedream5Lite" || selectedModel === "seedream5Pro" ? (
+                          <div className="space-y-2">
+                            <div className="text-xs font-medium text-muted-foreground px-1">{t("operate.quality")}</div>
+                            <div className="flex flex-wrap gap-1.5">
+                              {["basic", "high"].map((q) => (
+                                <button
+                                  key={q}
+                                  onClick={() => setQuality(q)}
+                                  className={cn(
+                                    "px-2.5 py-1 text-xs rounded-full border transition-all duration-200",
+                                    quality === q
+                                      ? "bg-primary text-primary-foreground border-primary"
+                                      : "border-border hover:border-primary/40 hover:bg-primary/5"
+                                  )}
+                                >
+                                  {q}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                          ) : selectedModel === "nanoBanana2Lite" ? null : (
+                          <div className="space-y-2">
+                            <div className="text-xs font-medium text-muted-foreground px-1">{t("operate.resolution")}</div>
+                            <div className="flex flex-wrap gap-1.5">
+                              {["1K", "2K", "4K"].map((r) => (
+                                <button
+                                  key={r}
+                                  onClick={() => setResolution(r)}
+                                  className={cn(
+                                    "px-2.5 py-1 text-xs rounded-full border transition-all duration-200",
+                                    resolution === r
+                                      ? "bg-primary text-primary-foreground border-primary"
+                                      : "border-border hover:border-primary/40 hover:bg-primary/5"
+                                  )}
+                                >
+                                  {r}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                          )}
+
+                          {/* 图片摘要 */}
+                          <div className="pt-2 border-t border-border">
+                            <div className="text-xs text-muted-foreground px-1">
+                              {t("operate.currentSelection")}: <span className="text-foreground font-medium">
+                                {selectedModel === "nanoBananaPro" ? "Nano Banana Pro" : selectedModel === "nanoBanana2" ? "Nano Banana 2" : selectedModel === "nanoBanana2Lite" ? "Nano Banana 2 Lite" : selectedModel === "gptImage2" ? "GPT Image 2" : selectedModel === "seedream5Pro" ? "Seedream 5.0 Pro" : "Seedream 5.0 Lite"} · {aspectRatio}{selectedModel === "nanoBanana2Lite" ? "" : ` · ${selectedModel === "seedream5Lite" || selectedModel === "seedream5Pro" ? quality : resolution}`}
+                              </span>
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          {/* 视频模型选择 */}
+                          <div className="space-y-2">
+                            <div className="text-xs font-medium text-muted-foreground px-1">{t("operate.modelLabel")}</div>
+                            <div className="flex flex-col gap-1.5">
+                            {[
+                              { key: "seedance2", label: "Seedance 2.0" },
+                              { key: "seedance2fast", label: "Seedance 2.0 Fast" },
+                              { key: "seedance2mini", label: "Seedance 2.0 Mini" },
+                              { key: "kling30", label: "Kling 3.0" },
+                              { key: "klingV3Turbo", label: "Kling V3 Turbo" },
+                              { key: "veo3", label: "Veo 3.1 Quality" },
+                              { key: "veo3fast", label: "Veo 3.1 Fast" },
+                              { key: "veo3lite", label: "Veo 3.1 Lite" },
+                              { key: "geminiOmniVideo", label: "Gemini Omni" },
+                              { key: "wan27", label: "Wan 2.7" },
+                              { key: "happyhorse", label: "HappyHorse 1.0" },
+                              { key: "happyhorse11", label: "HappyHorse 1.1" },
+                              { key: "minimaxH3", label: "MiniMax H3" },
+                            ].map((model) => (
+                                <button
+                                  key={model.key}
+                                  onClick={() => {
+                                    setSelectedVideoModel(model.key)
+                                    if (model.key === "seedance2fast") {
+                                      if (!["16:9", "9:16", "1:1", "4:3", "3:4", "21:9", "adaptive"].includes(videoAspectRatio)) {
+                                        setVideoAspectRatio("16:9")
+                                      }
+                                      if (!["480p", "720p"].includes(videoResolution)) {
+                                        setVideoResolution("720p")
+                                      }
+                                      if (videoDuration < 4 || videoDuration > 15) {
+                                        setVideoDuration(5)
+                                      }
+                                    } else if (model.key === "seedance2mini") {
+                                      // Seedance 2.0 Mini: 比例支持 16:9/9:16/1:1/4:3/3:4/21:9/adaptive；分辨率 480p/720p；时长 4-15s
+                                      if (!["16:9", "9:16", "1:1", "4:3", "3:4", "21:9", "adaptive"].includes(videoAspectRatio)) {
+                                        setVideoAspectRatio("16:9")
+                                      }
+                                      if (!["480p", "720p"].includes(videoResolution)) {
+                                        setVideoResolution("720p")
+                                      }
+                                      if (videoDuration < 4 || videoDuration > 15) {
+                                        setVideoDuration(5)
+                                      }
+                                    } else if (model.key === "happyhorse") {
+                                      // HappyHorse 1.0: 比例支持 "16:9", "9:16", "1:1", "4:3", "3:4"；分辨率支持 "720p", "1080p"；时长 3-15s
+                                      if (!["16:9", "9:16", "1:1", "4:3", "3:4"].includes(videoAspectRatio)) {
+                                        setVideoAspectRatio("16:9")
+                                      }
+                                      if (!["720p", "1080p"].includes(videoResolution)) {
+                                        setVideoResolution("720p")
+                                      }
+                                      if (videoDuration < 3 || videoDuration > 15) {
+                                        setVideoDuration(5)
+                                      }
+                                      // HappyHorse 不支持 reference2video 和 videoEdit 模式，重置为 text2video
+                                      if (["reference2video", "videoEdit"].includes(videoGenerateMode)) {
+                                        setVideoGenerateMode("text2video")
+                                      }
+                                    } else if (model.key === "happyhorse11") {
+                                      // HappyHorse 1.1: 比例支持完整列表；分辨率支持 "720p", "1080p"；时长 3-15s
+                                      if (!["16:9", "9:16", "1:1", "4:3", "3:4", "4:5", "5:4", "9:21", "21:9"].includes(videoAspectRatio)) {
+                                        setVideoAspectRatio("16:9")
+                                      }
+                                      if (!["720p", "1080p"].includes(videoResolution)) {
+                                        setVideoResolution("720p")
+                                      }
+                                      if (videoDuration < 3 || videoDuration > 15) {
+                                        setVideoDuration(5)
+                                      }
+                                      // HappyHorse 1.1 仅支持 text2video / image2video / reference2video，重置不支持的模式
+                                      if (["firstlast2video", "videoEdit"].includes(videoGenerateMode)) {
+                                        setVideoGenerateMode("text2video")
+                                      }
+                                    } else if (model.key === "wan27") {
+                                      // Wan 2.7: 比例支持 "16:9", "9:16", "1:1", "4:3", "3:4"；分辨率支持 "720p", "1080p"；时长根据模式不同
+                                      if (!["16:9", "9:16", "1:1", "4:3", "3:4"].includes(videoAspectRatio)) {
+                                        setVideoAspectRatio("16:9")
+                                      }
+                                      if (!["720p", "1080p"].includes(videoResolution)) {
+                                        setVideoResolution("720p")
+                                      }
+                                      // 文生/图生/首尾帧: 2-15s; 参考生/视频编辑: 2-10s
+                                      const maxDuration = ["reference2video", "videoEdit"].includes(videoGenerateMode) ? 10 : 15
+                                      if (videoDuration < 2 || videoDuration > maxDuration) {
+                                        setVideoDuration(5)
+                                      }
+                                      // Wan 支持 reference2video 和 videoEdit 模式，无需重置
+                                    } else if (model.key === "veo3" || model.key === "veo3fast" || model.key === "veo3lite") {
+                                      // Veo 3.1 系列: 仅支持 16:9 和 9:16，分辨率仅支持 720p
+                                      if (!["16:9", "9:16"].includes(videoAspectRatio)) {
+                                        setVideoAspectRatio("16:9")
+                                      }
+                                      setVideoResolution("720p")
+                                      // Veo 3.1 系列不支持 reference2video 模式，需要重置
+                                      if (videoGenerateMode === "reference2video") {
+                                        setVideoGenerateMode("text2video")
+                                      }
+                                    } else if (model.key === "kling30") {
+                                      // Kling 3.0: 比例支持 "16:9", "9:16", "1:1"；分辨率支持 "Standard", "Pro", "4K"；时长 3-15s
+                                      if (!["16:9", "9:16", "1:1"].includes(videoAspectRatio)) {
+                                        setVideoAspectRatio("16:9")
+                                      }
+                                      if (!["Standard", "Pro", "4K"].includes(videoResolution)) {
+                                        setVideoResolution("Standard")
+                                      }
+                                      if (videoDuration < 3 || videoDuration > 15) {
+                                        setVideoDuration(5)
+                                      }
+                                      // Kling 3.0 只支持 text2video, image2video, firstlast2video，重置不支持的模式
+                                      if (["reference2video", "videoEdit"].includes(videoGenerateMode)) {
+                                        setVideoGenerateMode("text2video")
+                                      }
+                                    } else if (model.key === "klingV3Turbo") {
+                                      // Kling V3 Turbo: 比例支持 "16:9", "9:16", "1:1"；分辨率支持 "720p", "1080p"；时长 3-15s
+                                      if (!["16:9", "9:16", "1:1"].includes(videoAspectRatio)) {
+                                        setVideoAspectRatio("16:9")
+                                      }
+                                      if (!["720p", "1080p"].includes(videoResolution)) {
+                                        setVideoResolution("720p")
+                                      }
+                                      if (videoDuration < 3 || videoDuration > 15) {
+                                        setVideoDuration(5)
+                                      }
+                                      // Kling V3 Turbo 仅支持 text2video, image2video，重置不支持的模式
+                                      if (["firstlast2video", "reference2video", "videoEdit"].includes(videoGenerateMode)) {
+                                        setVideoGenerateMode("text2video")
+                                      }
+                                    } else if (model.key === "geminiOmniVideo") {
+                                      // Gemini Omni: 比例支持 "16:9", "9:16"；分辨率支持 "720p", "1080p", "4K"；时长仅支持 4/6/8/10s
+                                      if (!["16:9", "9:16"].includes(videoAspectRatio)) {
+                                        setVideoAspectRatio("16:9")
+                                      }
+                                      if (!["720p", "1080p", "4K"].includes(videoResolution)) {
+                                        setVideoResolution("720p")
+                                      }
+                                      // Gemini Omni 只支持 4, 6, 8, 10 秒
+                                      if (![4, 6, 8, 10].includes(videoDuration)) {
+                                        setVideoDuration(8)
+                                      }
+                                      // Gemini Omni 支持 reference2video, text2video, image2video，不支持 videoEdit
+                                      if (videoGenerateMode === "videoEdit") {
+                                        setVideoGenerateMode("text2video")
+                                      }
+                                    } else if (model.key === "wan27") {
+                                      // Wan 2.7: 比例支持 "16:9", "9:16", "1:1", "4:3", "3:4"；分辨率支持 "720p", "1080p"；时长根据模式不同
+                                      if (!["16:9", "9:16", "1:1", "4:3", "3:4"].includes(videoAspectRatio)) {
+                                        setVideoAspectRatio("16:9")
+                                      }
+                                      if (!["720p", "1080p"].includes(videoResolution)) {
+                                        setVideoResolution("720p")
+                                      }
+                                      // 文生/图生/首尾帧: 2-15s; 参考生/视频编辑: 2-10s
+                                      const maxDuration = ["reference2video", "videoEdit"].includes(videoGenerateMode) ? 10 : 15
+                                      if (videoDuration < 2 || videoDuration > maxDuration) {
+                                        setVideoDuration(5)
+                                      }
+                                      // Wan 支持 reference2video 和 videoEdit 模式，无需重置
+                                    } else if (model.key === "seedance2mini") {
+                                      // Seedance 2.0 Mini: 比例支持 16:9/9:16/1:1/4:3/3:4/21:9/adaptive；分辨率 480p/720p；时长 4-15s
+                                      if (!["16:9", "9:16", "1:1", "4:3", "3:4", "21:9", "adaptive"].includes(videoAspectRatio)) {
+                                        setVideoAspectRatio("16:9")
+                                      }
+                                      if (!["480p", "720p"].includes(videoResolution)) {
+                                        setVideoResolution("720p")
+                                      }
+                                      if (videoDuration < 4 || videoDuration > 15) {
+                                        setVideoDuration(5)
+                                      }
+                                    } else if (model.key === "happyhorse") {
+                                      // HappyHorse 1.0: 比例支持 "16:9", "9:16", "1:1", "4:3", "3:4"；分辨率支持 "720p", "1080p"；时长 3-15s
+                                      if (!["16:9", "9:16", "1:1", "4:3", "3:4"].includes(videoAspectRatio)) {
+                                        setVideoAspectRatio("16:9")
+                                      }
+                                      if (!["720p", "1080p"].includes(videoResolution)) {
+                                        setVideoResolution("720p")
+                                      }
+                                      if (videoDuration < 3 || videoDuration > 15) {
+                                        setVideoDuration(5)
+                                      }
+                                      // HappyHorse 不支持 reference2video 和 videoEdit 模式，重置为 text2video
+                                      if (["reference2video", "videoEdit"].includes(videoGenerateMode)) {
+                                        setVideoGenerateMode("text2video")
+                                      }
+                                    } else if (model.key === "klingV3Turbo") {
+                                      // Kling V3 Turbo: 比例支持 "16:9", "9:16", "1:1"；分辨率支持 "720p", "1080p"；时长 3-15s
+                                      if (!["16:9", "9:16", "1:1"].includes(videoAspectRatio)) {
+                                        setVideoAspectRatio("16:9")
+                                      }
+                                      if (!["720p", "1080p"].includes(videoResolution)) {
+                                        setVideoResolution("720p")
+                                      }
+                                      if (videoDuration < 3 || videoDuration > 15) {
+                                        setVideoDuration(5)
+                                      }
+                                      // Kling V3 Turbo 仅支持 text2video, image2video，重置不支持的模式
+                                      if (["firstlast2video", "reference2video", "videoEdit"].includes(videoGenerateMode)) {
+                                        setVideoGenerateMode("text2video")
+                                      }
+                                    } else if (model.key === "veo3" || model.key === "veo3fast" || model.key === "veo3lite") {
+                                      // Veo 3.1 系列: 仅支持 16:9 和 9:16，分辨率仅支持 720p
+                                      if (!["16:9", "9:16"].includes(videoAspectRatio)) {
+                                        setVideoAspectRatio("16:9")
+                                      }
+                                      setVideoResolution("720p")
+                                      // Veo 3.1 系列不支持 reference2video 模式，需要重置
+                                      if (videoGenerateMode === "reference2video") {
+                                        setVideoGenerateMode("text2video")
+                                      }
+                                    } else if (model.key === "minimaxH3") {
+                                      // MiniMax H3: 比例支持 16:9/4:3/1:1/3:4/9:16/21:9；分辨率支持 768p/2K；时长 4-15s
+                                      if (!["16:9", "4:3", "1:1", "3:4", "9:16", "21:9"].includes(videoAspectRatio)) {
+                                        setVideoAspectRatio("16:9")
+                                      }
+                                      if (!["768p", "2K"].includes(videoResolution)) {
+                                        setVideoResolution("768p")
+                                      }
+                                      if (videoDuration < 4 || videoDuration > 15) {
+                                        setVideoDuration(6)
+                                      }
+                                    } else {
+                                      // Seedance 2.0: 比例不支持 "adaptive"，分辨率支持 "480p", "720p", "1080p"，时长 4-15
+                                      if (videoAspectRatio === "adaptive") {
+                                        setVideoAspectRatio("16:9")
+                                      }
+                                      if (!["480p", "720p", "1080p"].includes(videoResolution)) {
+                                        setVideoResolution("720p")
+                                      }
+                                      if (videoDuration < 4 || videoDuration > 15) {
+                                        setVideoDuration(5)
+                                      }
+                                    }
+                                  }}
+                                  className={cn(
+                                    "px-3 py-1.5 text-xs rounded-full border transition-all duration-200",
+                                    selectedVideoModel === model.key
+                                      ? "bg-primary text-primary-foreground border-primary"
+                                      : "border-border hover:border-primary/40 hover:bg-primary/5"
+                                  )}
+                                >
+                                  {model.label}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* 视频生成模式选择 */}
+                          <div className="space-y-2">
+                            <div className="text-xs font-medium text-muted-foreground px-1">{t("operate.videoGenerateMode")}</div>
+                            <div className="flex flex-wrap gap-1.5">
+                              {[
+                                { key: "text2video", label: t("operate.text2video") },
+                                { key: "image2video", label: t("operate.image2video") },
+                                { key: "firstlast2video", label: t("operate.firstlast2video") },
+                                { key: "reference2video", label: t("operate.reference2video") },
+                                { key: "videoEdit", label: t("operate.videoEdit") }
+                              ].filter(mode => {
+                                // Seedance 支持 text2video, image2video, firstlast2video, reference2video
+                                if (selectedVideoModel.startsWith("seedance")) {
+                                  return ["text2video", "image2video", "firstlast2video", "reference2video"].includes(mode.key)
+                                }
+                                // Wan 2.7 支持 text2video, image2video, firstlast2video, reference2video, videoEdit
+                                if (selectedVideoModel === "wan27") {
+                                  return true
+                                }
+                                // HappyHorse 1.0 支持 text2video, image2video, reference2video, videoEdit
+                                if (selectedVideoModel === "happyhorse") {
+                                  return ["text2video", "image2video", "reference2video", "videoEdit"].includes(mode.key)
+                                }
+                                // HappyHorse 1.1 支持 text2video, image2video, reference2video
+                                if (selectedVideoModel === "happyhorse11") {
+                                  return ["text2video", "image2video", "reference2video"].includes(mode.key)
+                                }
+                                // Kling 3.0 支持 text2video, image2video, firstlast2video
+                                if (selectedVideoModel === "kling30") {
+                                  return ["text2video", "image2video", "firstlast2video"].includes(mode.key)
+                                }
+                                // Kling V3 Turbo 仅支持 text2video, image2video
+                                if (selectedVideoModel === "klingV3Turbo") {
+                                  return ["text2video", "image2video"].includes(mode.key)
+                                }
+                                // Gemini Omni 支持 text2video, image2video, reference2video
+                                if (selectedVideoModel === "geminiOmniVideo") {
+                                  return ["text2video", "image2video", "reference2video"].includes(mode.key)
+                                }
+                                // MiniMax H3 支持 text2video, image2video, firstlast2video, reference2video
+                                if (selectedVideoModel === "minimaxH3") {
+                                  return ["text2video", "image2video", "firstlast2video", "reference2video"].includes(mode.key)
+                                }
+                                // Veo 模型支持 text2video, image2video, firstlast2video
+                                if (["text2video", "image2video", "firstlast2video"].includes(mode.key)) {
+                                  return true
+                                }
+                                // Veo 3.1 Fast 额外支持 reference2video
+                                if (selectedVideoModel === "veo3fast" && mode.key === "reference2video") {
+                                  return true
+                                }
+                                return false
+                              }).map((mode) => (
+                                <button
+                                  key={mode.key}
+                                  onClick={() => {
+                                    const newMode = mode.key as typeof videoGenerateMode
+                                    // 切换模式时验证 videoDuration 是否在新模式的有效范围内
+                                    if (selectedVideoModel === "wan27") {
+                                      const maxDuration = ["reference2video", "videoEdit"].includes(newMode) ? 10 : 15
+                                      const minDuration = 2
+                                      if (videoDuration < minDuration || videoDuration > maxDuration) {
+                                        setVideoDuration(Math.min(Math.max(videoDuration, minDuration), maxDuration))
+                                      }
+                                    } else if (selectedVideoModel === "happyhorse") {
+                                      const minDuration = 3
+                                      const maxDuration = 15
+                                      if (videoDuration < minDuration || videoDuration > maxDuration) {
+                                        setVideoDuration(Math.min(Math.max(videoDuration, minDuration), maxDuration))
+                                      }
+                                    } else if (selectedVideoModel === "happyhorse11") {
+                                      const minDuration = 3
+                                      const maxDuration = 15
+                                      if (videoDuration < minDuration || videoDuration > maxDuration) {
+                                        setVideoDuration(Math.min(Math.max(videoDuration, minDuration), maxDuration))
+                                      }
+                                    } else if (selectedVideoModel === "klingV3Turbo") {
+                                      const minDuration = 3
+                                      const maxDuration = 15
+                                      if (videoDuration < minDuration || videoDuration > maxDuration) {
+                                        setVideoDuration(Math.min(Math.max(videoDuration, minDuration), maxDuration))
+                                      }
+                                    } else if (selectedVideoModel === "minimaxH3") {
+                                      const minDuration = 4
+                                      const maxDuration = 15
+                                      if (videoDuration < minDuration || videoDuration > maxDuration) {
+                                        setVideoDuration(Math.min(Math.max(videoDuration, minDuration), maxDuration))
+                                      }
+                                    }
+                                    setVideoGenerateMode(newMode)
+                                  }}
+                                  className={cn(
+                                    "px-3 py-1.5 text-xs rounded-full border transition-all duration-200",
+                                    videoGenerateMode === mode.key
+                                      ? "bg-primary text-primary-foreground border-primary"
+                                      : "border-border hover:border-primary/40 hover:bg-primary/5"
+                                  )}
+                                >
+                                  {mode.label}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* 参考生视频模式提示 - Seedance、Wan、HappyHorse 1.0 和 HappyHorse 1.1 模型显示 */}
+                          {(selectedVideoModel.startsWith("seedance") || selectedVideoModel === "wan27" || selectedVideoModel === "happyhorse" || selectedVideoModel === "happyhorse11") && videoGenerateMode === 'reference2video' && (
+                            <div className="text-xs text-muted-foreground px-1 leading-relaxed">
+                              {selectedVideoModel === "wan27" ? t("operate.wanReferenceVideoHint") : selectedVideoModel === "happyhorse" ? t("operate.happyhorseReferenceVideoHint") : selectedVideoModel === "happyhorse11" ? (t("operate.happyhorse11ReferenceVideoHint") || t("operate.happyhorseReferenceVideoHint")) : t("operate.referenceVideoHint")}
+                            </div>
+                          )}
+
+                          {/* 视频编辑模式提示 - Wan 和 HappyHorse 模型显示 */}
+                          {(selectedVideoModel === "wan27" || selectedVideoModel === "happyhorse") && videoGenerateMode === 'videoEdit' && (
+                            <div className="text-xs text-muted-foreground px-1 leading-relaxed">
+                              {selectedVideoModel === "wan27" ? t("operate.wanVideoEditHint") : t("operate.happyhorseVideoEditHint")}
+                            </div>
+                          )}
+
+                          {/* 参考图生视频模式提示 - Veo 3.1 Fast 和 Gemini Omni 模型显示 */}
+                          {videoGenerateMode === 'reference2video' && (selectedVideoModel === "veo3fast" || selectedVideoModel === "geminiOmniVideo" || selectedVideoModel === "minimaxH3") && (
+                            <div className="text-xs text-muted-foreground px-1 leading-relaxed">
+                              {selectedVideoModel === "veo3fast" ? t("operate.veoReferenceVideoHint") : selectedVideoModel === "minimaxH3" ? t("operate.minimaxH3ReferenceHint") : t("operate.geminiOmniReferenceHint")}
+                            </div>
+                          )}
+
+                          {/* 视频比例 */}
+                          <div className="space-y-2">
+                            <div className="text-xs font-medium text-muted-foreground px-1">{t("operate.aspectRatio")}</div>
+                            <div className="flex flex-wrap gap-1.5">
+                              {(selectedVideoModel === "seedance2fast" || selectedVideoModel === "seedance2mini"
+                                ? ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9", "adaptive"]
+                                : selectedVideoModel === "happyhorse"
+                                ? ["16:9", "9:16", "1:1", "4:3", "3:4"]
+                                : selectedVideoModel === "happyhorse11"
+                                ? ["16:9", "9:16", "1:1", "4:3", "3:4", "4:5", "5:4", "9:21", "21:9"]
+                                : selectedVideoModel === "wan27"
+                                ? ["16:9", "9:16", "1:1", "4:3", "3:4"]
+                                : selectedVideoModel === "kling30" || selectedVideoModel === "klingV3Turbo"
+                                ? ["16:9", "9:16", "1:1"]
+                                : selectedVideoModel === "geminiOmniVideo" || selectedVideoModel.startsWith("veo")
+                                ? ["16:9", "9:16"]
+                                : selectedVideoModel === "minimaxH3"
+                                ? ["16:9", "4:3", "1:1", "3:4", "9:16", "21:9"]
+                                : ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"]
+                              ).map((r) => (
+                                <button
+                                  key={r}
+                                  onClick={() => setVideoAspectRatio(r)}
+                                  className={cn(
+                                    "px-2.5 py-1 text-xs rounded-full border transition-all duration-200",
+                                    videoAspectRatio === r
+                                      ? "bg-primary text-primary-foreground border-primary"
+                                      : "border-border hover:border-primary/40 hover:bg-primary/5"
+                                  )}
+                                >
+                                  {r}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* 视频分辨率 */}
+                          <div className="space-y-2">
+                            <div className="text-xs font-medium text-muted-foreground px-1">{t("operate.resolution")}</div>
+                            <div className="flex flex-wrap gap-1.5">
+                              {(selectedVideoModel === "seedance2fast" || selectedVideoModel === "seedance2mini"
+                                ? ["480p", "720p"]
+                                : selectedVideoModel === "happyhorse" || selectedVideoModel === "happyhorse11" || selectedVideoModel === "wan27" || selectedVideoModel === "klingV3Turbo"
+                                ? ["720p", "1080p"]
+                                : selectedVideoModel === "kling30"
+                                ? ["Standard", "Pro", "4K"]
+                                : selectedVideoModel === "geminiOmniVideo"
+                                ? ["720p", "1080p", "4K"]
+                                : selectedVideoModel === "minimaxH3"
+                                ? ["768p", "2K"]
+                                : selectedVideoModel.startsWith("veo")
+                                ? ["2K"]
+                                : ["480p", "720p", "1080p"]
+                              ).map((r) => (
+                                <button
+                                  key={r}
+                                  onClick={() => setVideoResolution(r)}
+                                  className={cn(
+                                    "px-2.5 py-1 text-xs rounded-full border transition-all duration-200",
+                                    videoResolution === r
+                                      ? "bg-primary text-primary-foreground border-primary"
+                                      : "border-border hover:border-primary/40 hover:bg-primary/5"
+                                  )}
+                                >
+                                  {r}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* 视频时长 - Veo 模型显示固定 8s，Gemini Omni 显示按钮选择，其他显示滑块 */}
+                          {selectedVideoModel.startsWith("veo") ? (
+                            <div className="space-y-2">
+                              <div className="flex items-center justify-between px-1">
+                                <span className="text-xs font-medium text-muted-foreground">{t("operate.duration")}</span>
+                                <span className="text-xs font-medium text-primary">8s</span>
+                              </div>
+                              <div className="w-full h-2 bg-secondary rounded-full">
+                                <div className="h-full bg-primary rounded-full" style={{ width: "100%" }} />
+                              </div>
+                            </div>
+                          ) : selectedVideoModel === "geminiOmniVideo" ? (
+                            <div className="space-y-2">
+                              <div className="flex items-center justify-between px-1">
+                                <span className="text-xs font-medium text-muted-foreground">{t("operate.duration")}</span>
+                                <span className="text-xs font-medium text-primary">{videoDuration}s</span>
+                              </div>
+                              <div className="flex gap-2">
+                                {[4, 6, 8, 10].map((d) => (
+                                  <button
+                                    key={d}
+                                    onClick={() => setVideoDuration(d)}
+                                    className={cn(
+                                      "flex-1 py-1.5 text-xs rounded-md border transition-all duration-200",
+                                      videoDuration === d
+                                        ? "bg-primary text-primary-foreground border-primary"
+                                        : "border-border hover:border-primary/40 hover:bg-primary/5"
+                                    )}
+                                  >
+                                    {d}s
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="space-y-2">
+                              <div className="flex items-center justify-between px-1">
+                                <span className="text-xs font-medium text-muted-foreground">{t("operate.duration")}</span>
+                                <span className="text-xs font-medium text-primary">{videoDuration}s</span>
+                              </div>
+                              <input
+                                type="range"
+                                min={selectedVideoModel === "happyhorse" || selectedVideoModel === "happyhorse11" || selectedVideoModel === "kling30" || selectedVideoModel === "klingV3Turbo" ? 3 : selectedVideoModel === "wan27" ? 2 : 4}
+                                max={
+                                  selectedVideoModel === "wan27" && ["reference2video", "videoEdit"].includes(videoGenerateMode)
+                                    ? 10
+                                    : 15
+                                }
+                                step="1"
+                                value={videoDuration}
+                                onChange={(e) => setVideoDuration(Number(e.target.value))}
+                                className="w-full h-2 bg-secondary rounded-full appearance-none cursor-pointer accent-primary"
+                              />
+                              <div className="flex justify-between text-xs text-muted-foreground px-1">
+                                <span>{selectedVideoModel === "happyhorse" || selectedVideoModel === "happyhorse11" || selectedVideoModel === "kling30" || selectedVideoModel === "klingV3Turbo" ? "3s" : selectedVideoModel === "wan27" ? "2s" : "4s"}</span>
+                                <span>
+                                  {selectedVideoModel === "wan27" && ["reference2video", "videoEdit"].includes(videoGenerateMode)
+                                    ? "10s"
+                                    : "15s"}
+                                </span>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* 音频生成 - Seedance 和 Kling 3.0 模型显示 */}
+                          {(selectedVideoModel.startsWith("seedance") || selectedVideoModel === "kling30") && (
+                            <div className="space-y-2">
+                              <div className="text-xs font-medium text-muted-foreground px-1">{t("operate.audioSetting") || "Generate Audio"}</div>
+                              <div className="flex flex-wrap gap-1.5">
+                                {[
+                                  { key: "on", label: t("operate.on") || "On" },
+                                  { key: "off", label: t("operate.off") || "Off" }
+                                ].map((a) => (
+                                  <button
+                                    key={a.key}
+                                    onClick={() => setAudioSetting(a.key)}
+                                    className={cn(
+                                      "px-2.5 py-1 text-xs rounded-full border transition-all duration-200",
+                                      audioSetting === a.key
+                                        ? "bg-primary text-primary-foreground border-primary"
+                                        : "border-border hover:border-primary/40 hover:bg-primary/5"
+                                    )}
+                                  >
+                                    {a.label}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* 当前选择摘要 */}
+                          <div className="pt-2 border-t border-border">
+                            <div className="text-xs text-muted-foreground px-1">
+                              {t("operate.currentSelection")}: <span className="text-foreground font-medium">
+                                {selectedVideoModel === "happyhorse" ? "HappyHorse 1.0" : selectedVideoModel === "happyhorse11" ? "HappyHorse 1.1" : selectedVideoModel === "wan27" ? "Wan 2.7" : selectedVideoModel === "kling30" ? "Kling 3.0" : selectedVideoModel === "klingV3Turbo" ? "Kling V3 Turbo" : selectedVideoModel === "seedance2" ? "Seedance 2.0" : selectedVideoModel === "seedance2fast" ? "Seedance 2.0 Fast" : selectedVideoModel === "seedance2mini" ? "Seedance 2.0 Mini" : selectedVideoModel === "veo3" ? "Veo 3.1 Quality" : selectedVideoModel === "veo3fast" ? "Veo 3.1 Fast" : selectedVideoModel === "veo3lite" ? "Veo 3.1 Lite" : selectedVideoModel === "geminiOmniVideo" ? "Gemini Omni" : selectedVideoModel === "minimaxH3" ? "MiniMax H3" : selectedVideoModel} · {videoGenerateMode === "text2video" ? t("operate.text2video") : videoGenerateMode === "image2video" ? t("operate.image2video") : videoGenerateMode === "firstlast2video" ? t("operate.firstlast2video") : videoGenerateMode === "reference2video" ? t("operate.reference2video") : t("operate.videoEdit")} · {videoAspectRatio} · {videoResolution}{selectedVideoModel.startsWith("veo") || selectedVideoModel === "geminiOmniVideo" || selectedVideoModel === "minimaxH3" ? "" : ` · ${videoDuration}s`}
+                              </span>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </PopoverContent>
+                </Popover>
+
+                {/* 右侧按钮组 */}
+                <div className="flex flex-row items-center gap-2 md:ml-auto w-full md:w-auto overflow-x-auto whitespace-nowrap">
+
+                  {/* 发送按钮 */}
+                  <Button
+                    onClick={sendMessage}
+                    disabled={(!message.trim() && imageUrls.length === 0) || isGenerating}
+                    className={cn(
+                      "inline-flex w-10 h-10 md:w-auto md:px-6 md:py-2 rounded-full flex-shrink-0 ml-auto md:ml-0",
+                      "bg-primary hover:bg-primary/90",
+                      "disabled:opacity-50 disabled:cursor-not-allowed",
+                      "transition-all",
+                      "shadow-lg shadow-primary/20",
+                      "flex items-center justify-center gap-2"
+                    )}
+                  >
+                    {isGenerating ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Sparkles className="w-4 h-4" />
+                    )}
+                    <span className="hidden md:inline text-sm font-medium">
+                      {isGenerating ? (isEditMode ? t("operate.editingTitle") : t("operate.generatingTitle")) : t("operate.sendMessage")}
+                    </span>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 文件预览模态框 */}
+      {previewImage && (
+        <>
+          <div className="fixed inset-0 bg-black z-50" onClick={closePreview} />
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div className="relative max-w-5xl max-h-full">
+              {(() => {
+                const fileType = getFileType(previewImage)
+                if (fileType === "image") {
+                  return (
+                    <img
+                      src={previewImage}
+                      alt={t("operate.preview")}
+                      className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                  )
+                } else if (fileType === "video") {
+                  return (
+                    <video
+                      src={previewImage}
+                      controls
+                      autoPlay
+                      className="max-w-full max-h-[90vh] rounded-lg shadow-2xl"
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                  )
+                } else {
+                  return (
+                    <div
+                      className="flex flex-col items-center justify-center bg-muted rounded-lg shadow-2xl p-8 min-w-64 min-h-64"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Music className="w-16 h-16 text-muted-foreground mb-4" />
+                      <audio src={previewImage} controls autoPlay className="mt-4" />
+                    </div>
+                  )
+                }
+              })()}
+              {previewImages.length > 1 && (
+                <>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); showPrevPreview() }}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/80 hover:bg-background shadow-md flex items-center justify-center"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); showNextPreview() }}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/80 hover:bg-background shadow-md flex items-center justify-center"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </>
+              )}
+              <button
+                onClick={closePreview}
+                className="absolute top-4 right-4 w-12 h-12 bg-background/90 hover:bg-background rounded-full flex items-center justify-center shadow-lg"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* 登录弹窗 */}
+      <SignInDialog open={showSignInDialog} onOpenChange={setShowSignInDialog} />
+
+      {/* 积分不足购买弹窗 */}
+      <Dialog open={showPurchaseDialog}>
+        <DialogContent className="sm:max-w-lg p-0 overflow-hidden" onPointerDownOutside={(e) => e.preventDefault()}>
+          <div className="p-6 pb-4">
+            <DialogHeader className="space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <DialogTitle className="text-lg font-semibold">{t("operate.upgradeTitle")}</DialogTitle>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {purchaseReason === 'points'
+                      ? t("operate.insufficientPointsDesc")
+                      : purchaseReason === 'quota'
+                        ? t("operate.uploadQuotaMessage", { limit: formatBytes(maxUploadBytes) })
+                        : t("operate.insufficientPointsDesc")
+                    }
+                  </p>
+                </div>
+              </div>
+            </DialogHeader>
+          </div>
+          <div className="px-6 pb-6">
+            <div className="space-y-4">
+              <div className="flex items-center justify-end gap-3 pt-2">
+                <PricingDialog>
+                  <Button
+                    autoFocus
+                    className="px-6 flex items-center gap-2"
+                  >
+                    <Sparkles className="w-4 h-4" />
+                    {t("operate.upgrade")}
+                  </Button>
+                </PricingDialog>
+                <Button
+                  variant="ghost"
+                  onClick={() => setShowPurchaseDialog(false)}
+                  className="px-4"
+                >
+                  {t("operate.cancel")}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* 错误提示弹窗 */}
+      <Dialog open={showErrorDialog} onOpenChange={setShowErrorDialog}>
+        <DialogContent className="sm:max-w-md p-0 overflow-hidden" onPointerDownOutside={(e) => e.preventDefault()}>
+          <div className="p-6 pb-4">
+            <DialogHeader className="space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 flex items-center justify-center rounded-full bg-destructive/10">
+                  <AlertCircle className="w-5 h-5 text-destructive" />
+                </div>
+                <div>
+                  <DialogTitle className="text-lg font-semibold">{t("operate.error")}</DialogTitle>
+                  <p className="text-sm text-muted-foreground mt-1">{errorDialogMessage}</p>
+                </div>
+              </div>
+            </DialogHeader>
+          </div>
+          <div className="px-6 pb-6">
+            <Button
+              onClick={() => setShowErrorDialog(false)}
+              className="w-full"
+            >
+              {t("operate.ok")}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  )
+}

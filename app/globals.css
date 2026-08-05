@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Brand color system (light mode defaults) */
+    /* Core brand colors sourced from logo */
+    --primary: 180 100% 45%; /* #00E5E5 - Brand Primary / highlight */
+    --primary-foreground: 0 0% 100%; /* #FFFFFF - text on primary */
+    --brand-accent: 0 0% 100%; /* #FFFFFF - Brand accent (white) */
+    --brand-dark: 221 26% 14%; /* #1A202C - Brand dark */
+
+    /* Light mode surface / text */
+    --background: 0 0% 100%; /* #FFFFFF - Light background */
+    --card: 210 20% 98%; /* #F7FAFC - Surface */
+    --secondary: 210 20% 96%; /* #F3F6F9 - Secondary surface */
+    --foreground: 221 26% 14%; /* #1A202C - Text primary (light mode) */
+    --card-foreground: 221 26% 14%; /* #1A202C - Card text (light) */
+    --muted-foreground: 210 12% 45%; /* #718096 - Text secondary (light) */
+
+    /* Borders / inputs / focus */
+    --border: 214 32% 91%; /* #E2E8F0 - Light border */
+    --input: 214 32% 91%; /* #E2E8F0 - Input border */
+    --ring: 180 100% 45%; /* focus ring uses primary */
+
+    /* Interaction / states (shared) */
+    --hover: 180 100% 60%; /* #33FFFF - hover */
+    --active: 180 100% 35%; /* #00B2B2 - active/pressed */
+    --success: 142 39% 42%; /* #38A169 */
+    --warning: 41 71% 51%; /* #D69E2E */
+    --error: 0 66% 57%; /* #E53E3E */
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Dark mode overrides */
+    --background: 221 26% 14%; /* #1A202C - Dark background */
+    --foreground: 0 0% 100%; /* #FFFFFF - Text primary (dark) */
+    --card: 217 23% 23%; /* #2D3748 - Surface (dark) */
+    --card-foreground: 0 0% 100%; /* #FFFFFF - Card text (dark) */
+    --secondary: 217 23% 23%; /* #2D3748 - secondary surface */
+    --secondary-foreground: 0 0% 100%; /* #FFFFFF */
+    --muted-foreground: 214 20% 69%; /* #A0AEC0 - Text secondary (dark) */
+
+    /* Dark borders */
+    --border: 218 17% 35%; /* #4A5568 - Dark border */
+    --input: 218 17% 35%; /* #4A5568 - input (dark) */
+    --ring: 180 100% 45%; /* primary ring */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* 确保暗色模式过渡效果 */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* 赛博朋克风格品牌样式 */
+.brand-bg {
+  background-color: #00F0FF; /* 电光蓝背景 */
+}
+
+.brand-text {
+  color: #00F0FF; /* 电光蓝文字 */
+}
+
+.brand-bg-dark {
+  background-color: #1A1A1A; /* 炭黑色背景 */
+}
+
+.brand-bg-subtle {
+  background-color: #2D3748; /* UI元素/容器背景 */
+}
+
+.brand-text-light {
+  color: #EAEAEA; /* 标题文字 */
+}
+
+.brand-text-muted {
+  color: #A0AEC0; /* 正文/描述文字 */
+}
+
+/* 赛博朋克风格阴影效果 */
+.brand-shadow {
+  box-shadow: 0 4px 16px -2px rgba(0, 240, 255, 0.1), 0 2px 8px -2px rgba(0, 240, 255, 0.06);
+}
+
+.brand-shadow-lg {
+  box-shadow: 0 12px 32px -6px rgba(0, 240, 255, 0.15), 0 6px 16px -4px rgba(0, 240, 255, 0.1);
+}
+
+/* 电光蓝强调阴影 */
+.accent-shadow {
+  box-shadow: 0 8px 24px -4px rgba(0, 240, 255, 0.3), 0 4px 12px -2px rgba(0, 240, 255, 0.2);
+}
+
+/* 赛博朋克发光效果 */
+.cyber-glow {
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.5), 0 0 40px rgba(0, 240, 255, 0.3), 0 0 60px rgba(0, 240, 255, 0.1);
+}
+
+.cyber-glow-subtle {
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3), 0 0 20px rgba(0, 240, 255, 0.1);
+}
+
+/* 文本截断工具类 */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 自定义滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(74, 69, 64, 0.1); /* 暖褐灰，10%透明度 */
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(74, 69, 64, 0.18); /* 鼠标悬停时稍微深一点 */
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(168, 162, 158, 0.12); /* 深色模式下的暖灰 */
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 162, 158, 0.2); /* 深色模式下鼠标悬停时稍微深一点 */
+}

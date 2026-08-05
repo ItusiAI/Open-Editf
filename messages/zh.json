@@ -1,0 +1,1987 @@
+{
+  "metadata": {
+    "title": "Editf - AI智能创作平台 | 图片、视频与创意工具",
+    "description": "Editf 是领先的AI智能创作平台，集成先进AI技术，支持图片生成、视频创作、AI编辑等功能。提供专业级创作工具，助力设计师、创作者和团队高效完成创意项目。",
+    "terms": {
+      "title": "服务条款 - Editf",
+      "description": "查看Editf AI编辑平台的服务条款，了解平台使用规则、许可协议和用户权利责任。"
+    },
+    "privacy": {
+      "title": "隐私政策 - Editf",
+      "description": "了解Editf如何处理用户数据和隐私保护，确保您的个人信息安全。"
+    },
+    "prompts": {
+      "title": "Prompt 灵感库 - Editf",
+      "description": "探索精选的 AI 图像和视频生成提示词，激发你的创作灵感"
+    },
+    "cookies": {
+      "title": "Cookie政策 - Editf",
+      "description": "了解Editf如何使用Cookie和相关技术来优化用户体验和网站性能。"
+    },
+    "pricing": {
+      "title": "定价方案 - Editf",
+      "description": "选择最适合您需求的Editf套餐。灵活的价格选项，适用于个人、团队和企业，包含AI驱动的编辑功能。"
+    },
+    "profile": {
+      "title": "我的账户 - Editf",
+      "description": "管理您的Editf账户设置，查看订阅详情，检查积分余额，以及访问您的创作面板。"
+    },
+    "editor": {
+      "title": "AI编辑器 - Editf",
+      "description": "使用先进的AI技术创建和编辑精美的图片和视频。支持文生图、视频生成、风格转换和智能编辑，助力专业创作者高效完成作品。"
+    },
+    "chat": {
+      "title": "AI对话工作室 - Editf",
+      "description": "通过对话进行创作。使用自然语言命令生成图片、编辑内容、制作视频，享受强大的AI辅助创作体验。",
+      "sidebar": {
+        "openChatList": "打开对话列表"
+      }
+    },
+    "projects": {
+      "title": "我的项目 - Editf",
+      "description": "查看和管理您所有的AI图片和视频创作记录。浏览历史创作，重新编辑项目，管理您的数字艺术作品集。"
+    }
+  },
+  "demoBanner": {
+    "prefix": "这是",
+    "productName": "Editf",
+    "suffix": "演示站点，体验完整功能后",
+    "cta": "立即购买完整版"
+  },
+  "navbar": {
+    "home": "首页",
+    "editor": "编辑器",
+    "chat": "对话创作",
+    "prompts": "灵感库",
+    "pricing": "价格",
+    "aiChat": "AI对话",
+    "signUp": "开始创作",
+    "signIn": "登录",
+    "profile": "个人中心",
+    "affiliate": "推广计划",
+    "referral": "推荐计划",
+    "accountSettings": "账户设置",
+    "signOut": "退出登录"
+  },
+  "hero": {
+    "title": "Editf — 专业图片编辑平台\n更快地创建、编辑和导出图像",
+    "description": "Editf 提供 AI 驱动的图片编辑工具、模板与工作流，帮助创作者与团队快速生成和优化生产级图像素材。",
+    "badge": "🎨 专业图片工作室",
+    "features": {
+      "readyToUse": "开箱即用",
+      "multiScenario": "适用于创作者与团队",
+      "professionalOutput": "生产级输出"
+    }
+  },
+  "features": {
+    "title": "功能展示区域",
+    "liveGeneration": "快速部署",
+    "adminCenter": {
+      "title": "后台管理中心",
+      "description": "强大的后台管理系统，支持用户管理、角色权限控制、数据统计、积分调整等功能，让您轻松管理整个平台。"
+    },
+    "userDashboard": {
+      "title": "用户仪表盘",
+      "description": "直观的用户仪表盘界面，展示订阅状态、积分余额、推荐统计、账户设置等关键信息，让用户一目了然。"
+    },
+    "affiliateSystem": {
+      "title": "推广计划",
+      "description": "完整的推广返利系统，支持自定义推广码、佣金统计、提现管理等功能，通过推广获得30%首单佣金，帮助您实现收益增长。"
+    },
+    "referralSystem": {
+      "title": "推荐功能",
+      "description": "完整的推荐奖励机制，支持自定义推荐码、推荐统计、积分奖励等功能，帮助您通过用户推荐实现快速增长。"
+    },
+    "subscriptionPlans": {
+      "title": "多种订阅方案",
+      "description": "灵活的订阅管理系统，支持Trial、Pro、Annual等多种订阅方案，自动处理订阅续费、取消和到期提醒。"
+    },
+    "creditsPurchase": {
+      "title": "积分购买",
+      "description": "便捷的积分购买系统，支持多种积分套餐选择，用户可随时购买积分用于平台内服务消费。"
+    },
+    "authSystem": {
+      "title": "注册登录",
+      "description": "完整的用户认证系统，支持邮箱注册登录、密码重置、邮箱验证等功能，确保账户安全可靠。"
+    }
+  },
+  "pricing": {
+    "title": "Editf 定价方案",
+    "recommended": "推荐",
+    "limitedTimeOffer": "🎉 限时优惠",
+    "limitedTimeBadge": "立省75%",
+    "limitedTimeDescription": "每次生成仅需 10 积分（原 40 积分）",
+    "limitedTimePoints": "10 积分/次生成",
+    "limitedTimeEnds": "距结束",
+    "days": "天",
+    "hours": "时",
+    "minutes": "分",
+    "seconds": "秒",
+    "trial": {
+      "name": "Trial",
+      "price": "$4.99",
+      "description": "7天试用，体验 Editf 的功能",
+      "features": {
+        "period": "订阅时长：7天",
+        "points": "赠送积分：500积分",
+        "storage": "存储空间：1GB",
+        "maxUpload": "最大上传：50MB",
+        "templateTrial": "编辑模板：免费试用",
+        "license": "商业许可",
+        "twoModes": "两种模式，精准编辑"
+      },
+      "cta": "开始试用",
+      "trial_only_once": "仅限试用一次",
+      "not_available_for_pro": "Pro用户不可购买试用订阅",
+      "not_available_for_annual": "Annual用户不可购买试用订阅"
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "$15.99",
+      "originalPrice": "$19.99",
+      "discountPercent": "20",
+      "savings": "$4",
+      "discountBadge": "限时20%折扣",
+      "description": "专业创作者与小团队的高级编辑方案",
+      "features": {
+        "period": "订阅时长：30天",
+        "points": "赠送积分：2,000积分",
+        "storage": "存储空间：10GB",
+        "maxUpload": "最大上传：100MB",
+        "templateTrial": "编辑模板：免费用",
+        "license": "商业许可",
+        "twoModes": "两种模式，精准编辑"
+      },
+      "cta": "立即购买"
+    },
+    "annual": {
+      "name": "Annual",
+      "price": "$159",
+      "originalPrice": "$240",
+      "discountPercent": "34",
+      "savings": "$81",
+      "discountBadge": "限时34%折扣",
+      "description": "年度订阅 — 适合高级用户的最佳选择",
+      "features": {
+        "period": "订阅时长：365天",
+        "points": "赠送积分：25,000积分",
+        "storage": "存储空间：150GB",
+        "maxUpload": "最大上传：无限制",
+        "templateTrial": "编辑模板：免费用",
+        "license": "商业许可",
+        "twoModes": "两种模式，精准编辑"
+      },
+      "cta": "立即购买",
+      "upgrade": "升级到Annual",
+      "renew": "续费Annual",
+      "cannot_downgrade": "Annual订阅不能降级"
+    },
+    "discount": {
+      "was": "原价",
+      "now": "现价",
+      "save": "立省",
+      "off": "折扣"
+    },
+    "enterprise": {
+      "name": "企业版",
+      "price": "联系我们",
+      "description": "适合大型企业和定制化需求",
+      "features": {
+        "custom": "定制化开发服务",
+        "deployment": "私有化部署支持",
+        "support": "7×24小时技术支持",
+        "training": "团队培训与咨询"
+      },
+      "cta": "咨询方案"
+    }
+  },
+  "faq": {
+    "title": "关于Editf平台的常见问题",
+    "categories": {
+      "usage": "使用相关",
+      "pricing": "价格方案"
+    },
+    "usage": {
+      "howToStart": {
+        "question": "如何开始使用Editf平台？",
+        "answer": "非常简单！注册账户后即可开始使用AI编辑功能。平台包含完整的AI图像生成、编辑工具和多语言支持，您可以立即开始创作。"
+      },
+      "voiceQuality": {
+        "question": "平台的AI功能质量如何？",
+        "answer": "Editf采用先进的AI技术栈，集成多个专业AI模型。平台具有高效的AI图像生成和编辑能力，支持多种创作需求，具有良好的用户体验和稳定性。"
+      },
+      "contentOwnership": {
+        "question": "购买平台后的使用权限如何？",
+        "answer": "购买Editf后，您获得完整的平台使用权。可以自由使用所有AI编辑功能，创作内容完全归您所有。我们提供终身技术支持和功能更新。"
+      },
+      "dataPrivacy": {
+        "question": "平台是否重视用户数据和内容安全？",
+        "answer": "是的，平台内置了完整的安全措施，包括用户认证、数据加密、内容保护等。遵循GDPR等数据保护法规，确保您的创作内容和个人数据安全。"
+      },
+      "videoGeneration": {
+        "question": "支持视频生成吗？",
+        "answer": "支持！Editf 提供强大的AI视频生成功能，支持文生视频、图片生视频、参考图生视频等多种模式。集成 Seedance、Wan、HappyHorse、Kling、Veo 等多款顶级视频模型，可生成高质量的短视频内容。"
+      }
+    },
+    "pricing": {
+      "pointsExpiry": {
+        "question": "购买后是否提供技术支持？",
+        "answer": "是的，Pro提供1年技术支持，企业版提供7×24小时技术支持。包括安装指导、功能咨询、问题解决等。开源版用户可通过社区获得支持。"
+      },
+      "upgradeAnytime": {
+        "question": "我可以随时升级AI编辑平台方案吗？",
+        "answer": "当然可以！您可以随时升级到更高版本的AI编辑平台。升级后立即获得新功能和更长的技术支持期，已购买的许可证继续有效。"
+      },
+      "enterpriseFeatures": {
+        "question": "企业版AI编辑平台包括哪些特殊功能？",
+        "answer": "企业版提供定制化AI功能开发、私有化部署支持、7×24小时技术支持、团队培训与咨询，以及专属客户成功经理服务。完全根据您的创作需求量身打造AI编辑解决方案。"
+      }
+    }
+  },
+  "footer": {
+    "description": "AI驱动的智能编辑平台，支持图片编辑、AI图像生成、文本处理等功能，助您高效创作专业内容。",
+    "services": {
+      "title": "服务",
+      "editor": "编辑器",
+      "chat": "对话创作",
+      "pricing": "价格",
+      "aiChat": "AI对话"
+    },
+    "product": {
+      "title": "编辑平台",
+      "template": "平台工具",
+      "features": "功能特性",
+      "pricing": "定价方案"
+    },
+    "company": {
+      "title": "公司",
+      "about": "关于我们",
+      "careers": "加入我们"
+    },
+    "newsletter": {
+      "title": "订阅资讯",
+      "description": "获取最新的AI编辑技术和创意工具更新",
+      "placeholder": "请输入您的邮箱地址",
+      "subscribe_button": "订阅",
+      "success": "订阅成功！",
+      "subscribe": {
+        "successMessage": "订阅成功！感谢您的订阅，我们会定期向您发送AI编辑技术和创意工具的最新资讯。",
+        "subscribeError": "订阅失败，请稍后重试",
+        "networkError": "网络错误，请稍后重试"
+      },
+      "unsubscribe": {
+        "title": "取消订阅邮件列表",
+        "description": "我们很遗憾看到您离开，但我们尊重您的选择",
+        "emailLabel": "邮箱地址",
+        "emailPlaceholder": "请输入您的邮箱地址",
+        "button": "取消订阅",
+        "processing": "处理中...",
+        "loadingText": "正在处理...",
+        "successMessage": "如果您改变主意，随时可以重新订阅我们的邮件列表。",
+        "backToHome": "返回首页",
+        "networkError": "网络错误，请稍后重试",
+        "unsubscribeError": "取消订阅失败"
+      }
+    },
+    "copyright": "Editf. 版权所有."
+  },
+  "verify": {
+    "title": "邮箱验证",
+    "description": "验证您的邮箱地址以完成账户注册",
+    "meta_title": "邮箱验证",
+    "meta_description": "验证您的 Editf 账户邮箱，完成账户激活",
+    "verifying": "正在验证您的邮箱...",
+    "success": "邮箱验证成功！",
+    "failed": "邮箱验证失败",
+    "token_missing": "验证令牌缺失",
+    "token_invalid": "验证令牌无效或已过期",
+    "failed_retry": "验证失败，请稍后重试",
+    "please_wait": "请稍候，正在验证您的邮箱地址...",
+    "login_now": "立即登录",
+    "register_again": "重新注册",
+    "or": "或者",
+    "back_to_login": "返回登录"
+  },
+  "auth": {
+    "meta_title": "用户认证 - Editf",
+    "signin_title": "登录",
+    "signin_description": "登录您的 Editf 账户，开始使用AI编辑平台",
+    "signup_title": "注册",
+    "signup_description": "注册 Editf 账户，开启AI创作之旅",
+    "error_title": "认证错误",
+    "error_description": "认证过程中遇到问题，请重试或联系技术支持",
+    "error_page_title": "登录失败",
+    "error_page_description": "认证过程中遇到问题",
+    "error_back_to_signin": "返回登录",
+    "error_back_to_home": "返回首页",
+    "error_contact_support": "如果问题持续存在，请联系",
+    "error_technical_support": "技术支持",
+    "errors": {
+      "Configuration": "服务器配置错误，请联系管理员",
+      "AccessDenied": "访问被拒绝，您可能没有权限访问此应用",
+      "Verification": "验证失败，请重试",
+      "OAuthSignin": "第三方登录失败，请重试",
+      "OAuthCallback": "第三方登录回调失败",
+      "OAuthCreateAccount": "无法创建账户，该邮箱可能已被使用",
+      "EmailCreateAccount": "无法创建账户，请检查邮箱地址",
+      "Callback": "回调错误，请重试",
+      "OAuthAccountNotLinked": "该第三方账户未与现有账户关联，请使用其他登录方式",
+      "EmailSignin": "邮箱登录失败，请检查邮箱地址",
+      "CredentialsSignin": "登录凭据无效，请检查邮箱和密码",
+      "EmailNotVerified": "邮箱未验证，请先验证您的邮箱后再登录",
+      "SessionRequired": "需要登录才能访问此页面",
+      "OAuthTokenError": "获取授权令牌失败，请重新尝试登录",
+      "OAuthUserInfoError": "获取用户信息失败，请检查授权权限",
+      "default": "认证过程中发生未知错误，请重试"
+    },
+    "welcome_back": "欢迎回来",
+    "login_description": "登录您的 Editf 账户",
+    "email": "邮箱地址",
+    "password": "密码",
+    "email_placeholder": "请输入您的邮箱",
+    "password_placeholder": "请输入您的密码",
+    "login": "登录",
+    "logging_in": "登录中...",
+    "login_error": "邮箱或密码错误",
+    "login_failed": "登录失败，请稍后重试",
+    "no_account": "还没有账户？",
+    "signup_now": "立即注册",
+    "forgot_password": "忘记密码？",
+    "create_account": "创建账户",
+    "name": "用户名",
+    "name_placeholder": "请输入您的用户名",
+    "password_signup_placeholder": "请输入密码（至少6个字符）",
+    "confirm_password": "确认密码",
+    "confirm_password_placeholder": "请再次输入密码",
+    "password_mismatch": "两次输入的密码不一致",
+    "password_too_short": "密码至少需要6个字符",
+    "register_failed": "注册失败",
+    "register_retry": "注册失败，请稍后重试",
+    "registering": "注册中...",
+    "register_success": "注册成功",
+    "register_success_check_email": "注册成功！请检查邮箱并点击验证链接完成激活。",
+    "missing_fields": "请填写所有必填字段",
+    "email_exists": "该邮箱已被注册",
+    "invalid_referral_code": "无效的推荐码",
+    "verification_email_failed": "注册成功，但发送验证邮件失败，请稍后重试",
+    "rate_limit": "请求过于频繁，请稍后再试",
+    "has_account": "已有账户？",
+    "login_now": "立即登录",
+    "terms_agreement": "注册即表示您同意我们的",
+    "terms_of_service": "服务条款",
+    "and": "和",
+    "privacy_policy": "隐私政策",
+    "loginRequiredMessage": "请先登录后再使用音频总结功能。",
+    "loginNow": "立即登录",
+    "or_register_with_email": "或使用邮箱注册",
+    "referral_code": "推荐码（可选）",
+    "referral_code_placeholder": "请输入推荐码",
+    "affiliate_code": "推广码（可选）",
+    "affiliate_code_placeholder": "请输入推广码"
+  },
+  "common": {
+    "cancel": "取消",
+    "confirm": "确认",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "close": "关闭",
+    "back": "返回",
+    "login": "立即登录"
+  },
+  "forgot_password": {
+    "title": "找回密码",
+    "description": "输入您的邮箱地址，我们将向您发送重置密码的链接",
+    "meta_title": "找回密码",
+    "meta_description": "找回您的 Editf 账户密码，通过邮箱重置密码",
+    "email_label": "邮箱地址",
+    "email_placeholder": "请输入您的邮箱地址",
+    "send_reset_link": "发送重置链接",
+    "sending": "发送中...",
+    "success_message": "重置密码链接已发送到您的邮箱",
+    "check_email": "请检查您的邮箱并点击链接重置密码",
+    "back_to_login": "返回登录",
+    "email_required": "请输入邮箱地址",
+    "email_invalid": "请输入有效的邮箱地址",
+    "send_failed": "发送失败，请稍后重试",
+    "user_not_found": "该邮箱地址未注册",
+    "rate_limit": "请求过于频繁，请稍后再试"
+  },
+  "reset_password": {
+    "title": "重置密码",
+    "description": "请输入您的新密码",
+    "meta_title": "重置密码",
+    "meta_description": "重置您的 Editf 账户密码，设置新的安全密码",
+    "password_label": "新密码",
+    "password_placeholder": "请输入新密码",
+    "confirm_password_label": "确认密码",
+    "confirm_password_placeholder": "请再次输入新密码",
+    "reset_password": "重置密码",
+    "resetting": "重置中...",
+    "success_message": "密码重置成功！",
+    "login_now": "立即登录",
+    "password_required": "请输入密码",
+    "password_min_length": "密码至少需要6个字符",
+    "password_mismatch": "两次输入的密码不一致",
+    "token_invalid": "重置链接无效或已过期",
+    "token_expired": "重置链接已过期，请重新申请",
+    "reset_failed": "重置失败，请稍后重试",
+    "back_to_forgot": "返回找回密码"
+  },
+  "profile": {
+    "title": "个人中心",
+    "back_home": "返回首页",
+    "description": "查看和管理您的账户信息",
+    "menu": "功能菜单",
+    "please_login": "请先登录后查看个人中心",
+    "login_required": "请先登录",
+    "no_name_set": "未设置用户名",
+    "not_set": "未设置",
+    "verified": "已验证",
+    "unverified": "未验证",
+    "resend_verification": "重发验证邮件",
+    "sending": "发送中...",
+    "verification_email_sent": "验证邮件已发送，请检查您的邮箱",
+    "verification_email_failed": "发送验证邮件失败，请稍后重试",
+    "loading": "加载中...",
+    "points": "积分",
+    "points_history": "积分记录",
+    "points_history_description": "查看您的积分获取和使用记录",
+    "generation_history": "生成记录",
+    "generation_history_description": "查看您的AI图片生成历史记录",
+    "no_points_history": "暂无积分记录",
+    "register_bonus": "注册赠送积分",
+    "email_verify_bonus": "邮箱验证赠送积分",
+    "daily_login_bonus": "每日登录赠送积分",
+    "referral_bonus": "推荐好友赠送积分",
+    "manual_operation": "管理员操作",
+    "points_operation": "积分操作",
+    "pagination": {
+      "page_info": "第 {current} 页，共 {total} 页",
+      "total_records": "共 {total} 条记录",
+      "previous": "上一页",
+      "next": "下一页"
+    },
+    "points_actions": {
+      "register": "注册赠送积分",
+      "email_verify": "邮箱验证赠送积分",
+      "daily_login": "每日登录赠送积分",
+      "referral": "推荐好友赠送积分",
+      "manual": "管理员操作",
+      "purchase": "购买积分",
+      "ai_image": "AI生成图片",
+      "ai_image_edit": "AI编辑图片",
+      "ai_chat": "AI对话",
+      "ai_video": "AI视频",
+      "subscription_gift": "{plan}赠送积分",
+      "subscription_renewal_gift": "续订{plan}赠送积分",
+      "subscription_upgrade_gift": "升级{plan}赠送积分",
+      "subscription_reward": "推荐好友订阅赠送积分",
+      "subscription_expired": "积分过期",
+      "unknown": "未知操作",
+      "pay_amount": "支付 {amount}"
+    },
+    "account_info": "账户信息",
+    "registration_date": "注册时间",
+    "last_login": "最后登录",
+    "account_status": "账户状态",
+    "email_verified": "邮箱已验证",
+    "account_secure": "账户安全",
+    "profile_complete": "资料完整",
+    "personal_info": "个人信息",
+    "account_settings": "账户设置",
+    "connected_accounts": "关联账户",
+    "security": "安全设置",
+    "name": "用户名",
+    "name_placeholder": "请输入您的用户名",
+    "email": "邮箱地址",
+    "email_unverified": "未验证",
+    "verify_email": "验证邮箱",
+    "avatar": "头像",
+    "change_avatar": "更换头像",
+    "current_password": "当前密码",
+    "current_password_placeholder": "请输入当前密码",
+    "new_password": "新密码",
+    "new_password_placeholder": "请输入新密码",
+    "confirm_new_password": "确认新密码",
+    "confirm_new_password_placeholder": "请再次输入新密码",
+    "change_password": "修改密码",
+    "save_changes": "保存更改",
+    "saving": "保存中...",
+    "saved": "已保存",
+    "cancel": "取消",
+    "connect": "绑定",
+    "connecting": "连接中...",
+    "disconnect": "解绑",
+    "connected": "已绑定",
+    "not_connected": "未绑定",
+    "github_account": "GitHub账户",
+    "google_account": "Google账户",
+    "delete_account": "删除账户",
+    "delete_account_warning": "删除账户将永久删除您的所有数据，此操作不可恢复！",
+    "delete_account_confirm": "我确认要删除我的账户",
+    "delete_account_button": "永久删除账户",
+    "member_since": "注册时间",
+    "success_message": "更新成功！",
+    "error_message": "更新失败，请稍后重试",
+    "password_changed": "密码修改成功！",
+    "password_change_failed": "密码修改失败",
+    "account_connected": "账户绑定成功！",
+    "account_disconnected": "账户解绑成功！",
+    "account_connection_failed": "账户绑定失败",
+    "email_verification_sent": "验证邮件已发送",
+    "name_required": "请输入用户名",
+    "current_password_required": "请输入当前密码",
+    "new_password_required": "请输入新密码",
+    "password_min_length": "密码至少需要6个字符",
+    "password_mismatch": "两次输入的密码不一致",
+    "current_password_incorrect": "当前密码不正确",
+    "subscription_info": "订阅计划",
+    "subscription_info_description": "查看和管理您的订阅计划",
+    "subscription_status": "订阅状态",
+    "subscription_active": "已激活",
+    "subscription_cancelled": "已取消",
+    "subscription_past_due": "逾期未付",
+    "subscription_free": "免费用户",
+    "subscription_expires": "到期时间",
+    "subscription_expiring_soon": "即将到期",
+    "subscription_expired": "已过期",
+    "plan_free": "免费计划",
+    "plan_trial": "Trial",
+    "plan_pro": "Pro",
+    "plan_annual": "Annual",
+    "plan_enterprise": "企业版",
+    "plan_free_description": "基础功能，适合个人创作者",
+    "plan_trial_description": "7天试用，体验完整AI功能",
+    "plan_pro_description": "完整功能，适合专业开发",
+    "plan_annual_description": "年度订阅，最佳价值选择，包含15,000积分",
+    "plan_enterprise_description": "定制服务，适合企业团队",
+    "manage_subscription": "管理订阅",
+    "upgrade_to_pro": "升级到Pro",
+    "upgrade_benefits_title": "升级获得更多积分",
+    "upgrade_benefits_1": "完整AI编辑平台功能",
+    "upgrade_benefits_2": "优先技术支持",
+    "upgrade_benefits_3": "高级功能组件",
+    "upgrade_benefits_4": "定制化开发服务",
+    "points_purchase": "积分购买",
+    "points_purchase_description": "需要更多积分？选择一个套餐，立即获取",
+    "points_package_starter": "入门套餐",
+    "points_package_popular": "热门套餐",
+    "points_package_premium": "高级套餐",
+    "points_usage_title": "积分用途",
+    "points_usage_ai_service": "AI编辑平台功能使用",
+    "points_usage_premium_features": "高级AI编辑功能",
+    "points_usage_priority_support": "优先技术支持",
+    "purchase_now": "立即购买",
+    "processing_payment": "处理中...",
+    "payment_success": "支付成功",
+    "payment_failed": "支付失败",
+    "order_details": "订单详情",
+    "complete_payment": "完成支付",
+    "cancel_payment": "取消",
+    "card_info": "银行卡信息",
+    "pay_amount": "支付",
+    "purchase_success": "购买成功！",
+    "points_added": "积分已添加",
+    "current_points": "当前积分",
+    "view_pricing": "查看定价",
+    "purchased_points_label": "购买积分（永不过期）",
+    "gifted_points_label": "赠送积分（订阅到期清零）",
+    "subscription_gift_notice": "您当前已订阅，已获得1,000赠送积分",
+    "purchased_points": "购买积分",
+    "purchased_points_description": "通过支付购买的积分，永不过期，可长期使用",
+    "gifted_points": "赠送积分",
+    "gifted_points_description": "订阅赠送的积分，订阅到期时将被清零",
+    "usage_priority": "使用优先级",
+    "usage_priority_description": "系统会优先使用赠送积分，再使用购买积分",
+    "recommended": "推荐",
+    "processing": "处理中...",
+    "payment_history": "支付记录",
+    "payment_history_description": "查看所有支付记录和交易详情",
+    "referral": {
+      "title": "推荐好友",
+      "description": "邀请好友注册，双方都能获得奖励",
+      "total_referrals": "总推荐人数",
+      "subscribed_referrals": "已订阅人数",
+      "referral_code": "推荐码",
+      "referral_link": "推荐链接",
+      "history": "推荐历史",
+      "no_history": "暂无推荐记录",
+      "code_copied": "推荐码已复制",
+      "link_copied": "推荐链接已复制",
+      "copy_failed": "复制失败",
+      "action_register_bonus": "注册奖励",
+      "action_referrer_bonus": "推荐奖励",
+      "action_subscription_reward": "推荐好友订阅奖励",
+      "days": "天",
+      "records": "推荐记录",
+      "no_records": "暂无推荐记录",
+      "subscribed": "已订阅",
+      "not_subscribed": "未订阅",
+      "anonymous_user": "匿名用户"
+    },
+    "payment_history_details": {
+      "title": "支付记录",
+      "stats": {
+        "title": "支付统计",
+        "total_payments": "总支付次数",
+        "total_amount": "总支付金额",
+        "total_points_purchased": "总购买积分",
+        "total_points_gifted": "订阅赠送积分",
+        "successful_payments": "成功支付次数"
+      },
+      "payment_types": {
+        "subscription": "订阅",
+        "points_purchase": "积分购买",
+        "other": "其他"
+      },
+      "payment_statuses": {
+        "succeeded": "成功",
+        "failed": "失败",
+        "pending": "处理中",
+        "refunded": "已退款",
+        "cancelled": "已取消"
+      },
+      "table": {
+        "type": "类型",
+        "product": "产品",
+        "amount": "金额",
+        "points": "积分",
+        "status": "状态",
+        "time": "时间"
+      },
+      "filters": {
+        "type_placeholder": "筛选类型",
+        "status_placeholder": "筛选状态",
+        "all_types": "所有类型",
+        "all_statuses": "所有状态"
+      },
+      "empty_state": {
+        "title": "暂无支付记录"
+      },
+      "errors": {
+        "fetch_failed": "获取支付记录失败"
+      }
+    }
+  },
+  "referral_page": {
+    "title": "推荐计划",
+    "subtitle": "邀请好友注册，共享奖励",
+    "custom_code": {
+      "title": "自定义推荐码",
+      "description": "设置一个专属的推荐码，让好友更容易记住",
+      "current_code": "当前推荐码",
+      "placeholder": "输入自定义推荐码（4-20个字符）",
+      "button": "设置推荐码",
+      "button_updating": "设置中...",
+      "success": "推荐码设置成功",
+      "error": "推荐码设置失败",
+      "already_set": "推荐码已设置，不可修改",
+      "invalid_format": "推荐码格式不正确（4-20个字符，仅支持字母和数字）",
+      "already_taken": "该推荐码已被使用",
+      "note": "注意：推荐码只能设置一次，设置后不可修改"
+    },
+    "stats": {
+      "title": "推荐统计",
+      "total_invites": "累计邀请",
+      "people": "人",
+      "total_rewards": "累计奖励",
+      "points": "积分",
+      "subscribed_users": "已订阅用户",
+      "pending_users": "待订阅用户"
+    },
+    "share": {
+      "title": "分享推荐",
+      "copy_code": "复制推荐码",
+      "copy_link": "复制推荐链接",
+      "share_text": "分享给好友"
+    },
+    "rules": {
+      "title": "奖励规则",
+      "rule1_title": "注册奖励",
+      "rule1_desc": "好友通过您的推荐码注册，双方各获得 100 积分（永久有效）",
+      "rule2_title": "订阅返利",
+      "rule2_desc": "好友订阅任意方案，您将获得同等时长的订阅延长 + 对应方案的赠送积分",
+      "rule3_title": "多次奖励",
+      "rule3_desc": "好友每次续费或升级订阅，您都会获得相应奖励（不限次数）",
+      "rule4_title": "时效限制",
+      "rule4_desc": "邀请关系建立后30天内有效，超过30天将不再发放订阅奖励",
+      "note": "注：所有奖励将在好友完成注册或订阅后自动发放，无需手动操作"
+    },
+    "recent_referrals": {
+      "title": "最近推荐",
+      "view_all": "查看全部",
+      "registered_at": "注册于"
+    },
+    "records": {
+      "title": "推荐记录",
+      "description": "查看通过您的推荐码注册的用户",
+      "loading": "加载中...",
+      "empty": "暂无推荐记录",
+      "unknown_user": "未知用户",
+      "subscribed": "已订阅",
+      "pending": "待订阅",
+      "filter_all": "全部",
+      "table": {
+        "user": "用户",
+        "email": "邮箱",
+        "register_time": "注册时间",
+        "status": "状态"
+      }
+    },
+    "rewards": {
+      "title": "赠送记录",
+      "description": "查看每笔订阅赠送的积分和订阅延长记录",
+      "loading": "加载中...",
+      "empty": "暂无赠送记录",
+      "unknown_user": "未知用户",
+      "points": "积分",
+      "days": "天",
+      "filter_all": "全部",
+      "action_register_bonus": "注册奖励",
+      "action_referrer_bonus": "推荐人奖励",
+      "action_subscription_reward": "订阅返利",
+      "table": {
+        "action": "操作类型",
+        "from": "来自",
+        "reward": "奖励",
+        "create_time": "创建时间"
+      }
+    }
+  },
+  "affiliate_page": {
+    "title": "推广返利系统",
+    "subtitle": "通过推广获得返利，每单30%佣金",
+    "loading": "加载中...",
+    "stats": {
+      "total_invites": "总邀请人数",
+      "converted": "已转化人数",
+      "available_balance": "可用余额",
+      "frozen_balance": "冻结余额"
+    },
+    "code_setting": {
+      "title": "推广码设置",
+      "description": "设置您的推广码，只能修改一次",
+      "current_code": "当前推广码",
+      "placeholder": "输入新推广码（8-20个字母或数字）",
+      "placeholder_set": "输入推广码（8-20个字母或数字）",
+      "button_update": "更新推广码",
+      "button_set": "设置推广码",
+      "updating": "更新中...",
+      "setting": "设置中...",
+      "note": "注意：推广码只能修改一次，请谨慎设置",
+      "already_changed": "推广码已修改过，无法再次修改",
+      "enter_code": "请输入推广码",
+      "invalid_format": "推广码格式无效，必须为8-20个字母或数字",
+      "update_success": "推广码更新成功",
+      "update_failed": "更新推广码失败",
+      "already_taken": "该推广码已被使用",
+      "code_copied": "推广码已复制",
+      "link_copied": "推广链接已复制",
+      "copy_failed": "复制失败",
+      "set_first": "请先设置推广码"
+    },
+    "share": {
+      "title": "分享推广",
+      "link_label": "推广链接",
+      "copy_code": "复制推广码",
+      "copy_link": "复制链接"
+    },
+    "relations": {
+      "title": "邀请数据",
+      "description": "查看通过您的推广码注册的用户",
+      "loading": "加载中...",
+      "empty": "暂无邀请数据",
+      "unknown_user": "未知用户",
+      "register_time": "注册时间",
+      "converted": "已转化",
+      "expired": "已过期",
+      "pending": "待转化",
+      "filter_all": "全部",
+      "table": {
+        "user": "用户",
+        "email": "邮箱",
+        "register_time": "注册时间",
+        "status": "状态"
+      }
+    },
+    "earnings": {
+      "title": "佣金记录",
+      "description": "查看您的佣金收入和状态",
+      "loading": "加载中...",
+      "empty": "暂无佣金记录",
+      "from": "来自",
+      "create_time": "创建时间",
+      "release_time": "解冻时间",
+      "frozen": "冻结中",
+      "released": "已解冻",
+      "cancelled": "已取消",
+      "unknown_user": "未知用户",
+      "filter_all": "全部",
+      "table": {
+        "amount": "金额",
+        "from": "来自",
+        "status": "状态",
+        "create_time": "创建时间",
+        "release_time": "解冻时间"
+      }
+    },
+    "withdraw": {
+      "title": "提现申请",
+      "description": "将可用余额提现到您的账户",
+      "button": "提现",
+      "amount": "提现金额",
+      "amount_placeholder": "请输入提现金额",
+      "min_amount": "最小提现金额",
+      "min_amount_error": "最小提现金额为$10",
+      "payment_method": "支付方式",
+      "alipay": "支付宝",
+      "paypal": "PayPal",
+      "account_name": "账户姓名",
+      "account_name_placeholder": "请输入账户姓名",
+      "alipay_account": "支付宝账号",
+      "alipay_placeholder": "请输入支付宝账号或手机号",
+      "paypal_email": "PayPal邮箱",
+      "paypal_placeholder": "请输入PayPal邮箱",
+      "available_balance": "可提现金额",
+      "exceeds_balance": "提现金额超过可用余额",
+      "submit": "提交申请",
+      "processing": "处理中...",
+      "success": "提现申请已提交",
+      "failed": "提现申请失败",
+      "invalid_amount": "提现金额无效",
+      "invalid_payment_method": "支付方式无效",
+      "invalid_account_info": "账户信息无效",
+      "insufficient_balance": "可用余额不足",
+      "account_info_required": "请输入账户信息"
+    },
+    "withdrawals": {
+      "title": "提现记录",
+      "description": "查看您的提现申请记录",
+      "loading": "加载中...",
+      "empty": "暂无提现记录",
+      "pending": "待处理",
+      "processing": "处理中",
+      "completed": "已完成",
+      "failed": "失败",
+      "cancelled": "已取消",
+      "failure_reason": "失败原因",
+      "create_time": "申请时间",
+      "processed_time": "处理时间",
+      "filter_all": "全部",
+      "table": {
+        "amount": "金额",
+        "payment_method": "支付方式",
+        "account": "账户信息",
+        "status": "状态",
+        "create_time": "申请时间",
+        "processed_time": "处理时间"
+      }
+    }
+  },
+  "dashboard": {
+    "payment_success": {
+      "title": "购买成功！",
+      "subtitle": "欢迎使用Editf",
+      "subtitle_with_plan": "欢迎使用Editf {plan}",
+      "processing_title": "处理支付结果",
+      "processing_description": "请稍候，我们正在确认您的购买状态...",
+      "verifying_title": "验证购买状态",
+      "verifying_description": "正在确认您的购买...",
+      "success_toast": "🎉 购买成功！您已获得完整的AI编辑平台功能和技术支持",
+      "success_toast_with_plan": "🎉 {plan}购买成功！您已获得完整的AI编辑平台功能和技术支持",
+      "no_session_toast": "💡 您已到达购买成功页面，请使用下方按钮导航"
+    },
+    "subscription_info": {
+      "title": "订阅信息",
+      "title_with_plan": "{plan}订阅",
+      "status_label": "订阅状态：",
+      "status_active": "已激活",
+      "status_processing": "处理中",
+      "plan_label": "订阅类型：",
+      "plan_pro": "Pro",
+      "expires_label": "支持到期："
+    },
+    "points_reward": {
+      "title": "积分奖励",
+      "total_points": "总积分",
+      "purchased_points": "购买积分",
+      "gifted_points": "赠送积分",
+      "gift_notice": "🎁 您已获得订阅赠送积分，可用于使用各项功能！"
+    },
+    "actions": {
+      "view_profile": "查看个人中心",
+      "back_home": "返回首页"
+    },
+    "loading": "加载中...",
+    "error": {
+      "fetch_failed": "获取订阅信息失败，请刷新页面重试",
+      "manage_subscription_failed": "无法打开订阅管理页面，请稍后重试"
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "meta_title": "管理员控制台 - Editf",
+      "meta_description": "管理员控制台，统一管理用户、邮件订阅、系统设置等功能。",
+      "title": "管理员控制台",
+      "sidebar": {
+        "title": "管理功能"
+      },
+      "menu": {
+        "overview": "概览",
+        "overview_desc": "实时查看系统核心数据统计和趋势分析",
+        "users": "用户管理",
+        "users_desc": "管理注册用户和权限",
+        "referral": "推荐管理",
+        "referral_desc": "管理所有用户的推荐记录和奖励",
+        "affiliate": "推广管理",
+        "affiliate_desc": "管理所有用户的推广记录和佣金",
+        "newsletter": "邮件订阅",
+        "newsletter_desc": "管理邮件订阅用户"
+      },
+      "overview": {
+        "title": "系统概览",
+        "description": "实时查看系统核心数据统计和趋势分析",
+        "categories": {
+          "users_revenue": "用户与收入",
+          "referral_affiliate": "推荐与推广"
+        },
+        "cards": {
+          "users": {
+            "title": "用户管理",
+            "description": "管理注册用户、角色和权限"
+          },
+          "newsletter": {
+            "title": "邮件订阅",
+            "description": "管理邮件订阅和发送统计"
+          }
+        },
+        "quick_actions": {
+          "title": "快速操作",
+          "manage_users": "管理用户",
+          "manage_users_desc": "查看和管理所有注册用户",
+          "manage_newsletter": "管理订阅",
+          "manage_newsletter_desc": "查看和管理邮件订阅"
+        },
+        "stats": {
+          "total_users": "总用户数",
+          "subscribed_users": "订阅用户数",
+          "subscription_revenue": "订阅总收入",
+          "points_revenue": "积分总收入",
+          "total_points": "总积分",
+          "total_referrals": "总推荐数",
+          "referral_subscribed": "推荐订阅人数",
+          "referral_reward_points": "推荐奖励总积分",
+          "affiliate_count": "推广人数",
+          "affiliate_earnings": "推广总佣金",
+          "affiliate_withdrawals": "总提现佣金",
+          "newsletter_subscribers": "邮箱订阅人数"
+        },
+        "trends": {
+          "title": "趋势分析",
+          "days_7": "7天",
+          "days_30": "30天",
+          "days_90": "90天",
+          "registration": "注册人数趋势",
+          "registration_count": "注册人数",
+          "subscription": "订阅数和收入趋势",
+          "subscription_count": "订阅数",
+          "subscription_revenue": "订阅收入",
+          "total_revenue": "总收入趋势",
+          "revenue": "收入"
+        }
+      }
+    },
+    "newsletter": {
+      "meta_title": "邮件订阅统计 - Editf",
+      "meta_description": "查看和管理邮件订阅统计数据，包括订阅用户数量、语言分布等信息。",
+      "title": "邮件订阅统计",
+      "stats": {
+        "total_subscriptions": "总订阅数",
+        "active_subscribers": "活跃订阅用户",
+        "chinese_subscriptions": "中文订阅",
+        "chinese_users": "中文用户",
+        "english_subscriptions": "英文订阅",
+        "english_users": "英文用户",
+        "total_registrations": "总注册数",
+        "including_unsubscribed": "包括已取消订阅"
+      },
+      "subscription_list": {
+        "title": "订阅列表",
+        "description": "所有邮件订阅用户的详细信息",
+        "active_tab": "活跃订阅",
+        "inactive_tab": "已取消订阅",
+        "no_data": "暂无数据",
+        "table": {
+          "email": "邮箱地址",
+          "language": "语言",
+          "status": "状态",
+          "subscribed_at": "订阅时间",
+          "unsubscribed_at": "取消订阅时间",
+          "chinese": "中文",
+          "english": "英文",
+          "active": "活跃",
+          "cancelled": "已取消"
+        }
+      },
+      "actions": {
+        "retry": "重试",
+        "refresh": "刷新"
+      },
+      "error": {
+        "fetch_stats_failed": "获取统计数据失败",
+        "fetch_subscriptions_failed": "获取订阅列表失败"
+      }
+    },
+    "users": {
+      "meta_title": "用户管理 - Editf",
+      "meta_description": "查看和管理所有注册用户的详细信息，包括用户统计、角色管理、积分调整等功能。",
+      "title": "用户管理",
+      "stats": {
+        "total_users": "总用户数",
+        "total_users_desc": "注册用户总数",
+        "verified_users": "已验证用户",
+        "verified_users_desc": "邮箱已验证",
+        "admin_users": "管理员",
+        "admin_users_desc": "管理员用户",
+        "subscribed_users": "订阅用户",
+        "subscribed_users_desc": "活跃订阅",
+        "total_points": "总积分",
+        "total_points_desc": "用户积分总和",
+        "total_payments": "总收入",
+        "total_payments_desc": "成功支付总额"
+      },
+      "user_list": {
+        "title": "用户列表",
+        "description": "管理所有注册用户的详细信息",
+        "search_placeholder": "搜索邮箱或用户名...",
+        "filter_role": "筛选角色",
+        "filter_email_status": "验证状态",
+        "all_roles": "所有角色",
+        "all_statuses": "全部邮箱状态",
+        "role_user": "普通用户",
+        "role_admin": "管理员",
+        "email_verified": "已验证",
+        "email_unverified": "未验证",
+        "filter_subscription_status": "订阅状态",
+        "all_subscription_statuses": "全部订阅状态",
+        "subscription_active": "活跃",
+        "subscription_cancelled": "已取消",
+        "subscription_past_due": "逾期",
+        "subscription_paused": "暂停",
+        "subscription_none": "无订阅",
+        "no_data": "暂无用户数据",
+        "table": {
+          "user_info": "用户信息",
+          "role": "角色",
+          "email_status": "邮箱状态",
+          "points": "积分",
+          "subscription": "订阅状态",
+          "subscription_expiry": "订阅到期",
+          "created_at": "注册时间",
+          "actions": "操作",
+          "edit_role": "编辑角色",
+          "adjust_points": "调整积分",
+          "manage_subscription": "管理订阅",
+          "no_name": "未设置",
+          "role_admin": "管理员",
+          "role_user": "用户",
+          "email_verified": "已验证",
+          "email_unverified": "未验证",
+          "points_total": "总计",
+          "points_purchased": "购买",
+          "points_gifted": "赠送",
+          "no_subscription": "无订阅",
+          "plan_trial": "Trial",
+          "plan_pro": "Pro",
+          "plan_annual": "Annual",
+          "status_active": "活跃",
+          "status_cancelled": "已取消",
+          "status_past_due": "逾期未付",
+          "status_paused": "暂停",
+          "status_expired": "已过期",
+          "expired": "已过期",
+          "expiring_soon": "即将到期"
+        }
+      },
+      "actions": {
+        "refresh": "刷新",
+        "retry": "重试",
+        "edit_role": "修改角色",
+        "adjust_points": "调整积分",
+        "manage_subscription": "管理订阅",
+        "view_details": "查看详情"
+      },
+      "dialogs": {
+        "user_info": "用户: {name} ({email})",
+        "no_name": "未设置",
+        "cancel": "取消",
+        "confirm": "确认",
+        "edit_role": {
+          "title": "修改用户角色",
+          "description": "修改用户的系统角色权限",
+          "role_label": "用户角色",
+          "role_placeholder": "选择角色",
+          "role_user": "普通用户",
+          "role_admin": "管理员"
+        },
+        "adjust_points": {
+          "title": "调整用户积分",
+          "description": "增加或扣除用户积分",
+          "points_label": "积分变动",
+          "points_placeholder": "输入积分数量（正数增加，负数扣除）",
+          "points_type_label": "积分类型",
+          "points_type_purchased": "购买积分",
+          "points_type_gifted": "赠送积分",
+          "description_label": "操作说明",
+          "description_placeholder": "请输入操作说明（可选）",
+          "purchased_points_info": "购买积分永不过期，可以随时使用",
+          "gifted_points_expiry_label": "关联订阅到期时间",
+          "gifted_points_expiry_info": "赠送积分将在订阅到期时自动清零，到期时间与用户订阅到期时间一致",
+          "gifted_points_requires_subscription": "⚠️ 赠送积分需要订阅到期时间",
+          "gifted_points_no_subscription": "该用户尚未设置订阅，无法添加赠送积分。请先为用户设置订阅后再添加赠送积分",
+          "subscription_expired_error": "用户订阅已过期，无法添加赠送积分。请先更新订阅到期时间"
+        },
+        "manage_subscription": {
+          "title": "管理用户订阅",
+          "description": "修改用户的订阅状态和计划",
+          "status_label": "订阅状态",
+          "status_placeholder": "选择订阅状态",
+          "status_active": "活跃",
+          "status_cancelled": "已取消",
+          "status_past_due": "逾期未付",
+          "status_paused": "暂停",
+          "plan_label": "订阅计划",
+          "plan_placeholder": "选择订阅计划",
+          "plan_trial": "Trial",
+          "plan_pro": "Pro",
+          "plan_annual": "Annual",
+          "end_date_label": "订阅到期日期",
+          "end_date_placeholder": "选择到期日期",
+          "auto_calculated": "到期时间根据订阅计划自动计算",
+          "cumulative_calculated": "在现有订阅基础上累计增加时间",
+          "select_plan_first": "请选择订阅计划"
+        }
+      },
+      "pagination": {
+        "page_info": "第 {page} 页，共 {totalPages} 页",
+        "total_records": "总共 {total} 条记录",
+        "previous": "上一页",
+        "next": "下一页"
+      },
+      "messages": {
+        "role_updated": "用户角色更新成功",
+        "points_updated": "用户积分调整成功",
+        "subscription_updated": "用户订阅更新成功",
+        "update_failed": "更新失败",
+        "fetch_stats_failed": "获取统计数据失败",
+        "fetch_users_failed": "获取用户列表失败"
+      }
+    },
+    "referral": {
+      "stats": {
+        "total_referrals": "总推荐数",
+        "subscribed_referrals": "已订阅推荐",
+        "total_points": "总奖励积分"
+      },
+      "tabs": {
+        "records": "推荐记录",
+        "rewards": "赠送记录"
+      },
+      "records": {
+        "title": "推荐记录",
+        "description": "查看所有用户的推荐关系",
+        "empty": "暂无推荐记录",
+        "subscribed": "已订阅",
+        "pending": "待订阅",
+        "table": {
+          "referrer": "推荐人",
+          "referred": "被推荐人",
+          "code": "推荐码",
+          "status": "状态",
+          "created_at": "创建时间"
+        }
+      },
+      "rewards": {
+        "title": "赠送记录",
+        "description": "查看所有推荐奖励记录",
+        "empty": "暂无赠送记录",
+        "days": "天",
+        "table": {
+          "user": "用户",
+          "from": "来自",
+          "action": "操作类型",
+          "reward": "奖励",
+          "created_at": "创建时间"
+        },
+        "actions": {
+          "register_bonus": "注册奖励",
+          "referrer_bonus": "推荐人奖励",
+          "subscription_reward": "订阅奖励",
+          "unknown": "其他（{action}）"
+        }
+      }
+    },
+    "affiliate": {
+      "stats": {
+        "total_profiles": "推广人数",
+        "total_relations": "推广关系",
+        "converted_relations": "已转化",
+        "total_earnings": "总佣金",
+        "total_withdrawals": "总提现"
+      },
+      "tabs": {
+        "profiles": "推广人",
+        "relations": "推广关系",
+        "earnings": "佣金记录",
+        "withdrawals": "提现记录"
+      },
+      "profiles": {
+        "title": "推广人列表",
+        "description": "查看所有推广人资料",
+        "loading": "加载中...",
+        "empty": "暂无推广人",
+        "table": {
+          "user": "用户",
+          "code": "推广码",
+          "balance": "可用余额",
+          "frozen_balance": "冻结余额",
+          "created_at": "创建时间"
+        }
+      },
+      "relations": {
+        "title": "推广关系",
+        "description": "查看所有推广关系",
+        "loading": "加载中...",
+        "empty": "暂无推广关系",
+        "converted": "已转化",
+        "expired": "已过期",
+        "pending": "待转化",
+        "table": {
+          "referrer": "推广人",
+          "invitee": "被推广人",
+          "status": "状态",
+          "expires_at": "过期时间",
+          "created_at": "创建时间"
+        }
+      },
+      "earnings": {
+        "title": "佣金记录",
+        "description": "查看所有佣金记录",
+        "loading": "加载中...",
+        "empty": "暂无佣金记录",
+        "frozen": "冻结中",
+        "released": "已解冻",
+        "cancelled": "已取消",
+        "table": {
+          "affiliate": "推广人",
+          "invitee": "被推广人",
+          "amount": "金额",
+          "status": "状态",
+          "created_at": "创建时间"
+        }
+      },
+      "withdrawals": {
+        "title": "提现记录",
+        "description": "查看所有提现记录",
+        "loading": "加载中...",
+        "empty": "暂无提现记录",
+        "pending": "待处理",
+        "processing": "处理中",
+        "completed": "已完成",
+        "failed": "失败",
+        "cancelled": "已取消",
+        "table": {
+          "user": "用户",
+          "amount": "金额",
+          "payment_method": "支付方式",
+          "account": "账户信息",
+          "status": "状态",
+          "created_at": "创建时间",
+          "actions": "操作"
+        },
+        "process": {
+          "title": "处理提现申请",
+          "description": "更新提现申请的状态",
+          "button": "处理",
+          "update": "更新",
+          "user": "用户",
+          "amount": "金额",
+          "payment_method": "支付方式",
+          "account_info": "账户信息",
+          "status": "状态",
+          "select_status": "选择状态",
+          "transaction_id": "交易ID",
+          "transaction_id_placeholder": "请输入第三方交易ID",
+          "failure_reason": "失败原因",
+          "failure_reason_placeholder": "请输入失败原因",
+          "status_required": "请选择状态",
+          "transaction_id_required": "完成提现需要填写交易ID",
+          "failure_reason_required": "标记为失败需要填写失败原因",
+          "success": "提现处理成功",
+          "failed": "处理失败",
+          "processing": "处理中...",
+          "submit": "提交",
+          "cancel": "取消"
+        }
+      }
+    }
+  },
+  "legal": {
+    "title": "法律条款",
+    "terms": "服务条款",
+    "privacy": "隐私政策",
+    "cookies": "Cookie政策"
+  },
+  "unauthorized": {
+    "title": "访问被拒绝",
+    "description": "您没有权限访问此页面。此页面仅限管理员访问。",
+    "errorMessage": "如果您认为这是一个错误，请联系系统管理员。",
+    "backToHome": "返回首页",
+    "signInAgain": "重新登录"
+  },
+  "testimonials": {
+    "title": "用户评价",
+    "description": "加入数千名已经在使用 Editf AI编辑平台进行创作的创作者和设计师"
+  },
+  "aiImage": {
+    "badge": "全新 · AI 图像生成",
+    "title": "AI 图像生成",
+    "description": "使用 fal.ai 提供的 z-image、nano-banana-pro 与 nano-banana-2 模型，高质量生成海报、插画、产品图等创意素材。",
+    "provider": "fal.ai · 专业模型",
+    "card": {
+      "title": "输入提示词，快速生成图片",
+      "description": "选择模型与参数，提交后自动轮询拿到 fal.ai 的生成结果。"
+    },
+    "promptLabel": "提示词",
+    "promptHint": "描述越具体，效果越好，例如：4k cyberpunk street at night, neon lights, rain",
+    "promptPlaceholder": "请输入你想生成的画面，例如：一只坐在月球上的猫，超写实风格，HDR，电影光效",
+    "modelLabel": "选择模型",
+    "contentTypeLabel": "内容类型",
+    "imageMode": "图片",
+    "videoMode": "视频",
+    "aspectRatioLabel": "画面比例",
+    "numImagesLabel": "生成数量",
+    "numImagesHint": "最多生成 4 张，默认 1 张",
+    "generate": "生成图片",
+    "generating": "正在生成...",
+    "resultTitle": "生成结果",
+    "resultDescription": "所有图片均来自 fal.ai 服务端推理，点击可在新标签页查看原图。",
+    "emptyState": {
+      "title": "还没有图片",
+      "description": "输入提示词并点击“生成图片”，稍等片刻即可看到 AI 生成的图像。"
+    },
+    "status": {
+      "idle": "就绪，输入提示词即可开始生成。",
+      "waiting": "已提交到 fal.ai，正在排队...",
+      "polling": "正在等待 fal.ai 返回最终图片...",
+      "success": "生成完成，可以保存或查看原图。",
+      "error": "生成失败，请重试。"
+    },
+    "currentPoints": "当前积分：{points}",
+    "insufficientPoints": "积分不足",
+    "subscriptionRequired": "需要订阅才能使用付费模型",
+    "pointsDialogMessage": "您当前积分：{points}，不足以使用该模型。请购买积分后继续。",
+    "subscriptionDialogMessage": "该模型仅限订阅用户使用。订阅后即可解锁。",
+    "buyPoints": "购买积分",
+    "subscribe": "立即订阅",
+    "cancel": "取消",
+    "promptRequired": "请输入提示词后再生成",
+    "unknownError": "生成失败，请稍后重试",
+    "copySuccess": "链接已复制",
+    "copyFailed": "复制失败，请手动复制链接",
+    "noImagesReturned": "未收到图片结果，请稍后重试",
+    "pollingFailed": "查询生成结果失败，请重试",
+    "models": {
+      "zImage": "z-image（高清写实）",
+      "nanoBananaPro": "nano-banana-pro（快速出图）",
+      "nanoBanana2": "nano-banana-2（最新优化）"
+    },
+    "modelsDesc": {
+      "zImage": "高保真、写实细节，适合产品海报与广告视觉",
+      "nanoBananaPro": "更快出图，适合快速草图与创意探索",
+      "nanoBanana2": "最新优化模型，画质与速度平衡优秀"
+    },
+    "mode": {
+      "textToImage": "文本生图",
+      "imageToImage": "图片生图"
+    },
+    "inputImageLabel": "上传图片",
+    "uploadImage": "点击上传或拖拽图片",
+    "uploadImageHint": "支持 JPG、PNG 等格式，最大 10MB",
+    "promptHintImageToImage": "描述你想要对图片进行的修改或风格转换",
+    "promptPlaceholderImageToImage": "例如：将图片转换为水彩画风格，或者：添加彩虹效果",
+    "imageRequired": "请先上传一张图片",
+    "invalidImageFile": "请上传有效的图片、视频或音频文件",
+    "imageTooLarge": "图片大小不能超过 10MB",
+    "imageReadError": "图片读取失败，请重试",
+    "pointsHistory": {
+      "aiImage": "AI生成图片"
+    }
+  },
+  "aiVideo": {
+    "badge": "全新 · AI 视频工作室",
+    "title": "AI 文生 / 图生视频生成器",
+    "description": "使用 fal.ai Pixverse v5.5，一键将文案或图片生成高质量短视频，支持多种画面比例和风格。",
+    "provider": "fal.ai · pixverse v5.5",
+    "card": {
+      "title": "输入提示词，一键生成视频",
+      "description": "详细描述画面内容、镜头运动和风格，我们会自动调用 fal.ai 并轮询直到视频就绪。"
+    },
+    "promptLabel": "提示词",
+    "promptHint": "尽量详细地描述主体、动作和镜头，例如：一只在雨夜城市街头奔跑的猫，慢镜头，4k，电影光效",
+    "promptPlaceholder": "例如：无人机镜头俯拍赛博朋克城市夜景，霓虹灯、下雨、慢慢推进镜头，8秒，电影质感",
+    "aspectRatioLabel": "画面比例",
+    "durationLabel": "视频时长（秒）",
+    "durationHint": "当前支持 5、8、10 秒三档（与 Pixverse 官方保持一致）。",
+    "resolutionLabel": "分辨率",
+    "resolutionHint": "支持 360p、540p、720p、1080p，分辨率和时长越高生成越慢。",
+    "modelLabel": "选择模型",
+    "styleLabel": "视频风格",
+    "stylePlaceholder": "可选风格（anime, comic, cyberpunk 等）",
+    "styleNone": "不指定风格",
+    "styleHint": "可选项，例如：anime、3d_animation、clay、comic、cyberpunk 等。",
+    "generate": "生成视频",
+    "generating": "正在生成...",
+    "resultTitle": "生成结果",
+    "resultDescription": "视频由 fal.ai 在线生成，你可以在此播放、复制链接或下载保存。",
+    "emptyState": {
+      "title": "还没有视频",
+      "description": "输入提示词并点击“生成视频”，稍等片刻即可看到 AI 生成的视频。"
+    },
+    "status": {
+      "idle": "就绪，输入提示词即可开始生成。",
+      "waiting": "已提交到 fal.ai，正在排队渲染...",
+      "polling": "正在等待 fal.ai 返回最终视频...",
+      "success": "生成完成，可以播放或下载视频。",
+      "error": "生成失败，请稍后重试。"
+    },
+    "currentPoints": "当前积分：{points}",
+    "insufficientPoints": "积分不足",
+    "subscriptionRequired": "需要订阅才能使用该视频模型",
+    "pointsDialogMessage": "您当前积分：{points}，不足以完成本次生成。请先购买积分。",
+    "subscriptionDialogMessage": "此视频模型仅对订阅用户开放，订阅后即可解锁使用。",
+    "buyPoints": "购买积分",
+    "subscribe": "立即订阅",
+    "cancel": "取消",
+    "promptRequired": "请输入提示词后再生成视频",
+    "unknownError": "生成失败，请稍后重试",
+    "copySuccess": "链接已复制",
+    "copyFailed": "复制失败，请手动复制链接",
+    "noVideoReturned": "未收到视频地址，请稍后重试",
+    "pollingFailed": "查询生成结果失败，请稍后重试",
+    "models": {
+      "pixverseV55": "Pixverse v5.5"
+    },
+    "mode": {
+      "textToVideo": "文本生视频",
+      "imageToVideo": "图生视频"
+    },
+    "inputImageLabel": "输入图片",
+    "uploadImage": "点击上传或拖拽图片",
+    "uploadImageHint": "支持 JPG、PNG 等格式，最大 10MB",
+    "promptHintImageToVideo": "描述从这张图片开始，画面应该如何运动、发生什么变化。",
+    "promptPlaceholderImageToVideo": "例如：相机缓慢推近角色，镜头绕人物旋转，或者：场景逐渐切换到日落画面",
+    "imageRequired": "请先上传一张图片",
+    "invalidImageFile": "请上传有效的图片、视频或音频文件",
+    "imageTooLarge": "图片大小不能超过 10MB",
+    "imageReadError": "图片读取失败，请重试",
+    "videoDurationInvalid": "视频时长无效",
+    "videoDurationInvalidDesc": "视频时长必须在 2-10 秒之间，当前模型仅支持此范围",
+    "videoSizeInvalid": "视频大小无效",
+    "videoSizeInvalidDesc": "视频大小不能超过 100MB"
+  },
+  "aiChat": {
+    "title": "AI 智能对话",
+    "description": "与先进的AI模型进行对话，体验智能助手的强大功能",
+    "selectModel": "选择模型",
+    "freeModels": "免费模型",
+    "paidModels": "付费模型",
+    "requiresLogin": "需要登录",
+    "requiresSubscription": "需要订阅",
+    "pointsCost": "消耗积分",
+    "freeModelCost": "10积分/次",
+    "paidModelCost": "20积分/次",
+    "inputPlaceholder": "输入您的消息...",
+    "send": "发送",
+    "clear": "清空对话",
+    "newChat": "新对话",
+    "thinking": "思考中...",
+    "error": "错误",
+    "loginRequired": "请先登录才能使用免费模型",
+    "subscriptionRequired": "请订阅会员才能使用付费模型",
+    "insufficientPoints": "积分不足，请充值",
+    "currentPoints": "当前积分",
+    "modelInfo": "模型信息",
+    "provider": "服务商",
+    "type": "类型",
+    "free": "免费",
+    "paid": "付费",
+    "confirmClear": "确认清空",
+    "confirmClearMessage": "确定要清空所有对话记录吗？",
+    "cancel": "取消",
+    "confirm": "确认",
+    "welcomeMessage": "您好！我是AI助手，有什么可以帮助您的吗？",
+    "errorSendingMessage": "发送消息失败，请重试",
+    "networkError": "网络错误，请检查您的连接",
+    "pointsDialogMessage": "您当前积分：{points}，不足以使用此模型。请购买积分后继续使用。",
+    "subscriptionDialogMessage": "付费模型需要订阅会员才能使用。立即订阅，解锁所有高级功能！",
+    "buyPoints": "购买积分",
+    "subscribe": "立即订阅",
+    "pointsHistory": {
+      "aiChatFree": "AI对话 - 免费模型",
+      "aiChatPaid": "AI对话 - 付费模型",
+      "gifted": "赠送积分",
+      "purchased": "购买积分"
+    }
+  },
+  "home": {
+    "operate": {
+      "placeholder": "在此输入生成或编辑提示词（示例：把这张风景照处理成赛博朋克风格，增强对比并加入霓虹光效）",
+      "upload": "上传图片文件",
+      "uploadFile": "上传文件",
+      "inputLink": "输入文件链接",
+      "uploadSizeInfo": "最大上传：{size}",
+      "auto": "自动",
+      "on": "开启",
+      "off": "关闭",
+      "origin": "保留原声",
+      "applyEdit": "生成",
+      "addLinkTitle": "添加文件链接",
+      "addLinkDesc": "粘贴或输入图片、视频、音频的URL地址",
+      "linkLabel": "文件链接",
+      "linkPlaceholder": "https://example.com/file.jpg",
+      "cancel": "取消",
+      "ok": "确定",
+      "addLink": "添加链接",
+      "preview": "预览",
+      "previewImageAlt": "预览图片",
+      "addImage": "添加图片",
+      "imageMode": "图片",
+      "videoMode": "视频",
+      "aspectRatio": "比例",
+      "imageSize": "图片尺寸",
+      "resolution": "分辨率",
+      "quality": "质量",
+      "duration": "时长（秒）",
+      "audioSetting": "声音设置",
+      "currentSelection": "当前选择",
+      "settings": "设置",
+      "sendMessage": "发送",
+      "generating": "正在生成...",
+      "generatingTitle": "正在生成中...",
+      "generatingVideoTitle": "正在生成视频...",
+      "editingTitle": "正在编辑中...",
+      "editingVideoTitle": "正在编辑视频...",
+      "generatingStatus": "AI 正在创作",
+      "editingStatus": "AI 正在编辑",
+      "pleaseWait": "精美图片即将呈现，请稍候... 您可以先关闭页面。稍后到「我的项目」查看结果。",
+      "pleaseWaitVideo": "精彩视频即将呈现，请稍候... 您可以先关闭页面。稍后到「我的项目」查看结果。",
+      "generatedImages": "生成结果",
+      "generatedVideos": "视频生成结果",
+      "generatedResults": "生成结果",
+      "download": "下载",
+      "downloading": "下载中...",
+      "downloadSuccess": "下载成功",
+      "downloadSuccessDesc": "图片已保存到本地",
+      "videoDownloadSuccess": "视频下载成功",
+      "videoDownloadSuccessDesc": "视频已保存到本地",
+      "downloadError": "下载失败",
+      "downloadErrorDesc": "请稍后重试",
+      "videoDownloadError": "视频下载失败",
+      "success": "生成成功！",
+      "successDesc": "您的图片已生成完成",
+      "videoSuccess": "视频生成成功！",
+      "videoSuccessDesc": "您的视频已准备就绪",
+      "error": "生成失败",
+      "errorDesc": "生成过程中出现错误，请重试",
+      "uploadError": "上传失败",
+      "pointsShort": "{points}",
+      "pointsLabel": "{points}积分",
+      "pointsDialogMessage": "您当前积分：{points}，不足以完成本次生成。请先购买积分或升级订阅。",
+      "buyPoints": "购买积分",
+      "upgradeTitle": "升级订阅",
+      "subscriptionDialogMessage": "您的当前账户订阅不足以使用此功能。请升级订阅以解锁高级模型和更高配额。",
+      "uploadQuotaMessage": "您的当前订阅不支持上传大于 {limit} 的文件。请升级订阅以提高上传限制。",
+      "upgrade": "升级订阅",
+      "insufficientPoints": "积分不足",
+      "insufficientPointsDesc": "您的积分不足以完成任务，请购买更多积分",
+      "videoDurationInvalid": "视频时长无效",
+      "videoDurationInvalidDesc": "视频时长必须在 2-10 秒之间，当前模型仅支持此范围",
+      "videoSizeInvalid": "视频大小无效",
+      "videoSizeInvalidDesc": "视频大小不能超过 100MB",
+      "modelLabel": "选择模型",
+      "videoGenerateMode": "生成模式",
+      "text2video": "文生视频",
+      "text2videoDesc": "纯文本生成",
+      "image2video": "图生视频",
+      "image2videoDesc": "首帧图片",
+      "firstlast2video": "首尾帧视频",
+      "firstlast2videoDesc": "双帧输入",
+      "reference2video": "参考生视频",
+      "reference2videoDesc": "自动识别上传",
+      "videoEdit": "视频编辑",
+      "videoPromptHint": "用于视频生成的文本提示词。（最小长度：3，最大长度：20000 字符）",
+      "promptTooShort": "视频提示词至少需要 3 个字符",
+      "referenceVideoHint": "支持图片/视频/音频，最多可上传9张图片，单张不超过30M；最多上传3部视频，时长2-15秒，所有视频总时长不超过15秒，单部不超过50M；最多上传3部音频，时长2-15秒，所有音频总时长不超过15秒，单部不超过15M",
+      "wanReferenceVideoHint": "支持图片/视频，最多5张图片和5个视频，图片不超过30M，视频时长2-10秒",
+      "happyhorseMaxImages": "HappyHorse 参考图生视频需要 1-9 张参考图片，请检查上传数量",
+      "happyhorse11MaxImages": "HappyHorse 1.1 参考图生视频需要 1-9 张参考图片，请检查上传数量",
+      "happyhorse11ReferenceVideoHint": "支持图片，最多9张图片，最短边不小于400像素，单张不超过20M（提示词中可用 [Image 1] 引用图片）",
+      "wanMaxImages": "Wan 参考生视频最多支持 5 张图片，请检查上传数量",
+      "wanMaxVideos": "Wan 参考生视频最多支持 5 个视频，请检查上传数量",
+      "wanReferenceFileRequired": "请至少上传一张图片或一个视频作为参考素材",
+      "wanVideoEditHint": "视频编辑需要上传一个视频文件作为输入（支持 mp4, mov，2-10秒），可选择上传参考图片",
+      "happyhorseReferenceVideoHint": "支持图片，最多9张图片，图片不超过10M",
+      "happyhorseVideoEditHint": "视频编辑需要上传一个视频文件作为输入（支持 mp4, mov，3-60秒），可选择上传参考图片（最多5张）",
+      "happyhorseVideoEditRequired": "视频编辑模式需要上传一个视频文件，请点击上传按钮添加视频",
+      "wanVideoEditRequired": "视频编辑模式需要上传一个视频文件，请点击上传按钮添加视频",
+      "seedanceMaxImages": "Seedance 参考生视频最多支持 9 张图片，请检查上传数量",
+      "seedanceMaxVideos": "Seedance 参考生视频最多支持 3 个视频，请检查上传数量",
+      "seedanceMaxAudios": "Seedance 参考生视频最多支持 3 个音频，请检查上传数量",
+      "seedanceVideoEditNotSupported": "Seedance 不支持视频编辑模式，请选择 HappyHorse 或 Wan 模型",
+      "twoImagesRequired": "首尾帧视频需要上传首尾两张图片才能生成，请检查您的上传内容",
+      "referenceFileRequired": "请至少上传一个文件（图片、视频或音频）作为参考素材，上传后才能开始生成",
+      "imageRequired": "图片生视频需要先上传一张图片作为首帧，请点击上传按钮添加图片",
+      "videoUploadInProgress": "视频正在后台上传中，请稍候片刻，上传完成后将自动开始生成",
+      "veoReferenceVideoHint": "Veo 参考生视频需要 1-3 张参考图片",
+      "veoReferenceVideoDialogHint": "Veo 参考图生视频需要 1-3 张参考图片，请检查上传数量",
+      "veoMaxImagesHint": "Veo 模型最多支持 3 张参考图片",
+      "geminiOmniReferenceHint": "支持最多7张参考图片或1个参考视频（时长≤30s，截取≤10s），输出时长由模型决定",
+      "geminiOmniMaxImages": "Gemini Omni 参考生视频最多支持 7 张参考图片，请检查上传数量",
+      "geminiOmniMaxVideos": "Gemini Omni 参考生视频最多支持 1 个参考视频，请检查上传数量",
+      "geminiOmniVideoDurationHint": "Gemini Omni 文生视频支持 4/6/8/10 秒时长",
+      "geminiOmniVideoWithVideoDurationHint": "Gemini Omni 参考生视频时长由模型自动决定",
+      "minimaxH3ReferenceHint": "支持最多9张参考图片或3个参考视频（每个最多15s），输出时长：4-15秒",
+      "minimaxH3MaxImages": "MiniMax H3 参考生视频最多支持 9 张参考图片，请检查上传数量",
+      "minimaxH3MaxVideos": "MiniMax H3 参考生视频最多支持 3 个参考视频，请检查上传数量",
+      "imageModelHint": {
+        "nanoBanana2": "最多支持14张参考图片，最大文件大小：30MB",
+        "nanoBanana2Lite": "最多支持10张参考图片，最大文件大小：30MB",
+        "nanoBananaPro": "最多支持8张参考图片，最大文件大小：30MB",
+        "gptImage2": "最多支持16张参考图片",
+        "seedream5Lite": "最多支持14张参考图片，最大文件大小：10MB",
+        "seedream5Pro": "最多支持10张参考图片，最大文件大小：10MB"
+      }
+    },
+    "sidebar": {
+      "title": "Editf",
+      "logoAlt": "Editf",
+      "switchLanguage": "Switch language",
+      "chinese": "中文",
+      "english": "English",
+      "toggleTheme": "切换主题",
+      "upgradeTitle": "升级",
+      "upgradeDesc": "升级即可获得更高的额度和高级图像编辑功能",
+      "upgradeBtn": "升级",
+      "profile": "个人资料",
+      "login": "登录",
+      "user": "用户",
+      "open": "打开侧边栏",
+      "close": "关闭侧边栏",
+      "openChatList": "打开对话列表",
+      "noChats": "暂无对话记录",
+      "newChat": "新对话",
+      "newChatTitle": "新对话 - Editf",
+      "nav": {
+        "editor": "编辑器",
+        "projects": "我的项目"
+      }
+    },
+    "projects": {
+      "title": "我的项目",
+      "subtitle": "查看您所有的AI图片与视频生成记录",
+      "backToEditor": "返回编辑器",
+      "noRecords": "暂无生成或编辑记录",
+      "noRecordsDesc": "您还没有编辑或生成过任何图片，快去创建或编辑您的第一个项目吧！",
+      "startGenerating": "开始生成",
+      "totalProjects": "总项目",
+      "totalGenerateProjects": "图片生成",
+      "totalEditProjects": "图片编辑",
+      "totalVideoProjects": "视频生成",
+      "totalImages": "编辑/生成图片",
+      "totalPoints": "消耗积分",
+      "imagesCount": "张图片",
+      "videosCount": "个视频",
+      "pointsUsed": "积分",
+      "view": "查看",
+      "download": "下载",
+      "pageInfo": "第 {current} 页，共 {total} 页",
+      "previous": "上一页",
+      "next": "下一页",
+      "loginRequired": "请先登录以查看您的生成记录",
+      "backToHome": "返回首页",
+      "type": {
+        "generate": "图片生成",
+        "edit": "图片编辑",
+        "videoEdit": "视频生成"
+      },
+      "status": {
+        "success": "成功",
+        "failed": "失败",
+        "pending": "进行中"
+      },
+      "moreImages": "+{count} 张图片",
+      "searchPlaceholder": "搜索项目...",
+      "search": "搜索",
+      "copyPrompt": "复制提示词",
+      "copied": "已复制"
+    },
+    "imageEdit": {
+      "edit": "编辑",
+      "referenced": "图片已引用"
+    },
+    "chat": {
+      "startTitle": "开始对话",
+      "startDesc": "描述你的创意，让 AI 帮你生成或编辑图片与视频",
+      "copyContent": "复制内容",
+      "copied": "已复制",
+      "copyFailed": "复制失败",
+      "uploadedImage": "上传图片 {index}",
+      "generateFailed": "生成失败",
+      "noResult": "无生成结果",
+      "downloadSuccess": "下载成功",
+      "downloadFailed": "下载失败",
+      "videoDownloadSuccess": "视频下载成功",
+      "videoDownloadFailed": "视频下载失败",
+      "pasteImageLink": "输入文件链接",
+      "inputPlaceholder": "在此输入生成或编辑提示词（示例：将场景处理为高对比度的赛博朋克风格）",
+      "uploadImage": "上传图片",
+      "inputLink": "输入链接",
+      "userAvatar": "用户头像"
+    }
+  },
+  "landing": {
+    "heroTitle1": "对话，",
+    "heroTitle2": "即创作。",
+    "heroDesc": "简单指令，释放无限创意。Editf 让每个人都能以前所未有的速度，创作并编辑专业级的图像与视频。",
+    "heroButton": "免费开始使用",
+    "heroImageLabel": "NEON_VISION_V2.EDITF",
+    "heroInputImage": "Input Image",
+    "heroOutputImage": "AI Render Output",
+    "heroPromptLabel": "Prompt",
+    "heroPromptText": "为线稿草图添加色彩...",
+    "heroAiStatus": "AI 霓虹引擎渲染中...",
+    "heroQuality": "4K",
+    "heroFps": "60FPS",
+    "heroImage": "Image",
+    "heroVideo": "Video",
+    "heroBefore": "编辑前",
+    "heroAfter": "编辑后",
+    "pricingBadge": "高级会员",
+    "pricingTitle1": "选择您的",
+    "pricingTitle2": "方案。",
+    "pricingDesc": "按需选择，灵活升级——让您的创意在不同成长阶段持续绽放。",
+    "pricingMostPopular": "最受欢迎",
+    "faqBadge": "FAQ",
+    "faqTitle1": "常见",
+    "faqTitle2": "问题",
+    "faqDesc": "解答您关于 Editf 平台的疑问。",
+    "faq": [
+      {
+        "question": "Editf是什么？",
+        "answer": "Editf 是一个集成先进AI技术的智能创作平台，支持AI图像生成、AI视频创作、图片编辑、风格转换等多种功能，帮助用户轻松创作专业级的图片与视频作品。"
+      },
+      {
+        "question": "如何开始使用Editf？",
+        "answer": "非常简单！注册账户后即可开始使用。平台提供编辑器模式和对话模式两种创作方式：编辑器模式支持参数精细调控，对话模式可用自然语言描述需求，让创作更加灵活便捷。"
+      },
+      {
+        "question": "如何编辑已有图片？",
+        "answer": "上传图片后在输入框中描述您想要的修改效果，系统会自动识别图片内容并进行精准编辑。编辑模式会消耗额外的积分。"
+      },
+      {
+        "question": "支持视频生成吗？",
+        "answer": "支持！Editf 提供强大的AI视频生成功能，支持文生视频、图片生视频、参考图生视频等多种模式。集成 Seedance、Wan、HappyHorse、Kling、Veo 等多款顶级视频模型，可生成高质量的短视频内容。"
+      },
+      {
+        "question": "有哪些定价方案？",
+        "answer": "我们提供Trial（试用）、Pro（专业）和Annual（年度）三种方案。Trial为一次性购买，7天后自动失效；Pro和Annual为订阅制，到期前会自动续费并扣款，支持随时取消。试用版只能购买一次。"
+      },
+      {
+        "question": "积分如何计算和充值？",
+        "answer": "每次生成图片或视频消耗相应积分，数量取决于模型和分辨率设置。您可以在定价页面购买积分套餐，年度订阅享受更多优惠。"
+      },
+      {
+        "question": "生成的作品可以商用吗？",
+        "answer": "是的，您拥有生成作品的完全商业使用权。您可以自由用于商业项目、导出到其他平台，或进行二次创作。"
+      }
+    ],
+    "editorBadge": "专业精度",
+    "editorTitle": "编辑器模式",
+    "editorDesc": "参数精细调控，效果所见即所得。模型选择、尺寸设置、上传参考图，让每一步都精准可控。",
+    "editorCta": "立即体验",
+    "chatBadge": "AI 革命",
+    "chatTitle": "对话模式",
+    "chatDesc": "用自然语言指挥 AI 工作。描述你的想法，上传参考图，AI 帮你生成或编辑图片与视频。",
+    "chatPrompt": "将此草图进行上色处理...",
+    "chatCta": "开始即时对话",
+    "testimonialTitleFrom": "来自",
+    "testimonialTitle1": "先行者",
+    "testimonialTitle2": "的声音",
+    "testimonial1Quote": "Editf 的编辑器模式太高效了。参数精细调控，效果所见即所得，以前需要几小时的工作，现在几分钟就能搞定。",
+    "testimonial1Role": "设计工作室总监",
+    "testimonial2Quote": "效果精准到让我惊艳。选择模型、设置参数、参考图上传，每一步都尽在掌控，成品完全达到专业水准。",
+    "testimonial2Role": "独立数字艺术家",
+    "testimonial3Quote": "用 Editf 后，设计效率至少提升了 3 倍。精准的参数控制让我事半功倍，几分钟就能完成以前半天的工作。",
+    "testimonial3Role": "品牌总监",
+    "featuresTitle1": "两种模式，",
+    "featuresTitle2": "高效精准。",
+    "featuresDesc": "几分钟完成专业级创作。参数精细调控，效果所见即所得，Editf 让你的创意高效落地。"
+  },
+  "prompts": {
+    "disclaimer": "Prompt 均来源于网络，如侵权请联系删除，感谢。",
+    "title": "Prompt 灵感库",
+    "description": "探索精选的 AI 图像和视频生成提示词，激发你的创作灵感",
+    "all": "全部",
+    "image": "图片",
+    "video": "视频",
+    "searchPlaceholder": "搜索 Prompt...",
+    "loadMore": "加载更多",
+    "loading": "加载中...",
+    "categories": {
+      "all": "全部",
+      "general": "通用",
+      "portrait": "人像",
+      "landscape": "风景",
+      "architecture": "建筑",
+      "product": "产品",
+      "animal": "动物",
+      "art": "艺术",
+      "photography": "摄影",
+      "ui": "UI"
+    }
+  },
+  "promptCard": {
+    "video": "视频",
+    "image": "图片",
+    "featured": "精选",
+    "seconds": "秒",
+    "copied": "已复制",
+    "copy": "复制",
+    "use": "使用",
+    "copySuccess": "已复制到剪贴板",
+    "copyFailed": "复制失败",
+    "mode": "模式",
+    "model": "模型",
+    "aspectRatio": "比例",
+    "resolution": "分辨率",
+    "duration": "时长",
+    "apply": {
+      "editor": "应用到编辑器",
+      "chat": "应用到对话"
+    },
+    "modes": {
+      "generate": "生成图片",
+      "edit": "编辑图片",
+      "text2video": "文生视频",
+      "image2video": "图生视频",
+      "firstlast2video": "首尾帧",
+      "reference2video": "参考生视频",
+      "videoEdit": "视频编辑"
+    }
+  },
+  "promptMasonry": {
+    "noPrompts": "暂无 Prompt",
+    "noPromptsHint": "暂没有符合条件的 Prompt，请尝试其他筛选条件"
+  },
+  "adminPrompts": {
+    "stats": {
+      "total": "总数",
+      "image": "图片",
+      "video": "视频",
+      "active": "已启用"
+    },
+    "addButton": "添加 Prompt",
+    "empty": {
+      "title": "暂无 Prompt",
+      "hint": "点击上方按钮添加第一个 Prompt"
+    },
+    "table": {
+      "type": "类型",
+      "prompt": "Prompt",
+      "category": "分类",
+      "status": "状态",
+      "featured": "精选",
+      "sort": "排序",
+      "actions": "操作"
+    },
+    "status": {
+      "enabled": "已启用",
+      "disabled": "已禁用",
+      "featured": "精选",
+      "normal": "普通"
+    },
+    "actions": {
+      "confirm": "确认",
+      "cancel": "取消"
+    },
+    "dialog": {
+      "addTitle": "添加 Prompt",
+      "editTitle": "编辑 Prompt",
+      "type": "类型",
+      "image": "图片",
+      "video": "视频",
+      "promptContent": "Prompt 内容",
+      "promptPlaceholder": "输入 Prompt 内容...",
+      "category": "分类",
+      "thumbnail": "缩略图",
+      "optional": "(可选)",
+      "upload": "上传",
+      "urlPlaceholder": "或输入 URL...",
+      "imageParams": "图片参数",
+      "videoParams": "视频参数",
+      "model": "模型",
+      "selectModel": "选择模型",
+      "mode": "模式",
+      "aspectRatio": "画面比例",
+      "selectRatio": "选择比例",
+      "quality": "质量",
+      "selectQuality": "选择质量",
+      "resolution": "分辨率",
+      "selectResolution": "选择分辨率",
+      "videoMode": "视频模式",
+      "duration": "时长 (秒)",
+      "sort": "排序",
+      "sortHint": "排序权重 (数字越大越靠前)",
+      "enabled": "启用",
+      "featured": "设为精选",
+      "cancel": "取消",
+      "save": "保存",
+      "add": "添加"
+    },
+    "categories": {
+      "general": "通用",
+      "portrait": "人像",
+      "landscape": "风景",
+      "architecture": "建筑",
+      "product": "产品",
+      "animal": "动物",
+      "art": "艺术",
+      "photography": "摄影",
+      "ui": "UI"
+    },
+    "pagination": {
+      "prev": "上一页",
+      "next": "下一页"
+    },
+    "toast": {
+      "promptRequired": "请输入 Prompt 内容",
+      "updateSuccess": "更新成功",
+      "addSuccess": "添加成功",
+      "deleteSuccess": "删除成功",
+      "operationFailed": "操作失败",
+      "deleteFailed": "删除失败",
+      "disabled": "已禁用",
+      "enabled": "已启用",
+      "featured": "已设为精选",
+      "unfeatured": "已取消精选",
+      "setFeatured": "已设为精选",
+      "removeFeatured": "已取消精选",
+      "uploading": "上传中...",
+      "uploadSuccess": "上传成功",
+      "uploadFailed": "上传失败",
+      "seconds": "秒"
+    }
+  }
+}

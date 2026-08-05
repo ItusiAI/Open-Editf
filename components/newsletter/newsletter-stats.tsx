@@ -1,0 +1,261 @@
+"use client"
+
+import { useEffect, useState } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Users, Mail, Globe, Calendar, RefreshCw } from 'lucide-react'
+import { format } from 'date-fns'
+import { useTranslations, useLocale } from 'next-intl'
+
+interface Subscription {
+  id: string
+  email: string
+  locale: string
+  isActive: boolean
+  subscribedAt: string
+  unsubscribedAt: string | null
+}
+
+interface Stats {
+  total: number
+  zh: number
+  en: number
+}
+
+export function NewsletterStats() {
+  const t = useTranslations('admin.newsletter')
+  const locale = useLocale()
+  const [stats, setStats] = useState<Stats | null>(null)
+  const [subscriptions, setSubscriptions] = useState<Subscription[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const fetchStats = async () => {
+    try {
+      const response = await fetch('/api/newsletter/subscribe?action=stats')
+      if (!response.ok) throw new Error('Failed to fetch stats')
+      const data = await response.json()
+      setStats(data)
+    } catch (err) {
+      setError(t('error.fetch_stats_failed'))
+      console.error('Error fetching stats:', err)
+    }
+  }
+
+  const fetchSubscriptions = async () => {
+    try {
+      const response = await fetch('/api/newsletter/subscribe?action=list')
+      if (!response.ok) throw new Error('Failed to fetch subscriptions')
+      const data = await response.json()
+      setSubscriptions(data.subscriptions)
+    } catch (err) {
+      setError(t('error.fetch_subscriptions_failed'))
+      console.error('Error fetching subscriptions:', err)
+    }
+  }
+
+  const fetchData = async () => {
+    setLoading(true)
+    setError(null)
+    await Promise.all([fetchStats(), fetchSubscriptions()])
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  const activeSubscriptions = subscriptions.filter(sub => sub.isActive)
+  const inactiveSubscriptions = subscriptions.filter(sub => !sub.isActive)
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-destructive mb-4">{error}</p>
+        <Button onClick={fetchData} variant="outline">
+          <RefreshCw className="h-4 w-4 mr-2" />
+          {t('actions.retry')}
+        </Button>
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* 统计卡片 */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">{t('stats.total_subscriptions')}</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats?.total || 0}</div>
+            <p className="text-xs text-muted-foreground">
+              {t('stats.active_subscribers')}
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">{t('stats.chinese_subscriptions')}</CardTitle>
+            <Globe className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats?.zh || 0}</div>
+            <p className="text-xs text-muted-foreground">
+              {t('stats.chinese_users')}
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">{t('stats.english_subscriptions')}</CardTitle>
+            <Globe className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats?.en || 0}</div>
+            <p className="text-xs text-muted-foreground">
+              {t('stats.english_users')}
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">{t('stats.total_registrations')}</CardTitle>
+            <Mail className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{subscriptions.length}</div>
+            <p className="text-xs text-muted-foreground">
+              {t('stats.including_unsubscribed')}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 订阅列表 */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <div>
+            <CardTitle>{t('subscription_list.title')}</CardTitle>
+            <CardDescription>{t('subscription_list.description')}</CardDescription>
+          </div>
+          <Button onClick={fetchData} variant="outline" size="sm">
+            <RefreshCw className="h-4 w-4 mr-2" />
+            {t('actions.refresh')}
+          </Button>
+        </CardHeader>
+        <CardContent>
+          <Tabs defaultValue="active" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="active">
+                {t('subscription_list.active_tab')} ({activeSubscriptions.length})
+              </TabsTrigger>
+              <TabsTrigger value="inactive">
+                {t('subscription_list.inactive_tab')} ({inactiveSubscriptions.length})
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="active" className="space-y-4">
+              <SubscriptionTable subscriptions={activeSubscriptions} t={t} locale={locale} />
+            </TabsContent>
+            
+            <TabsContent value="inactive" className="space-y-4">
+              <SubscriptionTable subscriptions={inactiveSubscriptions} t={t} locale={locale} />
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+function SubscriptionTable({ 
+  subscriptions, 
+  t, 
+  locale 
+}: { 
+  subscriptions: Subscription[]
+  t: any
+  locale: string
+}) {
+  if (subscriptions.length === 0) {
+    return (
+      <div className="text-center py-8 text-muted-foreground">
+        {t('subscription_list.no_data')}
+      </div>
+    )
+  }
+
+  return (
+    <div className="rounded-md border">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>{t('subscription_list.table.email')}</TableHead>
+            <TableHead>{t('subscription_list.table.language')}</TableHead>
+            <TableHead>{t('subscription_list.table.status')}</TableHead>
+            <TableHead>{t('subscription_list.table.subscribed_at')}</TableHead>
+            <TableHead>{t('subscription_list.table.unsubscribed_at')}</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {subscriptions.map((subscription) => (
+            <TableRow key={subscription.id}>
+              <TableCell className="font-medium">
+                {subscription.email}
+              </TableCell>
+              <TableCell>
+                <Badge variant={subscription.locale === 'zh' ? 'default' : 'secondary'}>
+                  {subscription.locale === 'zh' ? t('subscription_list.table.chinese') : t('subscription_list.table.english')}
+                </Badge>
+              </TableCell>
+              <TableCell>
+                <Badge variant={subscription.isActive ? 'default' : 'destructive'}>
+                  {subscription.isActive ? t('subscription_list.table.active') : t('subscription_list.table.cancelled')}
+                </Badge>
+              </TableCell>
+              <TableCell>
+                <div className="flex items-center">
+                  <Calendar className="h-4 w-4 mr-2 text-muted-foreground" />
+                  {format(
+                    new Date(subscription.subscribedAt),
+                    locale === 'zh' ? 'yyyy年MM月dd日' : 'MMM dd, yyyy'
+                  )}
+                </div>
+              </TableCell>
+              <TableCell>
+                {subscription.unsubscribedAt ? (
+                  <div className="flex items-center">
+                    <Calendar className="h-4 w-4 mr-2 text-muted-foreground" />
+                    {format(
+                      new Date(subscription.unsubscribedAt),
+                      locale === 'zh' ? 'yyyy年MM月dd日' : 'MMM dd, yyyy'
+                    )}
+                  </div>
+                ) : (
+                  <span className="text-muted-foreground">-</span>
+                )}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  )
+} 

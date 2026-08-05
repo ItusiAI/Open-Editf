@@ -1,0 +1,40 @@
+name: Deploy Trigger.dev to Production
+
+on:
+  push:
+    branches: [ main, master ]
+    # 只有当相关文件变化时才触发，节省资源
+    paths:
+      - 'src/trigger/**'
+      - 'trigger.config.ts'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/deploy-trigger.yml'
+
+  # 允许在 GitHub 网页上手动点按钮触发
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      # 这里的名字必须和 GitHub Secrets 里的名字一模一样
+      TRIGGER_ACCESS_TOKEN: ${{ secrets.TRIGGER_ACCESS_TOKEN }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20" # v3 推荐使用 Node 20
+          cache: "npm"
+
+      - name: Install dependencies
+        # 使用 npm ci 比 npm install 更快、更适合 CI 环境
+        run: npm ci
+
+      - name: Deploy to Trigger.dev
+        #这是 v3 唯一正确的部署命令
+        run: npx trigger.dev@4.3.3 deploy

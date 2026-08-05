@@ -1,0 +1,2008 @@
+{
+  "metadata": {
+    "title": "Editf - AI-Powered Platform | Image, Video & Creative Tools",
+    "description": "Editf is a leading AI-powered platform integrating advanced AI technology, supporting image generation, video creation, AI editing and more. Professional creative tools to help designers, creators and teams efficiently complete creative projects.",
+    "terms": {
+      "title": "Terms of Service - Editf",
+      "description": "View Editf's Terms of Service for AI editing platform usage, understanding usage rules, license agreement and user rights and responsibilities."
+    },
+    "privacy": {
+      "title": "Privacy Policy - Editf",
+      "description": "Learn how Editf handles user data and privacy protection to ensure your personal information security."
+    },
+    "cookies": {
+      "title": "Cookie Policy - Editf",
+      "description": "Learn how Editf uses cookies and related technologies to optimize user experience and website performance."
+    },
+    "pricing": {
+      "title": "Pricing Plans - Editf",
+      "description": "Choose the perfect Editf plan for your needs. Flexible pricing options for individuals, teams, and enterprises with AI-powered editing features."
+    },
+    "profile": {
+      "title": "My Profile - Editf",
+      "description": "Manage your Editf account settings, view subscription details, check credits balance, and access your creative dashboard."
+    },
+    "editor": {
+      "title": "AI Editor - Editf",
+      "description": "Create and edit stunning images and videos with advanced AI technology. Supports text-to-image, video generation, style transfer, and intelligent editing for professional creators."
+    },
+    "chat": {
+      "title": "AI Chat Studio - Editf",
+      "description": "Create through conversation. Generate images, edit content, and produce videos using natural language commands with powerful AI assistance.",
+      "sidebar": {
+        "openChatList": "Open chat list"
+      }
+    },
+    "projects": {
+      "title": "My Projects - Editf",
+      "description": "View and manage all your AI image and video creation records. Browse your creative history, re-edit projects, and manage your digital art portfolio."
+    },
+    "prompts": {
+      "title": "Prompt Library - Editf",
+      "description": "Explore curated AI image and video generation prompts to inspire your creativity. Browse through thousands of professional prompts for stunning visuals."
+    }
+  },
+  "demoBanner": {
+    "prefix": "This is a",
+    "productName": "Editf",
+    "suffix": "demo site. After exploring all features,",
+    "cta": "Purchase Full Version"
+  },
+  "navbar": {
+    "home": "Home",
+    "editor": "Editor",
+    "chat": "AI Chat",
+    "prompts": "Prompts",
+    "pricing": "Pricing",
+    "aiChat": "AI Chat",
+    "signUp": "Get Started",
+    "signIn": "Login",
+    "profile": "Profile",
+    "affiliate": "Affiliate",
+    "referral": "Referral",
+    "accountSettings": "Account Settings",
+    "signOut": "Sign Out"
+  },
+  "hero": {
+    "title": "Editf — Professional Image Editing\nCreate, Edit and Enhance Images Faster",
+    "description": "Editf provides AI-powered image editing tools, templates and workflows for creators and teams. Generate images, apply advanced edits, and export production-ready assets quickly.",
+    "badge": "🎨 Professional Image Studio",
+    "features": {
+      "readyToUse": "Ready to Use",
+      "multiScenario": "For Creators & Teams",
+      "professionalOutput": "Production-ready Assets"
+    }
+  },
+  "agents": {
+    "title": "Tailored AI Agent Services for Different Scenarios",
+    "contentSummaryAgent": {
+      "title": "Audio Content Summary Agent",
+      "description": "Automatically recognizes timestamped audio content and generates structured summaries using advanced reasoning models, quickly extracting key points and essential information."
+    },
+    "podcastAgent": {
+      "title": "AI Podcast Agent",
+      "description": "Professional podcast production agent that automatically generates scripts, hosts conversations, and features human-like voice synthesis to help you create high-quality podcast shows effortlessly."
+    },
+    "voiceAgent": {
+      "title": "AI Voice Agent",
+      "description": "Intelligent voice-over service that generates professional voice-overs comparable to humans from text input. Multiple voice options, rich emotions, perfectly suited for all types of content."
+    },
+    "videoAgent": {
+      "title": "AI Video Agent",
+      "description": "One-stop video production agent, fully automated from script to finished video. Combines AI-generated content, voice-overs, and footage to quickly produce professional short videos."
+    },
+    "learnMore": "Learn More"
+  },
+  "features": {
+    "title": "Feature Showcase",
+    "liveGeneration": "Quick Deployment",
+    "adminCenter": {
+      "title": "Admin Management Center",
+      "description": "Powerful admin management system supporting user management, role permissions, data statistics, points adjustment, and more, making it easy to manage your entire platform."
+    },
+    "userDashboard": {
+      "title": "User Dashboard",
+      "description": "Intuitive user dashboard interface displaying subscription status, credit balance, referral statistics, account settings, and other key information at a glance."
+    },
+    "affiliateSystem": {
+      "title": "Affiliate Program",
+      "description": "Complete affiliate commission system, supports custom affiliate codes, commission statistics, withdrawal management, and more. Earn 30% commission on first orders through referrals, helping you achieve revenue growth."
+    },
+    "referralSystem": {
+      "title": "Referral System",
+      "description": "Complete referral reward mechanism, supports custom referral codes, referral statistics, points rewards, and more, helping you achieve rapid growth through user referrals."
+    },
+    "subscriptionPlans": {
+      "title": "Multiple Subscription Plans",
+      "description": "Flexible subscription management system supporting Trial, Pro, Annual and other subscription plans, automatically handling subscription renewals, cancellations, and expiration reminders."
+    },
+    "creditsPurchase": {
+      "title": "Credits Purchase",
+      "description": "Convenient credits purchase system supporting multiple credit packages, allowing users to purchase credits anytime for platform services."
+    },
+    "authSystem": {
+      "title": "Authentication System",
+      "description": "Complete user authentication system supporting email registration and login, password reset, email verification, and more, ensuring secure and reliable accounts."
+    }
+  },
+  "pricing": {
+    "title": "Editf Pricing Plans",
+    "recommended": "Recommended",
+    "limitedTimeOffer": "🎉 Limited Time Offer",
+    "limitedTimeBadge": "Save 75%",
+    "limitedTimeDescription": "Only 10 credits per generation (was 40 credits)",
+    "limitedTimePoints": "10 credits/generation",
+    "limitedTimeEnds": "Ends in",
+    "days": "days",
+    "hours": "hrs",
+    "minutes": "min",
+    "seconds": "sec",
+    "trial": {
+      "name": "Trial",
+      "price": "$4.99",
+      "description": "7-day trial to experience Editf's capabilities",
+      "features": {
+        "period": "Duration: 7 days",
+        "points": "Credits: 500 included",
+        "storage": "Storage: 1GB included",
+        "maxUpload": "Max upload size: 50MB",
+        "templateTrial": "Editing templates: Free trial",
+        "license": "Commercial license",
+        "twoModes": "Two modes, precise editing"
+      },
+      "cta": "Start Trial",
+      "trial_only_once": "Trial available once only",
+      "not_available_for_pro": "Trial not available for Pro users",
+      "not_available_for_annual": "Trial not available for Annual users"
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "$15.99",
+      "originalPrice": "$19.9",
+      "discountPercent": "20",
+      "savings": "$4",
+      "discountBadge": "Limited Time 20% OFF",
+      "description": "For professional creators and small teams — advanced editing tools",
+      "features": {
+        "period": "Duration: 30 days",
+        "points": "Credits: 2,000 included",
+        "storage": "Storage: 10GB included",
+        "maxUpload": "Max upload size: 100MB",
+        "templateTrial": "Editing templates: Free use",
+        "license": "Commercial license",
+        "twoModes": "Two modes, precise editing"
+      },
+      "cta": "Buy Now"
+    },
+    "annual": {
+      "name": "Annual",
+      "price": "$159",
+      "originalPrice": "$240",
+      "discountPercent": "34",
+      "savings": "$81",
+      "discountBadge": "Limited Time 34% OFF",
+      "description": "Annual subscription — best value for power users",
+      "features": {
+        "period": "Duration: 365 days",
+        "points": "Credits: 25,000 included",
+        "storage": "Storage: 150GB included",
+        "maxUpload": "Max upload size: Unlimited",
+        "templateTrial": "Editing templates: Free use",
+        "license": "Commercial license",
+        "twoModes": "Two modes, precise editing"
+      },
+      "cta": "Buy Now",
+      "upgrade": "Upgrade to Annual",
+      "renew": "Renew Annual",
+      "cannot_downgrade": "Annual subscription cannot be downgraded"
+    },
+    "discount": {
+      "was": "Was",
+      "now": "Now",
+      "save": "Save",
+      "off": "OFF"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "price": "Contact Us",
+      "description": "For large enterprises, provides customized services",
+      "features": {
+        "custom": "Customized development services",
+        "deployment": "Private deployment support",
+        "support": "7×24 technical support",
+        "training": "Team training and consulting"
+      },
+      "cta": "Contact Sales"
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions About Editf Platform",
+    "categories": {
+      "usage": "Usage",
+      "pricing": "Pricing"
+    },
+    "usage": {
+      "howToStart": {
+        "question": "How do I get started with Editf platform?",
+        "answer": "Very simple! Create your account and start using AI editing features immediately. The platform includes complete AI image generation and editing tools with multi-language support. Start creating right away."
+      },
+      "voiceQuality": {
+        "question": "What AI technologies does Editf platform use?",
+        "answer": "Editf integrates advanced AI models from leading providers like fal.ai, offering high-quality image generation and editing capabilities. The platform supports multiple AI models and provides efficient, professional content creation tools."
+      },
+      "contentOwnership": {
+        "question": "Can I use Editf platform for commercial projects?",
+        "answer": "Absolutely! After subscribing to Editf platform, you have full rights to use all AI editing features. Your created content belongs to you completely, and you can use it for any commercial purposes."
+      },
+      "dataPrivacy": {
+        "question": "Does Editf platform prioritize user data and content security?",
+        "answer": "Yes, Editf includes comprehensive security measures: secure user authentication, content protection, data encryption, and follows GDPR and other data protection regulations. Your creative content and personal data are fully protected."
+      },
+      "videoGeneration": {
+        "question": "Is video generation supported?",
+        "answer": "Yes! Editf offers powerful AI video generation with multiple modes: text-to-video, image-to-video, and reference-based video generation. We integrate top video models including Seedance, Wan, HappyHorse, Kling, and Veo to create high-quality short video content."
+      }
+    },
+    "pricing": {
+      "pointsExpiry": {
+        "question": "How long is the Editf template license valid?",
+        "answer": "Editf template license is permanent. Once purchased, you can use it indefinitely, including all future updates and improvements. No recurring fees or subscription required."
+      },
+      "upgradeAnytime": {
+        "question": "Can I upgrade my AI editing platform plan anytime?",
+        "answer": "Absolutely! You can upgrade to a higher version of the AI editing platform anytime. After upgrading, you'll immediately get new features and extended technical support, while your existing license remains valid."
+      },
+      "enterpriseFeatures": {
+        "question": "What special features does Enterprise AI editing platform include?",
+        "answer": "Enterprise version provides custom AI feature development, private deployment support, 24/7 technical support, team training and consulting, plus dedicated customer success manager services. Completely tailored AI editing solutions according to your creative needs."
+      }
+    }
+  },
+  "footer": {
+    "description": "AI-powered intelligent editing platform supporting image editing, AI image generation, text processing, helping creators produce professional content efficiently.",
+    "services": {
+      "title": "Services",
+      "editor": "Editor",
+      "chat": "AI Chat",
+      "pricing": "Pricing",
+      "aiChat": "AI Chat"
+    },
+    "product": {
+      "title": "Editing Platform",
+      "template": "Platform Tools",
+      "features": "Features",
+      "pricing": "Pricing"
+    },
+    "company": {
+      "title": "Company",
+      "about": "About Us",
+      "careers": "Careers"
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "description": "Get the latest AI editing technology and creative tool updates",
+      "placeholder": "Enter your email address",
+      "subscribe_button": "Subscribe",
+      "success": "Successfully subscribed!",
+      "subscribe": {
+        "successMessage": "Successfully subscribed! Thank you for subscribing, we will send you AI editing technology and creative tool updates regularly.",
+        "subscribeError": "Subscription failed, please try again later",
+        "networkError": "Network error, please try again later"
+      },
+      "unsubscribe": {
+        "title": "Unsubscribe from Newsletter",
+        "description": "We're sorry to see you go, but we respect your choice",
+        "emailLabel": "Email Address",
+        "emailPlaceholder": "Enter your email address",
+        "button": "Unsubscribe",
+        "processing": "Processing...",
+        "loadingText": "Processing...",
+        "successMessage": "If you change your mind, you can always resubscribe to our newsletter.",
+        "backToHome": "Back to Home",
+        "networkError": "Network error, please try again later",
+        "unsubscribeError": "Failed to unsubscribe"
+      }
+    },
+    "copyright": "Editf. All rights reserved."
+  },
+  "verify": {
+    "title": "Email Verification",
+    "description": "Verify your email address to complete account registration",
+    "meta_title": "Email Verification",
+    "meta_description": "Verify your Editf account email to complete account activation",
+    "verifying": "Verifying your email...",
+    "success": "Email verification successful!",
+    "failed": "Email verification failed",
+    "token_missing": "Verification token is missing",
+    "token_invalid": "Verification token is invalid or expired",
+    "failed_retry": "Verification failed, please try again later",
+    "please_wait": "Please wait, verifying your email address...",
+    "login_now": "Login Now",
+    "register_again": "Register Again",
+    "or": "or",
+    "back_to_login": "Back to Login"
+  },
+  "auth": {
+    "meta_title": "Authentication - Editf",
+    "signin_title": "Sign In",
+    "signin_description": "Sign in to your Editf account to start using the AI editing platform",
+    "signup_title": "Sign Up",
+    "signup_description": "Create your Editf account and start your AI creative journey",
+    "error_title": "Authentication Error",
+    "error_description": "An error occurred during authentication, please try again or contact technical support",
+    "error_page_title": "Sign In Failed",
+    "error_page_description": "An error occurred during authentication",
+    "error_back_to_signin": "Back to Sign In",
+    "error_back_to_home": "Back to Home",
+    "error_contact_support": "If the problem persists, please contact",
+    "error_technical_support": "technical support",
+    "errors": {
+      "Configuration": "Server configuration error, please contact administrator",
+      "AccessDenied": "Access denied, you may not have permission to access this application",
+      "Verification": "Verification failed, please try again",
+      "OAuthSignin": "Third-party sign in failed, please try again",
+      "OAuthCallback": "Third-party sign in callback failed",
+      "OAuthCreateAccount": "Cannot create account, this email may already be in use",
+      "EmailCreateAccount": "Cannot create account, please check email address",
+      "Callback": "Callback error, please try again",
+      "OAuthAccountNotLinked": "This third-party account is not linked to an existing account, please use other sign in methods",
+      "EmailSignin": "Email sign in failed, please check email address",
+      "CredentialsSignin": "Invalid credentials, please check email and password",
+      "EmailNotVerified": "Email not verified, please verify your email before signing in",
+      "SessionRequired": "Login required to access this page",
+      "OAuthTokenError": "Failed to get authorization token, please try logging in again",
+      "OAuthUserInfoError": "Failed to get user information, please check authorization permissions",
+      "default": "Unknown error occurred during authentication, please try again"
+    },
+    "welcome_back": "Welcome Back",
+    "login_description": "Sign in to your Editf account",
+    "email": "Email Address",
+    "password": "Password",
+    "email_placeholder": "Enter your email address",
+    "password_placeholder": "Enter your password",
+    "login": "Sign In",
+    "logging_in": "Signing in...",
+    "login_error": "Invalid email or password",
+    "login_failed": "Sign in failed, please try again later",
+    "no_account": "Don't have an account?",
+    "signup_now": "Sign up now",
+    "forgot_password": "Forgot password?",
+    "create_account": "Create Account",
+    "name": "Username",
+    "name_placeholder": "Enter your username",
+    "password_signup_placeholder": "Enter password (at least 6 characters)",
+    "confirm_password": "Confirm Password",
+    "confirm_password_placeholder": "Enter password again",
+    "password_mismatch": "Passwords do not match",
+    "password_too_short": "Password must be at least 6 characters",
+    "register_failed": "Registration failed",
+    "register_retry": "Registration failed, please try again later",
+    "registering": "Creating account...",
+    "register_success": "Registration successful",
+    "register_success_check_email": "Registration successful! Please check your email and click the verification link to complete activation.",
+    "missing_fields": "Please fill in all required fields",
+    "email_exists": "This email is already registered",
+    "invalid_referral_code": "Invalid referral code",
+    "verification_email_failed": "Registration succeeded but sending verification email failed, please try again later",
+    "rate_limit": "Too many requests, please try again later",
+    "has_account": "Already have an account?",
+    "login_now": "Sign in now",
+    "terms_agreement": "By registering, you agree to our",
+    "terms_of_service": "Terms of Service",
+    "and": "and",
+    "privacy_policy": "Privacy Policy",
+    "loginRequiredMessage": "Please log in first to use the audio summary feature.",
+    "loginNow": "Sign In Now",
+    "or_register_with_email": "Or register with email",
+    "referral_code": "Referral Code (Optional)",
+    "referral_code_placeholder": "Enter referral code",
+    "affiliate_code": "Affiliate Code (Optional)",
+    "affiliate_code_placeholder": "Enter affiliate code"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "back": "Back",
+    "login": "Sign In Now"
+  },
+  "forgot_password": {
+    "title": "Forgot Password",
+    "description": "Enter your email address and we'll send you a link to reset your password",
+    "meta_title": "Forgot Password",
+    "meta_description": "Recover your Editf account password by resetting it via email",
+    "email_label": "Email Address",
+    "email_placeholder": "Enter your email address",
+    "send_reset_link": "Send Reset Link",
+    "sending": "Sending...",
+    "success_message": "Password reset link has been sent to your email",
+    "check_email": "Please check your email and click the link to reset your password",
+    "back_to_login": "Back to Login",
+    "email_required": "Please enter your email address",
+    "email_invalid": "Please enter a valid email address",
+    "send_failed": "Failed to send, please try again later",
+    "user_not_found": "This email address is not registered",
+    "rate_limit": "Too many requests, please try again later"
+  },
+  "reset_password": {
+    "title": "Reset Password",
+    "description": "Enter your new password",
+    "meta_title": "Reset Password",
+    "meta_description": "Reset your Editf account password and set a new secure password",
+    "password_label": "New Password",
+    "password_placeholder": "Enter your new password",
+    "confirm_password_label": "Confirm Password",
+    "confirm_password_placeholder": "Enter your new password again",
+    "reset_password": "Reset Password",
+    "resetting": "Resetting...",
+    "success_message": "Password reset successful!",
+    "login_now": "Login Now",
+    "password_required": "Please enter password",
+    "password_min_length": "Password must be at least 6 characters",
+    "password_mismatch": "Passwords do not match",
+    "token_invalid": "Reset link is invalid or expired",
+    "token_expired": "Reset link has expired, please request a new one",
+    "reset_failed": "Reset failed, please try again later",
+    "back_to_forgot": "Back to Forgot Password"
+  },
+  "profile": {
+    "title": "Profile",
+    "back_home": "Back to Home",
+    "description": "View and manage your account information",
+    "menu": "Menu",
+    "please_login": "Please login to view your profile",
+    "login_required": "Please login first",
+    "no_name_set": "No username set",
+    "not_set": "Not set",
+    "verified": "Verified",
+    "unverified": "Unverified",
+    "resend_verification": "Resend Verification",
+    "sending": "Sending...",
+    "verification_email_sent": "Verification email sent, please check your inbox",
+    "verification_email_failed": "Failed to send verification email, please try again later",
+    "loading": "Loading...",
+    "points": "Credits",
+    "points_history": "Credits History",
+    "points_history_description": "View your credits earning and usage history",
+    "generation_history": "Generation History",
+    "generation_history_description": "View your AI image generation history",
+    "no_points_history": "No credits history yet",
+    "register_bonus": "Registration Gift Credits",
+    "email_verify_bonus": "Email Verification Gift Credits",
+    "daily_login_bonus": "Daily Login Gift Credits",
+    "referral_bonus": "Referral Gift Credits",
+    "manual_operation": "Admin Operation",
+    "points_operation": "Credits Operation",
+    "pagination": {
+      "page_info": "Page {current} of {total}",
+      "total_records": "{total} records in total",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "points_actions": {
+      "register": "Registration Gift Credits",
+      "email_verify": "Email Verification Gift Credits",
+      "daily_login": "Daily Login Gift Credits",
+      "referral": "Referral Gift Credits",
+      "manual": "Admin Operation",
+      "purchase": "Purchase Credits",
+      "ai_image": "AI Image Generation",
+      "ai_image_edit": "AI Image Editing",
+      "ai_chat": "AI Chat",
+      "ai_video": "AI Video",
+      "subscription_gift": "{plan} Gift Credits",
+      "subscription_renewal_gift": "{plan} Renewal Gift Credits",
+      "subscription_upgrade_gift": "Upgrade to {plan} Gift Credits",
+      "subscription_reward": "Referral Subscription Reward Credits",
+      "subscription_expired": "Credits Expired",
+      "unknown": "Unknown Operation",
+      "pay_amount": "Pay {amount}"
+    },
+    "account_info": "Account Info",
+    "registration_date": "Registration Date",
+    "last_login": "Last Login",
+    "account_status": "Account Status",
+    "email_verified": "Email Verified",
+    "account_secure": "Account Secure",
+    "profile_complete": "Profile Complete",
+    "personal_info": "Personal Information",
+    "account_settings": "Account Settings",
+    "connected_accounts": "Connected Accounts",
+    "security": "Security Settings",
+    "name": "Username",
+    "name_placeholder": "Enter your username",
+    "email": "Email Address",
+    "email_unverified": "Unverified",
+    "verify_email": "Verify Email",
+    "avatar": "Avatar",
+    "change_avatar": "Change Avatar",
+    "current_password": "Current Password",
+    "current_password_placeholder": "Enter your current password",
+    "new_password": "New Password",
+    "new_password_placeholder": "Enter your new password",
+    "confirm_new_password": "Confirm New Password",
+    "confirm_new_password_placeholder": "Enter your new password again",
+    "change_password": "Change Password",
+    "save_changes": "Save Changes",
+    "saving": "Saving...",
+    "saved": "Saved",
+    "cancel": "Cancel",
+    "connect": "Connect",
+    "connecting": "Connecting...",
+    "disconnect": "Disconnect",
+    "connected": "Connected",
+    "not_connected": "Not Connected",
+    "github_account": "GitHub Account",
+    "google_account": "Google Account",
+    "delete_account": "Delete Account",
+    "delete_account_warning": "Deleting your account will permanently remove all your data. This action cannot be undone!",
+    "delete_account_confirm": "I confirm that I want to delete my account",
+    "delete_account_button": "Permanently Delete Account",
+    "member_since": "Member Since",
+    "success_message": "Updated successfully!",
+    "error_message": "Update failed, please try again later",
+    "password_changed": "Password changed successfully!",
+    "password_change_failed": "Password change failed",
+    "account_connected": "Account connected successfully!",
+    "account_disconnected": "Account disconnected successfully!",
+    "account_connection_failed": "Account connection failed",
+    "email_verification_sent": "Verification email sent",
+    "name_required": "Please enter your username",
+    "current_password_required": "Please enter your current password",
+    "new_password_required": "Please enter your new password",
+    "password_min_length": "Password must be at least 6 characters",
+    "password_mismatch": "Passwords do not match",
+    "current_password_incorrect": "Current password is incorrect",
+    "subscription_info": "Subscription Plan",
+    "subscription_info_description": "View and manage your subscription plan",
+    "subscription_status": "Subscription Status",
+    "subscription_active": "Active",
+    "subscription_cancelled": "Cancelled",
+    "subscription_past_due": "Past Due",
+    "subscription_free": "Free User",
+    "subscription_expires": "Expires",
+    "subscription_expiring_soon": "Expiring Soon",
+    "subscription_expired": "Expired",
+    "plan_free": "Free Plan",
+    "plan_trial": "Trial",
+    "plan_pro": "Pro",
+    "plan_annual": "Annual",
+    "plan_enterprise": "Enterprise Plan",
+    "plan_free_description": "Basic features for individual creators",
+    "plan_trial_description": "7-day trial to experience full AI features",
+    "plan_pro_description": "Full features for professional development",
+    "plan_annual_description": "Annual subscription, best value option, includes 15,000 credits",
+    "plan_enterprise_description": "Custom services for enterprise teams",
+    "manage_subscription": "Manage Subscription",
+    "upgrade_to_pro": "Upgrade to Pro",
+    "upgrade_benefits_title": "Upgrade for More Credits",
+    "upgrade_benefits_1": "Complete AI editing platform features",
+    "upgrade_benefits_2": "Priority technical support",
+    "upgrade_benefits_3": "Advanced feature components",
+    "upgrade_benefits_4": "Custom development services",
+    "upgrade_benefits_description": "Upgrade to Pro to get bonus credits and unlock all features.",
+    "view_pricing": "View Pricing",
+    "points_purchase": "Credits Purchase",
+    "points_purchase_description": "Need more points? Select a package and get them instantly",
+    "points_package_starter": "Starter Package",
+    "points_package_popular": "Popular Package",
+    "points_package_premium": "Premium Package",
+    "points_usage_title": "Credits Usage",
+    "points_usage_ai_service": "AI editing platform feature usage",
+    "points_usage_premium_features": "Advanced AI editing features",
+    "points_usage_priority_support": "Priority technical support",
+    "purchase_now": "Buy Now",
+    "processing_payment": "Processing...",
+    "payment_success": "Payment Successful",
+    "payment_failed": "Payment Failed",
+    "order_details": "Order Details",
+    "complete_payment": "Complete Payment",
+    "cancel_payment": "Cancel",
+    "card_info": "Card Information",
+    "pay_amount": "Pay",
+    "purchase_success": "Purchase Successful!",
+    "points_added": "Credits added",
+    "current_points": "Current Credits",
+    "purchased_points_label": "Purchased Credits (Permanent)",
+    "gifted_points_label": "Bonus Credits (With Subscription)",
+    "subscription_gift_notice": "You have an active subscription and received 1,000 bonus credits",
+    "purchased_points": "Purchased Credits",
+    "purchased_points_description": "Credits purchased through payment, never expire",
+    "gifted_points": "Bonus Credits",
+    "gifted_points_description": "Credits included with subscription, cleared when subscription expires",
+    "usage_priority": "Usage Priority",
+    "usage_priority_description": "System will prioritize using gifted points first, then purchased points",
+    "recommended": "Recommended",
+    "processing": "Processing...",
+    "payment_history": "Payment History",
+    "referral": {
+      "title": "Referral Program",
+      "description": "Invite friends to register and both of you will receive rewards",
+      "total_referrals": "Total Referrals",
+      "subscribed_referrals": "Subscribed Referrals",
+      "referral_code": "Referral Code",
+      "referral_link": "Referral Link",
+      "history": "Referral History",
+      "no_history": "No referral history yet",
+      "code_copied": "Referral code copied",
+      "link_copied": "Referral link copied",
+      "copy_failed": "Copy failed",
+      "action_register_bonus": "Registration Bonus",
+      "action_referrer_bonus": "Referrer Bonus",
+      "action_subscription_reward": "Referral Subscription Reward",
+      "days": "days",
+      "records": "Referral Records",
+      "no_records": "No referral records yet",
+      "subscribed": "Subscribed",
+      "not_subscribed": "Not Subscribed",
+      "anonymous_user": "Anonymous User"
+    },
+    "payment_history_details": {
+      "title": "Payment History",
+      "stats": {
+        "title": "Payment Statistics",
+        "total_payments": "Total Payments",
+        "total_amount": "Total Amount",
+        "total_points_purchased": "Total Points Purchased",
+        "total_points_gifted": "Points Gained from Subscription",
+        "successful_payments": "Successful Payments"
+      },
+      "payment_types": {
+        "subscription": "Subscription",
+        "points_purchase": "Points Purchase",
+        "other": "Other"
+      },
+      "payment_statuses": {
+        "succeeded": "Succeeded",
+        "failed": "Failed",
+        "pending": "Pending",
+        "refunded": "Refunded",
+        "cancelled": "Cancelled"
+      },
+      "table": {
+        "type": "Type",
+        "product": "Product",
+        "amount": "Amount",
+        "points": "Points",
+        "status": "Status",
+        "time": "Time"
+      },
+      "filters": {
+        "type_placeholder": "Filter by Type",
+        "status_placeholder": "Filter by Status",
+        "all_types": "All Types",
+        "all_statuses": "All Statuses"
+      },
+      "empty_state": {
+        "title": "No Payment Records"
+      },
+      "errors": {
+        "fetch_failed": "Failed to fetch payment records"
+      }
+    },
+    "payment_history_description": "View all your payment records and transaction details"
+  },
+  "referral_page": {
+    "title": "Referral Program",
+    "subtitle": "Invite friends and earn rewards together",
+    "custom_code": {
+      "title": "Custom Referral Code",
+      "description": "Set a unique referral code that's easy for friends to remember",
+      "current_code": "Current Code",
+      "placeholder": "Enter custom code (4-20 characters)",
+      "button": "Set Code",
+      "button_updating": "Setting...",
+      "success": "Referral code set successfully",
+      "error": "Failed to set referral code",
+      "already_set": "Code already set and cannot be changed",
+      "invalid_format": "Invalid format (4-20 characters, letters and numbers only)",
+      "already_taken": "This code is already taken",
+      "note": "Note: Referral code can only be set once and cannot be changed"
+    },
+    "stats": {
+      "title": "Referral Statistics",
+      "total_invites": "Total Invites",
+      "people": "people",
+      "total_rewards": "Total Rewards",
+      "points": "points",
+      "subscribed_users": "Subscribed Users",
+      "pending_users": "Pending Users"
+    },
+    "share": {
+      "title": "Share Referral",
+      "copy_code": "Copy Code",
+      "copy_link": "Copy Link",
+      "share_text": "Share with friends"
+    },
+    "rules": {
+      "title": "Reward Rules",
+      "rule1_title": "Registration Bonus",
+      "rule1_desc": "When friends register with your code, both get 100 credits (permanent)",
+      "rule2_title": "Subscription Reward",
+      "rule2_desc": "When friends subscribe to any plan, you get equal subscription extension + plan's gifted credits",
+      "rule3_title": "Multiple Rewards",
+      "rule3_desc": "Every time friends renew or upgrade, you get rewards (unlimited times)",
+      "rule4_title": "Time Limit",
+      "rule4_desc": "Referral relationship is valid for 30 days, no rewards after expiration",
+      "note": "Note: All rewards are automatically granted after friends complete registration or subscription, no manual action required"
+    },
+    "recent_referrals": {
+      "title": "Recent Referrals",
+      "view_all": "View All",
+      "registered_at": "Registered at"
+    },
+    "records": {
+      "title": "Referral Records",
+      "description": "View users who registered through your referral code",
+      "loading": "Loading...",
+      "empty": "No referral records",
+      "unknown_user": "Unknown User",
+      "subscribed": "Subscribed",
+      "pending": "Pending",
+      "filter_all": "All",
+      "table": {
+        "user": "User",
+        "email": "Email",
+        "register_time": "Register Time",
+        "status": "Status"
+      }
+    },
+    "rewards": {
+      "title": "Reward Records",
+      "description": "View points and subscription extension records for each subscription",
+      "loading": "Loading...",
+      "empty": "No reward records",
+      "unknown_user": "Unknown User",
+      "points": "points",
+      "days": "days",
+      "filter_all": "All",
+      "action_register_bonus": "Registration Bonus",
+      "action_referrer_bonus": "Referrer Bonus",
+      "action_subscription_reward": "Subscription Reward",
+      "table": {
+        "action": "Action Type",
+        "from": "From",
+        "reward": "Reward",
+        "create_time": "Create Time"
+      }
+    }
+  },
+  "affiliate_page": {
+    "title": "Affiliate System",
+    "subtitle": "Earn commissions through referrals, 30% per order",
+    "loading": "Loading...",
+    "stats": {
+      "total_invites": "Total Invites",
+      "converted": "Converted",
+      "available_balance": "Available Balance",
+      "frozen_balance": "Frozen Balance"
+    },
+    "code_setting": {
+      "title": "Affiliate Code Settings",
+      "description": "Set your affiliate code, can only be changed once",
+      "current_code": "Current Code",
+      "placeholder": "Enter new code (8-20 letters or numbers)",
+      "placeholder_set": "Enter code (8-20 letters or numbers)",
+      "button_update": "Update Code",
+      "button_set": "Set Code",
+      "updating": "Updating...",
+      "setting": "Setting...",
+      "note": "Note: Affiliate code can only be changed once, please set carefully",
+      "already_changed": "Code has been changed and cannot be changed again",
+      "enter_code": "Please enter affiliate code",
+      "invalid_format": "Invalid format, must be 8-20 letters or numbers",
+      "update_success": "Code updated successfully",
+      "update_failed": "Failed to update code",
+      "already_taken": "This code is already taken",
+      "code_copied": "Code copied",
+      "link_copied": "Link copied",
+      "copy_failed": "Copy failed",
+      "set_first": "Please set affiliate code first"
+    },
+    "share": {
+      "title": "Share Affiliate",
+      "link_label": "Affiliate Link",
+      "copy_code": "Copy Code",
+      "copy_link": "Copy Link"
+    },
+    "relations": {
+      "title": "Invite Data",
+      "description": "View users who registered through your affiliate code",
+      "loading": "Loading...",
+      "empty": "No invite data",
+      "unknown_user": "Unknown User",
+      "register_time": "Register Time",
+      "converted": "Converted",
+      "expired": "Expired",
+      "pending": "Pending",
+      "filter_all": "All",
+      "table": {
+        "user": "User",
+        "email": "Email",
+        "register_time": "Register Time",
+        "status": "Status"
+      }
+    },
+    "earnings": {
+      "title": "Earnings Records",
+      "description": "View your commission income and status",
+      "loading": "Loading...",
+      "empty": "No earnings records",
+      "from": "From",
+      "create_time": "Create Time",
+      "release_time": "Release Time",
+      "frozen": "Frozen",
+      "released": "Released",
+      "cancelled": "Cancelled",
+      "unknown_user": "Unknown User",
+      "filter_all": "All",
+      "table": {
+        "amount": "Amount",
+        "from": "From",
+        "status": "Status",
+        "create_time": "Create Time",
+        "release_time": "Release Time"
+      }
+    },
+    "withdraw": {
+      "title": "Withdrawal Request",
+      "description": "Withdraw available balance to your account",
+      "button": "Withdraw",
+      "amount": "Withdrawal Amount",
+      "amount_placeholder": "Enter withdrawal amount",
+      "min_amount": "Minimum Amount",
+      "min_amount_error": "Minimum withdrawal amount is $10",
+      "payment_method": "Payment Method",
+      "alipay": "Alipay",
+      "paypal": "PayPal",
+      "account_name": "Account Name",
+      "account_name_placeholder": "Enter account name",
+      "alipay_account": "Alipay Account",
+      "alipay_placeholder": "Enter Alipay account or phone number",
+      "paypal_email": "PayPal Email",
+      "paypal_placeholder": "Enter PayPal email",
+      "available_balance": "Available Balance",
+      "exceeds_balance": "Withdrawal amount exceeds available balance",
+      "submit": "Submit Request",
+      "processing": "Processing...",
+      "success": "Withdrawal request submitted",
+      "failed": "Withdrawal request failed",
+      "invalid_amount": "Invalid withdrawal amount",
+      "invalid_payment_method": "Invalid payment method",
+      "invalid_account_info": "Invalid account information",
+      "insufficient_balance": "Insufficient balance",
+      "account_info_required": "Please enter account information"
+    },
+    "withdrawals": {
+      "title": "Withdrawal Records",
+      "description": "View your withdrawal request records",
+      "loading": "Loading...",
+      "empty": "No withdrawal records",
+      "pending": "Pending",
+      "processing": "Processing",
+      "completed": "Completed",
+      "failed": "Failed",
+      "cancelled": "Cancelled",
+      "failure_reason": "Failure Reason",
+      "create_time": "Request Time",
+      "processed_time": "Processed Time",
+      "filter_all": "All",
+      "table": {
+        "amount": "Amount",
+        "payment_method": "Payment Method",
+        "account": "Account",
+        "status": "Status",
+        "create_time": "Request Time",
+        "processed_time": "Processed Time"
+      }
+    }
+  },
+  "dashboard": {
+    "payment_success": {
+      "title": "Purchase Successful!",
+      "subtitle": "Welcome to Editf",
+      "subtitle_with_plan": "Welcome to Editf {plan}",
+      "processing_title": "Processing Payment Result",
+      "processing_description": "Please wait while we confirm your purchase status...",
+      "verifying_title": "Verifying Purchase Status",
+      "verifying_description": "Confirming your purchase...",
+      "success_toast": "🎉 Purchase successful! You have received complete AI editing platform features and technical support",
+      "success_toast_with_plan": "🎉 {plan} purchase successful! You have received complete AI editing platform features and technical support",
+      "no_session_toast": "💡 You have reached the purchase success page, please use the navigation buttons below"
+    },
+    "subscription_info": {
+      "title": "Subscription Info",
+      "title_with_plan": "{plan} Subscription",
+      "status_label": "Subscription Status:",
+      "status_active": "Active",
+      "status_processing": "Processing",
+      "plan_label": "Subscription Type:",
+      "plan_pro": "Pro",
+      "expires_label": "Support Expires:"
+    },
+    "points_reward": {
+      "title": "Credits Rewards",
+      "total_points": "Total Credits",
+      "purchased_points": "Purchased Credits",
+      "gifted_points": "Bonus Credits",
+      "gift_notice": "🎁 You have received subscription bonus credits for using template features!"
+    },
+    "actions": {
+      "view_profile": "View Profile",
+      "back_home": "Back to Home"
+    },
+    "loading": "Loading...",
+    "error": {
+      "fetch_failed": "Failed to fetch subscription information, please refresh and try again",
+      "manage_subscription_failed": "Unable to open subscription management page, please try again later"
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "meta_title": "Admin Dashboard - Editf",
+      "meta_description": "Admin dashboard for unified management of users, newsletter subscriptions, system settings, and more.",
+      "title": "Admin Dashboard",
+      "sidebar": {
+        "title": "Management Functions"
+      },
+      "menu": {
+        "overview": "Overview",
+        "overview_desc": "Real-time view of core system data statistics and trend analysis",
+        "users": "User Management",
+        "users_desc": "Manage registered users and permissions",
+        "referral": "Referral Management",
+        "referral_desc": "Manage all user referral records and rewards",
+        "affiliate": "Affiliate Management",
+        "affiliate_desc": "Manage all user affiliate records and commissions",
+        "newsletter": "Newsletter",
+        "newsletter_desc": "Manage newsletter subscribers"
+      },
+      "overview": {
+        "title": "System Overview",
+        "description": "Real-time view of core system data statistics and trend analysis",
+        "categories": {
+          "users_revenue": "Users & Revenue",
+          "referral_affiliate": "Referral & Affiliate"
+        },
+        "cards": {
+          "users": {
+            "title": "User Management",
+            "description": "Manage registered users, roles and permissions"
+          },
+          "newsletter": {
+            "title": "Newsletter",
+            "description": "Manage newsletter subscriptions and statistics"
+          }
+        },
+        "quick_actions": {
+          "title": "Quick Actions",
+          "manage_users": "Manage Users",
+          "manage_users_desc": "View and manage all registered users",
+          "manage_newsletter": "Manage Subscriptions",
+          "manage_newsletter_desc": "View and manage newsletter subscriptions"
+        },
+        "stats": {
+          "total_users": "Total Users",
+          "subscribed_users": "Subscribed Users",
+          "subscription_revenue": "Subscription Revenue",
+          "points_revenue": "Points Revenue",
+          "total_points": "Total Points",
+          "total_referrals": "Total Referrals",
+          "referral_subscribed": "Referral Subscribed",
+          "referral_reward_points": "Referral Reward Points",
+          "affiliate_count": "Affiliate Count",
+          "affiliate_earnings": "Affiliate Earnings",
+          "affiliate_withdrawals": "Total Withdrawals",
+          "newsletter_subscribers": "Newsletter Subscribers"
+        },
+        "trends": {
+          "title": "Trend Analysis",
+          "days_7": "7 Days",
+          "days_30": "30 Days",
+          "days_90": "90 Days",
+          "registration": "Registration Trends",
+          "registration_count": "Registrations",
+          "subscription": "Subscription & Revenue Trends",
+          "subscription_count": "Subscriptions",
+          "subscription_revenue": "Subscription Revenue",
+          "total_revenue": "Total Revenue Trends",
+          "revenue": "Revenue"
+        }
+      }
+    },
+    "newsletter": {
+      "meta_title": "Newsletter Statistics - Editf",
+      "meta_description": "View and manage newsletter subscription statistics, including subscriber counts, language distribution, and more.",
+      "title": "Newsletter Statistics",
+      "stats": {
+        "total_subscriptions": "Total Subscriptions",
+        "active_subscribers": "Active Subscribers",
+        "chinese_subscriptions": "Chinese Subscriptions",
+        "chinese_users": "Chinese Users",
+        "english_subscriptions": "English Subscriptions",
+        "english_users": "English Users",
+        "total_registrations": "Total Registrations",
+        "including_unsubscribed": "Including unsubscribed"
+      },
+      "subscription_list": {
+        "title": "Subscription List",
+        "description": "Detailed information of all newsletter subscribers",
+        "active_tab": "Active Subscriptions",
+        "inactive_tab": "Cancelled Subscriptions",
+        "no_data": "No data available",
+        "table": {
+          "email": "Email Address",
+          "language": "Language",
+          "status": "Status",
+          "subscribed_at": "Subscribed At",
+          "unsubscribed_at": "Unsubscribed At",
+          "chinese": "Chinese",
+          "english": "English",
+          "active": "Active",
+          "cancelled": "Cancelled"
+        }
+      },
+      "actions": {
+        "retry": "Retry",
+        "refresh": "Refresh"
+      },
+      "error": {
+        "fetch_stats_failed": "Failed to fetch statistics",
+        "fetch_subscriptions_failed": "Failed to fetch subscription list"
+      }
+    },
+    "users": {
+      "meta_title": "User Management - Editf",
+      "meta_description": "View and manage all registered users' detailed information, including user statistics, role management, points adjustment, and more.",
+      "title": "User Management",
+      "stats": {
+        "total_users": "Total Users",
+        "total_users_desc": "Total registered users",
+        "verified_users": "Verified Users",
+        "verified_users_desc": "Email verified",
+        "admin_users": "Administrators",
+        "admin_users_desc": "Admin users",
+        "subscribed_users": "Subscribed Users",
+        "subscribed_users_desc": "Active subscriptions",
+        "total_points": "Total Points",
+        "total_points_desc": "Sum of user points",
+        "total_payments": "Total Revenue",
+        "total_payments_desc": "Total successful payments"
+      },
+      "user_list": {
+        "title": "User List",
+        "description": "Manage all registered users' detailed information",
+        "search_placeholder": "Search by email or username...",
+        "filter_role": "Filter by Role",
+        "filter_email_status": "Verification Status",
+        "all_roles": "All Roles",
+        "all_statuses": "All Email Statuses",
+        "role_user": "User",
+        "role_admin": "Administrator",
+        "email_verified": "Verified",
+        "email_unverified": "Unverified",
+        "filter_subscription_status": "Subscription Status",
+        "all_subscription_statuses": "All Subscription Statuses",
+        "subscription_active": "Active",
+        "subscription_cancelled": "Cancelled",
+        "subscription_past_due": "Past Due",
+        "subscription_paused": "Paused",
+        "subscription_none": "No Subscription",
+        "no_data": "No user data available",
+        "table": {
+          "user_info": "User Info",
+          "role": "Role",
+          "email_status": "Email Status",
+          "points": "Points",
+          "subscription": "Subscription",
+          "subscription_expiry": "Subscription Expiry",
+          "created_at": "Registration Date",
+          "actions": "Actions",
+          "edit_role": "Edit Role",
+          "adjust_points": "Adjust Points",
+          "manage_subscription": "Manage Subscription",
+          "no_name": "Not Set",
+          "role_admin": "Administrator",
+          "role_user": "User",
+          "email_verified": "Verified",
+          "email_unverified": "Unverified",
+          "points_total": "Total",
+          "points_purchased": "Purchased",
+          "points_gifted": "Gifted",
+          "no_subscription": "No Subscription",
+          "plan_trial": "Trial",
+          "plan_pro": "Pro",
+          "plan_annual": "Annual",
+          "status_active": "Active",
+          "status_cancelled": "Cancelled",
+          "status_past_due": "Past Due",
+          "status_paused": "Paused",
+          "status_expired": "Expired",
+          "expired": "Expired",
+          "expiring_soon": "Expiring Soon"
+        }
+      },
+      "actions": {
+        "refresh": "Refresh",
+        "retry": "Retry",
+        "edit_role": "Edit Role",
+        "adjust_points": "Adjust Points",
+        "manage_subscription": "Manage Subscription",
+        "view_details": "View Details"
+      },
+      "dialogs": {
+        "user_info": "User: {name} ({email})",
+        "no_name": "Not Set",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "edit_role": {
+          "title": "Edit User Role",
+          "description": "Modify user's system role permissions",
+          "role_label": "User Role",
+          "role_placeholder": "Select Role",
+          "role_user": "User",
+          "role_admin": "Administrator"
+        },
+        "adjust_points": {
+          "title": "Adjust User Points",
+          "description": "Add or deduct user points",
+          "points_label": "Points Change",
+          "points_placeholder": "Enter points amount (positive to add, negative to deduct)",
+          "points_type_label": "Points Type",
+          "points_type_purchased": "Purchased Points",
+          "points_type_gifted": "Gifted Points",
+          "description_label": "Operation Description",
+          "description_placeholder": "Enter operation description (optional)",
+          "purchased_points_info": "Purchased points never expire and can be used at any time",
+          "gifted_points_expiry_label": "Linked Subscription Expiry",
+          "gifted_points_expiry_info": "Gifted points will be automatically cleared when the subscription expires. The expiry time is the same as the user's subscription expiry time",
+          "gifted_points_requires_subscription": "⚠️ Gifted Points Require Subscription Expiry",
+          "gifted_points_no_subscription": "This user has no subscription set up. Gifted points cannot be added. Please set up a subscription for the user first",
+          "subscription_expired_error": "User subscription has expired. Cannot add gifted points. Please update the subscription expiry time first"
+        },
+        "manage_subscription": {
+          "title": "Manage User Subscription",
+          "description": "Modify user's subscription status and plan",
+          "status_label": "Subscription Status",
+          "status_placeholder": "Select Subscription Status",
+          "status_active": "Active",
+          "status_cancelled": "Cancelled",
+          "status_past_due": "Past Due",
+          "status_paused": "Paused",
+          "plan_label": "Subscription Plan",
+          "plan_placeholder": "Select Subscription Plan",
+          "plan_trial": "Trial",
+          "plan_pro": "Pro",
+          "plan_annual": "Annual",
+          "end_date_label": "Subscription End Date",
+          "end_date_placeholder": "Select End Date",
+          "auto_calculated": "End date is automatically calculated based on subscription plan",
+          "cumulative_calculated": "Time is added cumulatively to existing subscription",
+          "select_plan_first": "Please select a subscription plan"
+        }
+      },
+      "pagination": {
+        "page_info": "Page {page} of {totalPages}",
+        "total_records": "Total {total} records",
+        "previous": "Previous",
+        "next": "Next"
+      },
+      "messages": {
+        "role_updated": "User role updated successfully",
+        "points_updated": "User points adjusted successfully",
+        "subscription_updated": "User subscription updated successfully",
+        "update_failed": "Update failed",
+        "fetch_stats_failed": "Failed to fetch statistics",
+        "fetch_users_failed": "Failed to fetch user list"
+      }
+    },
+    "referral": {
+      "stats": {
+        "total_referrals": "Total Referrals",
+        "subscribed_referrals": "Subscribed Referrals",
+        "total_points": "Total Points Awarded"
+      },
+      "tabs": {
+        "records": "Referral Records",
+        "rewards": "Reward Records"
+      },
+      "records": {
+        "title": "Referral Records",
+        "description": "View all user referral relationships",
+        "empty": "No referral records",
+        "subscribed": "Subscribed",
+        "pending": "Pending",
+        "table": {
+          "referrer": "Referrer",
+          "referred": "Referred",
+          "code": "Code",
+          "status": "Status",
+          "created_at": "Created At"
+        }
+      },
+      "rewards": {
+        "title": "Reward Records",
+        "description": "View all referral reward records",
+        "empty": "No reward records",
+        "days": "days",
+        "table": {
+          "user": "User",
+          "from": "From",
+          "action": "Action Type",
+          "reward": "Reward",
+          "created_at": "Created At"
+        },
+        "actions": {
+          "register_bonus": "Registration Bonus",
+          "referrer_bonus": "Referrer Bonus",
+          "subscription_reward": "Subscription Reward",
+          "unknown": "Other ({action})"
+        }
+      }
+    },
+    "affiliate": {
+      "stats": {
+        "total_profiles": "Total Affiliates",
+        "total_relations": "Total Relations",
+        "converted_relations": "Converted",
+        "total_earnings": "Total Earnings",
+        "total_withdrawals": "Total Withdrawals"
+      },
+      "tabs": {
+        "profiles": "Affiliates",
+        "relations": "Relations",
+        "earnings": "Earnings",
+        "withdrawals": "Withdrawals"
+      },
+      "profiles": {
+        "title": "Affiliate Profiles",
+        "description": "View all affiliate profiles",
+        "loading": "Loading...",
+        "empty": "No affiliate profiles",
+        "table": {
+          "user": "User",
+          "code": "Code",
+          "balance": "Balance",
+          "frozen_balance": "Frozen Balance",
+          "created_at": "Created At"
+        }
+      },
+      "relations": {
+        "title": "Affiliate Relations",
+        "description": "View all affiliate relations",
+        "loading": "Loading...",
+        "empty": "No affiliate relations",
+        "converted": "Converted",
+        "expired": "Expired",
+        "pending": "Pending",
+        "table": {
+          "referrer": "Affiliate",
+          "invitee": "Invitee",
+          "status": "Status",
+          "expires_at": "Expires At",
+          "created_at": "Created At"
+        }
+      },
+      "earnings": {
+        "title": "Earnings Records",
+        "description": "View all commission earnings",
+        "loading": "Loading...",
+        "empty": "No earnings records",
+        "frozen": "Frozen",
+        "released": "Released",
+        "cancelled": "Cancelled",
+        "table": {
+          "affiliate": "Affiliate",
+          "invitee": "Invitee",
+          "amount": "Amount",
+          "status": "Status",
+          "created_at": "Created At"
+        }
+      },
+      "withdrawals": {
+        "title": "Withdrawal Records",
+        "description": "View all withdrawal records",
+        "loading": "Loading...",
+        "empty": "No withdrawal records",
+        "pending": "Pending",
+        "processing": "Processing",
+        "completed": "Completed",
+        "failed": "Failed",
+        "cancelled": "Cancelled",
+        "table": {
+          "user": "User",
+          "amount": "Amount",
+          "payment_method": "Payment Method",
+          "account": "Account",
+          "status": "Status",
+          "created_at": "Created At",
+          "actions": "Actions"
+        },
+        "process": {
+          "title": "Process Withdrawal",
+          "description": "Update withdrawal request status",
+          "button": "Process",
+          "update": "Update",
+          "user": "User",
+          "amount": "Amount",
+          "payment_method": "Payment Method",
+          "account_info": "Account Information",
+          "status": "Status",
+          "select_status": "Select Status",
+          "transaction_id": "Transaction ID",
+          "transaction_id_placeholder": "Enter third-party transaction ID",
+          "failure_reason": "Failure Reason",
+          "failure_reason_placeholder": "Enter failure reason",
+          "status_required": "Please select a status",
+          "transaction_id_required": "Transaction ID is required for completed withdrawals",
+          "failure_reason_required": "Failure reason is required for failed withdrawals",
+          "success": "Withdrawal processed successfully",
+          "failed": "Failed to process withdrawal",
+          "processing": "Processing...",
+          "submit": "Submit",
+          "cancel": "Cancel"
+        }
+      }
+    }
+  },
+  "legal": {
+    "title": "Legal Terms",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "cookies": "Cookie Policy"
+  },
+  "unauthorized": {
+    "title": "Access Denied",
+    "description": "You don't have permission to access this page. This page is restricted to administrators only.",
+    "errorMessage": "If you believe this is an error, please contact the system administrator.",
+    "backToHome": "Back to Home",
+    "signInAgain": "Sign In Again"
+  },
+  "testimonials": {
+    "title": "User Reviews",
+    "description": "Join thousands of creators and designers already using Editf AI editing platform for content creation"
+  },
+  "aiImage": {
+    "badge": "New · AI Image Generation",
+    "title": "AI Image Studio",
+    "description": "Generate posters, illustrations, and product visuals with fal.ai’s z-image, nano-banana-pro and nano-banana-2 models.",
+    "provider": "fal.ai · Production-ready models",
+    "card": {
+      "title": "Write a prompt, get images fast",
+      "description": "Pick a model and params. We will poll fal.ai automatically until the images are ready."
+    },
+    "promptLabel": "Prompt",
+    "promptHint": "Be specific: e.g. 4k cyberpunk street at night, neon lights, rain",
+    "promptPlaceholder": "e.g. a cat sitting on the moon, ultra realistic, HDR, cinematic lighting",
+    "modelLabel": "Model",
+    "contentTypeLabel": "Content Type",
+    "imageMode": "Image",
+    "videoMode": "Video",
+    "aspectRatioLabel": "Aspect Ratio",
+    "numImagesLabel": "Number of Images",
+    "numImagesHint": "Up to 4 images, default 1",
+    "generate": "Generate Images",
+    "generating": "Generating...",
+    "resultTitle": "Results",
+    "resultDescription": "Images are generated on fal.ai. Click to open the original file in a new tab.",
+    "emptyState": {
+      "title": "No images yet",
+      "description": "Enter a prompt and click “Generate Images”. Your AI visuals will appear here."
+    },
+    "status": {
+      "idle": "Ready. Enter a prompt to start.",
+      "waiting": "Submitted to fal.ai, waiting in queue...",
+      "polling": "Waiting for fal.ai to finish generation...",
+      "success": "Done! Save or open the originals.",
+      "error": "Generation failed. Please retry."
+    },
+    "currentPoints": "Current points: {points}",
+    "insufficientPoints": "Insufficient points",
+    "subscriptionRequired": "Subscription required for this model",
+    "pointsDialogMessage": "Your current points: {points}. Not enough for this model. Please purchase points to continue.",
+    "subscriptionDialogMessage": "This model is only available to subscribers. Subscribe to unlock it.",
+    "buyPoints": "Buy Points",
+    "subscribe": "Subscribe Now",
+    "cancel": "Cancel",
+    "promptRequired": "Please enter a prompt before generating",
+    "unknownError": "Generation failed, please try again later",
+    "copySuccess": "Link copied",
+    "copyFailed": "Copy failed, please copy manually",
+    "noImagesReturned": "No image URLs were returned. Please try again.",
+    "pollingFailed": "Failed to fetch generation result, please retry",
+    "models": {
+      "zImage": "z-image (high fidelity)",
+      "nanoBananaPro": "nano-banana-pro (fast draft)",
+      "nanoBanana2": "nano-banana-2 (latest)"
+    },
+    "modelsDesc": {
+      "zImage": "High fidelity and realistic details. Great for product ads and posters.",
+      "nanoBananaPro": "Faster turnaround, great for quick drafts and idea exploration.",
+      "nanoBanana2": "Latest optimized model with excellent quality and speed balance."
+    },
+    "mode": {
+      "textToImage": "Text to Image",
+      "imageToImage": "Image to Image"
+    },
+    "inputImageLabel": "Upload Image",
+    "uploadImage": "Click to upload or drag and drop",
+    "uploadImageHint": "Supports JPG, PNG, etc. Max 10MB",
+    "promptHintImageToImage": "Describe the modifications or style transformations you want",
+    "promptPlaceholderImageToImage": "e.g. Convert image to watercolor style, or: Add rainbow effect",
+    "imageRequired": "Please upload an image first",
+    "invalidImageFile": "Please upload a valid image, video or audio file",
+    "imageTooLarge": "Image size cannot exceed 10MB",
+    "imageReadError": "Failed to read image, please try again",
+    "pointsHistory": {
+      "aiImage": "AI Image Generation"
+    }
+  },
+  "aiVideo": {
+    "badge": "Coming Soon",
+    "title": "AI Video Studio (Coming Soon)",
+    "description": "AI video capabilities are coming soon. Currently Editf focuses on image editing and generation.",
+    "provider": "fal.ai · pixverse v5.5",
+    "card": {
+      "title": "Video generation coming soon",
+      "description": "We're working on video features; stay tuned."
+    },
+    "promptLabel": "Prompt",
+    "promptHint": "Describe motion, subject and camera: e.g. cinematic shot of a running cat, slow motion, 4k, volumetric lighting",
+    "promptPlaceholder": "e.g. drone shot flying over a futuristic city at night, neon lights, rain, 8 seconds, cinematic",
+    "aspectRatioLabel": "Aspect Ratio",
+    "durationLabel": "Duration (seconds)",
+    "durationHint": "Supported values: 5, 8, or 10 seconds (aligned with Pixverse).",
+    "resolutionLabel": "Resolution",
+    "resolutionHint": "Supported values: 360p, 540p, 720p, 1080p. Higher resolution and longer duration may take longer.",
+    "modelLabel": "Model",
+    "styleLabel": "Style",
+    "stylePlaceholder": "Optional style (anime, comic, cyberpunk...)",
+    "styleNone": "No specific style",
+    "styleHint": "Optional. Choose a style such as anime, 3d_animation, clay, comic, or cyberpunk.",
+    "generate": "Generate Video",
+    "generating": "Generating...",
+    "resultTitle": "Result",
+    "resultDescription": "The video is generated on fal.ai. You can play it here, copy the link or download it.",
+    "emptyState": {
+      "title": "No video yet",
+      "description": "Enter a prompt and click “Generate Video”. Your AI video will appear here."
+    },
+    "status": {
+      "idle": "Ready. Enter a prompt to start.",
+      "waiting": "Submitted to fal.ai, waiting in queue...",
+      "polling": "Waiting for fal.ai to finish video rendering...",
+      "success": "Done! Play or download your video.",
+      "error": "Generation failed. Please retry."
+    },
+    "currentPoints": "Current points: {points}",
+    "insufficientPoints": "Insufficient points",
+    "subscriptionRequired": "Subscription required for this model",
+    "pointsDialogMessage": "Your current points: {points}. Not enough for this generation. Please purchase more credits.",
+    "subscriptionDialogMessage": "This video model is only available to subscribers. Subscribe to unlock it.",
+    "buyPoints": "Buy Points",
+    "subscribe": "Subscribe Now",
+    "cancel": "Cancel",
+    "promptRequired": "Please enter a prompt before generating",
+    "unknownError": "Generation failed, please try again later",
+    "copySuccess": "Link copied",
+    "copyFailed": "Copy failed, please copy manually",
+    "noVideoReturned": "No video URL was returned. Please try again.",
+    "pollingFailed": "Failed to fetch generation result, please retry",
+    "models": {
+      "pixverseV55": "Pixverse v5.5"
+    },
+    "mode": {
+      "textToVideo": "Text to Video",
+      "imageToVideo": "Image to Video"
+    },
+    "inputImageLabel": "Input Image",
+    "uploadImage": "Click to upload or drag and drop",
+    "uploadImageHint": "Supports JPG, PNG, etc. Max 10MB",
+    "promptHintImageToVideo": "Describe how the camera should move and what should happen starting from this image.",
+    "promptPlaceholderImageToVideo": "e.g. slow zoom in on the character, camera orbit around, or: the scene gradually changes to sunset",
+    "imageRequired": "Please upload an image first",
+    "invalidImageFile": "Please upload a valid image, video or audio file",
+    "imageTooLarge": "Image size cannot exceed 10MB",
+    "imageReadError": "Failed to read image, please try again",
+    "videoDurationInvalid": "Invalid video duration",
+    "videoDurationInvalidDesc": "Video duration must be between 2-10 seconds, current model only supports this range",
+    "videoSizeInvalid": "Invalid video size",
+    "videoSizeInvalidDesc": "Video size cannot exceed 100MB"
+  },
+  "aiChat": {
+    "title": "AI Chat",
+    "description": "Chat with advanced AI models and experience the power of intelligent assistants",
+    "selectModel": "Select Model",
+    "freeModels": "Free Models",
+    "paidModels": "Paid Models",
+    "requiresLogin": "Login Required",
+    "requiresSubscription": "Subscription Required",
+    "pointsCost": "Points Cost",
+    "freeModelCost": "10 points/use",
+    "paidModelCost": "20 points/use",
+    "inputPlaceholder": "Type your message...",
+    "send": "Send",
+    "clear": "Clear Chat",
+    "newChat": "New Chat",
+    "thinking": "Thinking...",
+    "error": "Error",
+    "loginRequired": "Please login to use free models",
+    "subscriptionRequired": "Please subscribe to use paid models",
+    "insufficientPoints": "Insufficient points, please recharge",
+    "currentPoints": "Current Points",
+    "modelInfo": "Model Info",
+    "provider": "Provider",
+    "type": "Type",
+    "free": "Free",
+    "paid": "Paid",
+    "confirmClear": "Confirm Clear",
+    "confirmClearMessage": "Are you sure you want to clear all chat history?",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "welcomeMessage": "Hello! I'm your AI assistant. How can I help you today?",
+    "errorSendingMessage": "Failed to send message, please try again",
+    "networkError": "Network error, please check your connection",
+    "pointsDialogMessage": "Your current points: {points}. Insufficient points to use this model. Please purchase points to continue.",
+    "subscriptionDialogMessage": "Paid models require an active subscription. Subscribe now to unlock all premium features!",
+    "buyPoints": "Buy Points",
+    "subscribe": "Subscribe Now",
+    "pointsHistory": {
+      "aiChatFree": "AI Chat - Free Model",
+      "aiChatPaid": "AI Chat - Paid Model",
+      "gifted": "Gifted Points",
+      "purchased": "Purchased Points"
+    }
+  },
+  "home": {
+    "operate": {
+      "placeholder": "Enter prompt to generate or edit (Example: Transform this landscape photo into cyberpunk style, enhance contrast and add neon effects)",
+      "upload": "Upload Image File",
+      "uploadFile": "Upload File",
+      "inputLink": "Input File Link",
+      "uploadSizeInfo": "max upload: {size}",
+      "auto": "Auto",
+      "on": "On",
+      "off": "Off",
+      "origin": "Keep Original",
+      "applyEdit": "Generate",
+      "addLinkTitle": "Add File Link",
+      "addLinkDesc": "Paste or enter the URL address of image, video or audio",
+      "linkLabel": "File Link",
+      "linkPlaceholder": "https://example.com/file.jpg",
+      "cancel": "Cancel",
+      "ok": "OK",
+      "addLink": "Add Link",
+      "preview": "Preview",
+      "previewImageAlt": "Preview Image",
+      "addImage": "Add Image",
+      "imageMode": "Image",
+      "videoMode": "Video",
+      "aspectRatio": "Aspect Ratio",
+      "imageSize": "Image Size",
+      "resolution": "Resolution",
+      "quality": "Quality",
+      "duration": "Duration (seconds)",
+      "audioSetting": "Audio Setting",
+      "currentSelection": "Current Selection",
+      "settings": "Settings",
+      "sendMessage": "Send",
+      "generating": "Generating...",
+      "generatingTitle": "Generating...",
+      "generatingVideoTitle": "Generating video...",
+      "editingTitle": "Editing...",
+      "editingVideoTitle": "Editing video...",
+      "generatingStatus": "AI is creating",
+      "editingStatus": "AI is editing",
+      "pleaseWait": "Beautiful images are about to appear, please wait... You can close the page now. Later, you can check the results in \"My Projects\".",
+      "pleaseWaitVideo": "Amazing videos are about to appear, please wait... You can close the page now. Later, you can check the results in \"My Projects\".",
+      "generatedImages": "Generated Images",
+      "generatedVideos": "Generated Videos",
+      "generatedResults": "Generated Results",
+      "download": "Download",
+      "downloading": "Downloading...",
+      "downloadSuccess": "Download Successful",
+      "downloadSuccessDesc": "Image saved to local storage",
+      "videoDownloadSuccess": "Video Downloaded",
+      "videoDownloadSuccessDesc": "Video saved to local storage",
+      "downloadError": "Download Failed",
+      "downloadErrorDesc": "Please try again later",
+      "videoDownloadError": "Video Download Failed",
+      "success": "Success!",
+      "successDesc": "Your image has been generated successfully",
+      "videoSuccess": "Video generated successfully!",
+      "videoSuccessDesc": "Your video is ready",
+      "error": "Generation Failed",
+      "errorDesc": "An error occurred during generation, please try again",
+      "uploadError": "Upload failed",
+      "pointsShort": "{points}",
+      "pointsLabel": "{points} points",
+      "pointsDialogMessage": "Your current points: {points}. Not enough for this generation. Please purchase points or upgrade subscription to continue.",
+      "buyPoints": "Buy Points",
+      "upgradeTitle": "Upgrade Subscription",
+      "subscriptionDialogMessage": "Your current subscription does not unlock this feature. Upgrade to a subscription to access premium models and higher quotas.",
+      "uploadQuotaMessage": "Your current subscription doesn't allow uploading files larger than {limit}. Please upgrade to increase the upload limit.",
+      "upgrade": "Upgrade Subscription",
+      "insufficientPoints": "Insufficient Points",
+      "insufficientPointsDesc": "Your points are insufficient to complete the task, please purchase more points",
+      "videoDurationInvalid": "Invalid video duration",
+      "videoDurationInvalidDesc": "Video duration must be between 2-10 seconds, current model only supports this range",
+      "videoSizeInvalid": "Invalid video size",
+      "videoSizeInvalidDesc": "Video size cannot exceed 100MB",
+      "modelLabel": "Model",
+      "videoGenerateMode": "Generation Mode",
+      "text2video": "Text to Video",
+      "text2videoDesc": "Pure AI generation",
+      "image2video": "Image to Video",
+      "image2videoDesc": "First frame input",
+      "firstlast2video": "First+Last to Video",
+      "firstlast2videoDesc": "Two frames input",
+      "reference2video": "Reference to Video",
+      "reference2videoDesc": "Auto detect upload",
+      "videoEdit": "Video Edit",
+      "videoPromptHint": "Text prompt for video generation. (Min: 3, Max: 20000 characters)",
+      "promptTooShort": "Video prompt must be at least 3 characters",
+      "referenceVideoHint": "Supports images/videos/audio. Up to 9 images, max 30MB each; up to 3 videos, 2-15s each, total duration under 15s, max 50MB each; up to 3 audio files, 2-15s each, total duration under 15s, max 15MB each",
+      "wanReferenceVideoHint": "Supports images/videos. Up to 5 images and 5 videos. Images max 30MB; videos 2-10s each",
+      "happyhorseMaxImages": "HappyHorse reference video requires 1-9 reference images. Please check the upload count.",
+      "happyhorse11MaxImages": "HappyHorse 1.1 reference video requires 1-9 reference images. Please check the upload count.",
+      "happyhorse11ReferenceVideoHint": "Supports images. Up to 9 images, min 400px on shortest side, max 20MB each (use [Image 1] in prompt to reference)",
+      "wanMaxImages": "Wan reference video supports up to 5 images. Please check the upload count.",
+      "wanMaxVideos": "Wan reference video supports up to 5 videos. Please check the upload count.",
+      "wanReferenceFileRequired": "Please upload at least one image or video as reference material.",
+      "wanVideoEditHint": "Video editing requires uploading a video file as input (supports mp4, mov, 2-10s). Optionally upload a reference image.",
+      "happyhorseReferenceVideoHint": "Supports images. Up to 9 images, max 10MB each",
+      "happyhorseVideoEditHint": "Video editing requires uploading a video file as input (supports mp4, mov, 3-60s). Optionally upload reference images (up to 5).",
+      "happyhorseVideoEditRequired": "Video editing mode requires uploading a video file. Click the upload button to add a video.",
+      "wanVideoEditRequired": "Video editing mode requires uploading a video file. Click the upload button to add a video.",
+      "seedanceMaxImages": "Seedance reference video supports up to 9 images. Please check the upload count.",
+      "seedanceMaxVideos": "Seedance reference video supports up to 3 videos. Please check the upload count.",
+      "seedanceMaxAudios": "Seedance reference video supports up to 3 audio files. Please check the upload count.",
+      "seedanceVideoEditNotSupported": "Seedance does not support video editing mode. Please select HappyHorse or Wan model.",
+      "twoImagesRequired": "First-last frame video requires two images (first and last frame) to generate. Please check your uploads.",
+      "referenceFileRequired": "Please upload at least one file (image, video or audio) as reference material. Generation will start after uploading.",
+      "imageRequired": "Image-to-video needs an image as the first frame. Click the upload button to add an image.",
+      "videoUploadInProgress": "Video is uploading in the background. Please wait a moment, generation will start automatically after upload completes.",
+      "veoReferenceVideoHint": "Veo reference video requires 1-3 reference images",
+      "veoReferenceVideoDialogHint": "Veo reference video generation requires 1-3 reference images. Please check the upload count.",
+      "veoMaxImagesHint": "Veo models support up to 3 reference images.",
+      "geminiOmniReferenceHint": "Supports up to 7 reference images or 1 reference video (duration ≤30s, clip ≤10s), output duration is determined by the model",
+      "geminiOmniMaxImages": "Gemini Omni reference video supports up to 7 reference images. Please check the upload count.",
+      "geminiOmniMaxVideos": "Gemini Omni reference video supports up to 1 reference video. Please check the upload count.",
+      "geminiOmniVideoDurationHint": "Gemini Omni text-to-video supports 4/6/8/10 seconds duration.",
+      "geminiOmniVideoWithVideoDurationHint": "Gemini Omni reference video duration is automatically determined by the model.",
+      "minimaxH3ReferenceHint": "Supports up to 9 reference images or 3 reference videos (up to 15s each). Output duration: 4-15s.",
+      "minimaxH3MaxImages": "MiniMax H3 supports up to 9 reference images. Please check the upload count.",
+      "minimaxH3MaxVideos": "MiniMax H3 supports up to 3 reference videos. Please check the upload count.",
+      "imageModelHint": {
+        "nanoBanana2": "Max 14 reference images, max file size: 30MB",
+        "nanoBanana2Lite": "Max 10 reference images, max file size: 30MB",
+        "nanoBananaPro": "Max 8 reference images, max file size: 30MB",
+        "gptImage2": "Max 16 reference images",
+        "seedream5Lite": "Max 14 reference images, max file size: 10MB",
+        "seedream5Pro": "Max 10 reference images, max file size: 10MB"
+      }
+    },
+    "sidebar": {
+      "title": "Editf",
+      "logoAlt": "Editf",
+      "switchLanguage": "Switch language",
+      "chinese": "Chinese",
+      "english": "English",
+      "toggleTheme": "Toggle theme",
+      "upgradeTitle": "Upgrade",
+      "upgradeDesc": "Upgrade to get higher quotas and advanced image editing features",
+      "upgradeBtn": "Upgrade",
+      "profile": "Profile",
+      "login": "Login",
+      "user": "User",
+      "open": "Open Sidebar",
+      "close": "Close Sidebar",
+      "openChatList": "Open chat list",
+      "noChats": "No chat records",
+      "newChat": "New Chat",
+      "newChatTitle": "New Chat - Editf",
+      "nav": {
+        "editor": "Editor",
+        "projects": "My Projects"
+      }
+    },
+    "projects": {
+      "title": "My Projects",
+      "subtitle": "View all your AI image and video generation records",
+      "backToEditor": "Back to Editor",
+      "noRecords": "No edit or generation records yet",
+      "noRecordsDesc": "You haven't edited or generated any images yet. Create or edit your first project!",
+      "startGenerating": "Start Generating",
+      "totalProjects": "Total Projects",
+      "totalGenerateProjects": "Image Generation",
+      "totalEditProjects": "Image Editing",
+      "totalVideoProjects": "Video Gen",
+      "totalImages": "Edited / Generated Images",
+      "totalPoints": "Points Used",
+      "imagesCount": "images",
+      "videosCount": "videos",
+      "pointsUsed": "points",
+      "view": "View",
+      "download": "Download",
+      "pageInfo": "Page {current} of {total}",
+      "previous": "Previous",
+      "next": "Next",
+      "loginRequired": "Please log in to view your generation records",
+      "backToHome": "Back to Home",
+      "type": {
+        "generate": "Image Gen",
+        "edit": "Image Edit",
+        "videoEdit": "Video Gen"
+      },
+      "status": {
+        "success": "Success",
+        "failed": "Failed",
+        "pending": "Pending"
+      },
+      "moreImages": "+{count} images",
+      "searchPlaceholder": "Search projects...",
+      "search": "Search",
+      "copyPrompt": "Copy prompt",
+      "copied": "Copied"
+    },
+    "imageEdit": {
+      "edit": "Edit",
+      "referenced": "Image referenced"
+    },
+    "chat": {
+      "startTitle": "Start Chat",
+      "startDesc": "Describe your idea and let AI generate or edit images and videos for you",
+      "copyContent": "Copy content",
+      "copied": "Copied",
+      "copyFailed": "Copy failed",
+      "uploadedImage": "Uploaded image {index}",
+      "generateFailed": "Generation failed",
+      "noResult": "No results",
+      "downloadSuccess": "Download successful",
+      "downloadFailed": "Download failed",
+      "videoDownloadSuccess": "Video downloaded",
+      "videoDownloadFailed": "Video download failed",
+      "pasteImageLink": "Enter file link",
+      "inputPlaceholder": "Enter prompts for generation or editing (Example: Process the scene into a high-contrast cyberpunk style)",
+      "uploadImage": "Upload image",
+      "inputLink": "Input link",
+      "userAvatar": "User avatar"
+    }
+  },
+  "landing": {
+    "heroTitle1": "Dialogue,",
+    "heroTitle2": "Instant Creation.",
+    "heroDesc": "Simple commands unlock infinite creativity. Editf empowers everyone to create and edit professional-grade images and videos at unprecedented speed.",
+    "heroButton": "Start for Free",
+    "heroImageLabel": "NEON_VISION_V2.EDITF",
+    "heroInputImage": "Input Image",
+    "heroOutputImage": "AI Render Output",
+    "heroPromptLabel": "Prompt",
+    "heroPromptText": "Colorize this sketch...",
+    "heroAiStatus": "AI Neon Engine Rendering...",
+    "heroQuality": "4K",
+    "heroFps": "60FPS",
+    "heroImage": "Image",
+    "heroVideo": "Video",
+    "heroBefore": "Before",
+    "heroAfter": "After",
+    "pricingBadge": "Premium Membership",
+    "pricingTitle1": "Choose Your ",
+    "pricingTitle2": "Plan.",
+    "pricingDesc": "Choose as you need, upgrade as you grow — let your creativity flourish at every stage.",
+    "pricingMostPopular": "Most Popular",
+    "faqBadge": "FAQ",
+    "faqTitle1": "Frequently Asked ",
+    "faqTitle2": "Questions",
+    "faqDesc": "Answers to all your questions about the Editf platform.",
+    "faq": [
+      {
+        "question": "What is Editf?",
+        "answer": "Editf is an AI-powered creative platform integrating advanced AI technologies, supporting AI image generation, video creation, image editing, style transfer and more to help users effortlessly create professional-grade images and videos."
+      },
+      {
+        "question": "How do I get started with Editf?",
+        "answer": "It's simple! After registering an account, you can start creating right away. The platform offers two creative modes: Editor Mode for precise parameter control, and Chat Mode where you can describe your needs in natural language for a more flexible experience."
+      },
+      {
+        "question": "How do I edit existing images?",
+        "answer": "Upload an image and describe the modifications you want in the input field. The system will automatically recognize the image content and make precise edits. Edit mode consumes additional credits."
+      },
+      {
+        "question": "Is video generation supported?",
+        "answer": "Yes! Editf offers powerful AI video generation with multiple modes: text-to-video, image-to-video, and reference-based video generation. We integrate top video models including Seedance, Wan, HappyHorse, Kling, and Veo to create high-quality short video content."
+      },
+      {
+        "question": "What pricing plans are available?",
+        "answer": "We offer three plans: Trial, Pro, and Annual. Trial is a one-time purchase that expires after 7 days; Pro and Annual are subscription-based and will auto-renew before expiration with charges applied. You can cancel anytime. Trial can only be purchased once per account."
+      },
+      {
+        "question": "How are credits calculated and recharged?",
+        "answer": "Each image or video generation consumes corresponding credits, with the amount depending on the model and resolution settings. You can purchase credit packages on the pricing page, and annual subscriptions enjoy more benefits."
+      },
+      {
+        "question": "Can I use generated works for commercial purposes?",
+        "answer": "Absolutely! You have full commercial usage rights to the generated works. You can freely use them for commercial projects, export to other platforms, or create derivative works."
+      }
+    ],
+    "editorBadge": "PRO Precision",
+    "editorTitle": "Editor Mode",
+    "editorDesc": "Precise parameter control for predictable results. Model selection, dimension settings, and reference image uploads give you complete control at every step.",
+    "editorCta": "Try Now",
+    "chatBadge": "AI REVOLUTION",
+    "chatTitle": "Chat Mode",
+    "chatDesc": "Command AI with natural language. Describe your ideas, upload reference images, and let AI generate or edit images and videos for you.",
+    "chatPrompt": "Colorize this sketch for me...",
+    "chatCta": "Start Chatting Now",
+    "testimonialTitleFrom": "From ",
+    "testimonialTitle1": " Pioneers",
+    "testimonialTitle2": " &apos;s Voice",
+    "testimonial1Quote": "Editf's editor mode is incredibly efficient. With precise parameter control and real-time preview, what used to take hours now takes just a few minutes.",
+    "testimonial1Role": "Design Studio Director",
+    "testimonial2Quote": "The precision amazed me. From model selection to parameter settings and reference uploads, every step is under my control. The results are truly professional-grade.",
+    "testimonial2Role": "Independent Digital Artist",
+    "testimonial3Quote": "After using Editf, my design efficiency improved at least 3x. Precise parameter control makes everything so much easier, finishing half a day's work in just a few minutes.",
+    "testimonial3Role": "Brand Director",
+    "featuresTitle1": "Two Modes,",
+    "featuresTitle2": "Efficient & Precise.",
+    "featuresDesc": "Professional creations in minutes. Precise parameter control with real-time preview — Editf brings your ideas to life efficiently."
+  },
+  "prompts": {
+    "title": "Prompt Library",
+    "description": "Explore curated AI image and video generation prompts to inspire your creativity",
+    "disclaimer": "All prompts are sourced from the internet. Contact us if there are any copyright concerns. Thank you.",
+    "all": "All",
+    "image": "Image",
+    "video": "Video",
+    "searchPlaceholder": "Search prompts...",
+    "loadMore": "Load More",
+    "loading": "Loading...",
+    "categories": {
+      "all": "All",
+      "general": "General",
+      "portrait": "Portrait",
+      "landscape": "Landscape",
+      "architecture": "Architecture",
+      "product": "Product",
+      "animal": "Animal",
+      "art": "Art",
+      "photography": "Photography",
+      "ui": "UI"
+    }
+  },
+  "promptCard": {
+    "video": "Video",
+    "image": "Image",
+    "featured": "Featured",
+    "seconds": "s",
+    "copied": "Copied",
+    "copy": "Copy",
+    "use": "Use",
+    "copySuccess": "Copied to clipboard",
+    "copyFailed": "Failed to copy",
+    "mode": "Mode",
+    "model": "Model",
+    "aspectRatio": "Ratio",
+    "resolution": "Resolution",
+    "duration": "Duration",
+    "apply": {
+      "editor": "Apply to Editor",
+      "chat": "Apply to Chat"
+    },
+    "modes": {
+      "generate": "Generate",
+      "edit": "Edit Image",
+      "text2video": "Text to Video",
+      "image2video": "Image to Video",
+      "firstlast2video": "First-Last Frame",
+      "reference2video": "Reference Video",
+      "videoEdit": "Video Edit"
+    }
+  },
+  "promptMasonry": {
+    "noPrompts": "No Prompts Yet",
+    "noPromptsHint": "No matching prompts found. Try different filters"
+  },
+  "adminPrompts": {
+    "stats": {
+      "total": "Total",
+      "image": "Images",
+      "video": "Videos",
+      "active": "Active"
+    },
+    "addButton": "Add Prompt",
+    "empty": {
+      "title": "No Prompts Yet",
+      "hint": "Click the button above to add your first prompt"
+    },
+    "table": {
+      "type": "Type",
+      "prompt": "Prompt",
+      "category": "Category",
+      "status": "Status",
+      "featured": "Featured",
+      "sort": "Sort",
+      "actions": "Actions"
+    },
+    "status": {
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "featured": "Featured",
+      "normal": "Normal"
+    },
+    "actions": {
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    },
+    "dialog": {
+      "addTitle": "Add Prompt",
+      "editTitle": "Edit Prompt",
+      "type": "Type",
+      "image": "Image",
+      "video": "Video",
+      "promptContent": "Prompt Content",
+      "promptPlaceholder": "Enter prompt content...",
+      "category": "Category",
+      "thumbnail": "Thumbnail",
+      "optional": "(optional)",
+      "upload": "Upload",
+      "urlPlaceholder": "Or enter URL...",
+      "imageParams": "Image Parameters",
+      "videoParams": "Video Parameters",
+      "model": "Model",
+      "selectModel": "Select model",
+      "mode": "Mode",
+      "aspectRatio": "Aspect Ratio",
+      "selectRatio": "Select ratio",
+      "quality": "Quality",
+      "selectQuality": "Select quality",
+      "resolution": "Resolution",
+      "selectResolution": "Select resolution",
+      "videoMode": "Video Mode",
+      "duration": "Duration (seconds)",
+      "sort": "Sort",
+      "sortHint": "Sort weight (higher number = higher priority)",
+      "enabled": "Enabled",
+      "featured": "Set as Featured",
+      "cancel": "Cancel",
+      "save": "Save",
+      "add": "Add"
+    },
+    "categories": {
+      "general": "General",
+      "portrait": "Portrait",
+      "landscape": "Landscape",
+      "architecture": "Architecture",
+      "product": "Product",
+      "animal": "Animal",
+      "art": "Art",
+      "photography": "Photography",
+      "ui": "UI"
+    },
+    "pagination": {
+      "prev": "Previous",
+      "next": "Next"
+    },
+    "toast": {
+      "promptRequired": "Please enter prompt content",
+      "updateSuccess": "Updated successfully",
+      "addSuccess": "Added successfully",
+      "deleteSuccess": "Deleted successfully",
+      "operationFailed": "Operation failed",
+      "deleteFailed": "Delete failed",
+      "disabled": "Disabled",
+      "enabled": "Enabled",
+      "featured": "Featured",
+      "unfeatured": "Unfeatured",
+      "setFeatured": "Set as Featured",
+      "removeFeatured": "Remove from Featured",
+      "uploading": "Uploading...",
+      "uploadSuccess": "Upload successful",
+      "uploadFailed": "Upload failed",
+      "seconds": "s"
+    }
+  }
+}
