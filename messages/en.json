@@ -1645,6 +1645,7 @@
       "videoPromptHint": "Text prompt for video generation. (Min: 3, Max: 20000 characters)",
       "promptTooShort": "Video prompt must be at least 3 characters",
       "referenceVideoHint": "Supports images/videos/audio. Up to 9 images, max 30MB each; up to 3 videos, 2-15s each, total duration under 15s, max 50MB each; up to 3 audio files, 2-15s each, total duration under 15s, max 15MB each",
+      "seedance25ReferenceVideoHint": "Supports images/videos/audio. Up to 30 images, max 30MB each; up to 10 videos, 2-30s each, total duration under 30s, max 200MB each; up to 10 audio files, 2-30s each, total duration under 30s, max 15MB each",
       "wanReferenceVideoHint": "Supports images/videos. Up to 5 images and 5 videos. Images max 30MB; videos 2-10s each",
       "happyhorseMaxImages": "HappyHorse reference video requires 1-9 reference images. Please check the upload count.",
       "happyhorse11MaxImages": "HappyHorse 1.1 reference video requires 1-9 reference images. Please check the upload count.",

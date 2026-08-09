@@ -202,18 +202,24 @@ export function AIFunction({
             setShowErrorDialog(true)
             return
           }
-          if (imageFiles.length > 9) {
-            setErrorDialogMessage(t("operate.seedanceMaxImages") || "Seedance 参考生视频最多支持 9 张图片，请检查上传数量")
+          // Seedance 2.5: 图片最多30, 视频最多10, 音频最多10
+          // Seedance 2.0 系列: 图片最多9, 视频最多3, 音频最多3
+          const isSeedance25 = selectedVideoModel === "seedance25"
+          const maxImages = isSeedance25 ? 30 : 9
+          const maxVideos = isSeedance25 ? 10 : 3
+          const maxAudios = isSeedance25 ? 10 : 3
+          if (imageFiles.length > maxImages) {
+            setErrorDialogMessage(t("operate.seedanceMaxImages") || `Seedance 参考生视频最多支持 ${maxImages} 张图片，请检查上传数量`)
             setShowErrorDialog(true)
             return
           }
-          if (videoFiles.length > 3) {
-            setErrorDialogMessage(t("operate.seedanceMaxVideos") || "Seedance 参考生视频最多支持 3 个视频，请检查上传数量")
+          if (videoFiles.length > maxVideos) {
+            setErrorDialogMessage(t("operate.seedanceMaxVideos") || `Seedance 参考生视频最多支持 ${maxVideos} 个视频，请检查上传数量`)
             setShowErrorDialog(true)
             return
           }
-          if (audioFilesInRef.length > 3) {
-            setErrorDialogMessage(t("operate.seedanceMaxAudios") || "Seedance 参考生视频最多支持 3 个音频，请检查上传数量")
+          if (audioFilesInRef.length > maxAudios) {
+            setErrorDialogMessage(t("operate.seedanceMaxAudios") || `Seedance 参考生视频最多支持 ${maxAudios} 个音频，请检查上传数量`)
             setShowErrorDialog(true)
             return
           }
@@ -825,7 +831,14 @@ export function AIFunction({
       const imageFiles = uploadingItems.filter((item) => item.fileType === 'image')
       const hasReferenceVideo = videoFiles.length > 0
 
-      if (selectedVideoModel === "seedance2fast") {
+      if (selectedVideoModel === "seedance25") {
+        // Seedance 2.5: 不含视频=45/105, 含视频=30/65 (480p/720p)
+        const effectiveResolution = videoResolution === "1080p" ? "720p" : videoResolution
+        const pointsPerSecond = hasReferenceVideo
+          ? (effectiveResolution === "480p" ? 30 : 65)
+          : (effectiveResolution === "480p" ? 45 : 105)
+        cost = pointsPerSecond * videoDuration
+      } else if (selectedVideoModel === "seedance2fast") {
         // Seedance 2.0 Fast: 有视频=15/35, 无视频=25/55 (480p/720p)
         const effectiveResolution = videoResolution === "1080p" ? "720p" : videoResolution
         const pointsPerSecond = hasReferenceVideo
@@ -1592,7 +1605,7 @@ export function AIFunction({
                       <Settings2 className="w-4 h-4 text-primary" />
                       <span className="hidden md:inline text-sm font-medium text-center">
                         {                          contentType === "video" ? (
-                            <>{selectedVideoModel === "happyhorse" ? "HappyHorse 1.0" : selectedVideoModel === "happyhorse11" ? "HappyHorse 1.1" : selectedVideoModel === "wan27" ? "Wan 2.7" : selectedVideoModel === "kling30" ? "Kling 3.0" : selectedVideoModel === "klingV3Turbo" ? "Kling V3 Turbo" : selectedVideoModel === "seedance2fast" ? "Seedance 2.0 Fast" : selectedVideoModel === "seedance2mini" ? "Seedance 2.0 Mini" : selectedVideoModel === "seedance2" ? "Seedance 2.0" : selectedVideoModel === "veo3" ? "Veo 3.1 Quality" : selectedVideoModel === "veo3fast" ? "Veo 3.1 Fast" : selectedVideoModel === "veo3lite" ? "Veo 3.1 Lite" : selectedVideoModel === "geminiOmniVideo" ? "Gemini Omni" : selectedVideoModel === "minimaxH3" ? "MiniMax H3" : selectedVideoModel} · {videoAspectRatio} · {videoResolution}</>
+                            <>{selectedVideoModel === "happyhorse11" ? "HappyHorse 1.1" : selectedVideoModel === "wan27" ? "Wan 2.7" : selectedVideoModel === "kling30" ? "Kling 3.0" : selectedVideoModel === "klingV3Turbo" ? "Kling V3 Turbo" : selectedVideoModel === "seedance25" ? "Seedance 2.5" : selectedVideoModel === "seedance2fast" ? "Seedance 2.0 Fast" : selectedVideoModel === "seedance2mini" ? "Seedance 2.0 Mini" : selectedVideoModel === "seedance2" ? "Seedance 2.0" : selectedVideoModel === "veo3" ? "Veo 3.1 Quality" : selectedVideoModel === "veo3fast" ? "Veo 3.1 Fast" : selectedVideoModel === "veo3lite" ? "Veo 3.1 Lite" : selectedVideoModel === "geminiOmniVideo" ? "Gemini Omni" : selectedVideoModel === "minimaxH3" ? "MiniMax H3" : selectedVideoModel} · {videoAspectRatio} · {videoResolution}</>
                         ) : (
                           <>{selectedModel === "nanoBananaPro" ? "Nano Banana Pro" : selectedModel === "nanoBanana2" ? "Nano Banana 2" : selectedModel === "nanoBanana2Lite" ? "Nano Banana 2 Lite" : selectedModel === "gptImage2" ? "GPT Image 2" : selectedModel === "seedream5Pro" ? "Seedream 5.0 Pro" : "Seedream 5.0 Lite"} · {aspectRatio}{selectedModel === "nanoBanana2Lite" ? "" : ` · ${selectedModel === "seedream5Lite" || selectedModel === "seedream5Pro" ? quality : duration}`}</>
                         )}
@@ -1719,6 +1732,7 @@ export function AIFunction({
                           <div className="text-xs font-medium text-muted-foreground px-1">{t("operate.modelLabel")}</div>
                           <div className="flex flex-col gap-1.5">
                             {[
+                              { key: "seedance25", label: "Seedance 2.5" },
                               { key: "seedance2", label: "Seedance 2.0" },
                               { key: "seedance2fast", label: "Seedance 2.0 Fast" },
                               { key: "seedance2mini", label: "Seedance 2.0 Mini" },
@@ -1738,7 +1752,18 @@ export function AIFunction({
                                 onClick={() => {
                                   setSelectedVideoModel(model.key)
                                   // 如果当前参数不在新模型的可用范围内，重置为默认值
-                                  if (model.key === "seedance2fast") {
+                                  if (model.key === "seedance25") {
+                                    // Seedance 2.5: 比例支持 "adaptive"，分辨率支持 "480p", "720p"，时长 4-30
+                                    if (!["16:9", "9:16", "1:1", "4:3", "3:4", "21:9", "adaptive"].includes(videoAspectRatio)) {
+                                      setVideoAspectRatio("16:9")
+                                    }
+                                    if (!["480p", "720p"].includes(videoResolution)) {
+                                      setVideoResolution("720p")
+                                    }
+                                    if (videoDuration < 4 || videoDuration > 30) {
+                                      setVideoDuration(5)
+                                    }
+                                  } else if (model.key === "seedance2fast") {
                                     // Seedance 2.0 Fast: 比例支持 "adaptive"，分辨率支持 "480p", "720p"，时长 4-15
                                     if (!["16:9", "9:16", "1:1", "4:3", "3:4", "21:9", "adaptive"].includes(videoAspectRatio)) {
                                       setVideoAspectRatio("16:9")
@@ -2046,7 +2071,7 @@ export function AIFunction({
                         {/* 参考生视频模式提示 - Seedance、Wan、HappyHorse 1.0 和 HappyHorse 1.1 模型显示 */}
                         {(selectedVideoModel.startsWith("seedance") || selectedVideoModel === "wan27" || selectedVideoModel === "happyhorse" || selectedVideoModel === "happyhorse11") && videoGenerateMode === 'reference2video' && (
                           <div className="text-xs text-muted-foreground px-1 leading-relaxed">
-                            {selectedVideoModel === "wan27" ? t("operate.wanReferenceVideoHint") : selectedVideoModel === "happyhorse" ? t("operate.happyhorseReferenceVideoHint") : selectedVideoModel === "happyhorse11" ? (t("operate.happyhorse11ReferenceVideoHint") || t("operate.happyhorseReferenceVideoHint")) : t("operate.referenceVideoHint")}
+                            {selectedVideoModel === "seedance25" ? t("operate.seedance25ReferenceVideoHint") : selectedVideoModel === "wan27" ? t("operate.wanReferenceVideoHint") : selectedVideoModel === "happyhorse" ? t("operate.happyhorseReferenceVideoHint") : selectedVideoModel === "happyhorse11" ? (t("operate.happyhorse11ReferenceVideoHint") || t("operate.happyhorseReferenceVideoHint")) : t("operate.referenceVideoHint")}
                           </div>
                         )}
 
@@ -2068,7 +2093,7 @@ export function AIFunction({
                         <div className="space-y-2">
                           <div className="text-xs font-medium text-muted-foreground px-1">{t("operate.aspectRatio")}</div>
                           <div className="flex flex-wrap gap-1.5">
-                            {(selectedVideoModel === "seedance2fast" || selectedVideoModel === "seedance2mini"
+                            {(selectedVideoModel === "seedance2fast" || selectedVideoModel === "seedance2mini" || selectedVideoModel === "seedance25"
                               ? ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9", "adaptive"]      : selectedVideoModel === "happyhorse"
                               ? ["16:9", "9:16", "1:1", "4:3", "3:4"]
                               : selectedVideoModel === "happyhorse11"
@@ -2105,7 +2130,7 @@ export function AIFunction({
                         <div className="space-y-2">
                           <div className="text-xs font-medium text-muted-foreground px-1">{t("operate.resolution")}</div>
                           <div className="flex flex-wrap gap-1.5">
-                            {(selectedVideoModel === "seedance2fast" || selectedVideoModel === "seedance2mini"
+                            {(selectedVideoModel === "seedance2fast" || selectedVideoModel === "seedance2mini" || selectedVideoModel === "seedance25"
                               ? ["480p", "720p"]
                               : selectedVideoModel === "happyhorse" || selectedVideoModel === "happyhorse11" || selectedVideoModel === "wan27" || selectedVideoModel === "klingV3Turbo"
                               ? ["720p", "1080p"]
@@ -2182,14 +2207,18 @@ export function AIFunction({
                                   ? 3
                                   : selectedVideoModel === "wan27"
                                     ? 2
-                                    : 4  // Veo, Gemini Omni Video 等默认最小 4s
+                                    : selectedVideoModel === "seedance25"
+                                      ? 4
+                                      : 4  // Veo, Gemini Omni Video 等默认最小 4s
                               }
                               max={
                                 selectedVideoModel === "wan27" && ["reference2video", "videoEdit"].includes(videoGenerateMode)
                                   ? 10
                                   : selectedVideoModel === "geminiOmniVideo" && videoGenerateMode !== "text2video"
                                     ? 10  // Gemini Omni 参考生视频时长由模型决定
-                                    : 15
+                                    : selectedVideoModel === "seedance25"
+                                      ? 30  // Seedance 2.5 支持 4-30 秒
+                                      : 15
                               }
                               step={selectedVideoModel === "geminiOmniVideo" ? "2" : "1"}
                               value={videoDuration}
@@ -2223,7 +2252,9 @@ export function AIFunction({
                                     ? "auto"
                                     : selectedVideoModel === "geminiOmniVideo"
                                       ? "10s"
-                                      : "15s"}
+                                      : selectedVideoModel === "seedance25"
+                                        ? "30s"
+                                        : "15s"}
                               </span>
                             </div>
                           </div>
@@ -2262,7 +2293,7 @@ export function AIFunction({
                         <div className="text-xs text-muted-foreground px-1">
                           {t("operate.currentSelection")}: <span className="text-foreground font-medium">
                             {contentType === "video" ? (
-                              <>{selectedVideoModel === "happyhorse" ? "HappyHorse 1.0" : selectedVideoModel === "happyhorse11" ? "HappyHorse 1.1" : selectedVideoModel === "wan27" ? "Wan 2.7" : selectedVideoModel === "kling30" ? "Kling 3.0" : selectedVideoModel === "klingV3Turbo" ? "Kling V3 Turbo" : selectedVideoModel === "seedance2fast" ? "Seedance 2.0 Fast" : selectedVideoModel === "seedance2mini" ? "Seedance 2.0 Mini" : selectedVideoModel === "seedance2" ? "Seedance 2.0" : selectedVideoModel === "veo3" ? "Veo 3.1 Quality" : selectedVideoModel === "veo3fast" ? "Veo 3.1 Fast" : selectedVideoModel === "veo3lite" ? "Veo 3.1 Lite" : selectedVideoModel === "geminiOmniVideo" ? "Gemini Omni" : selectedVideoModel === "minimaxH3" ? "MiniMax H3" : selectedVideoModel} · {videoGenerateMode === "text2video" ? t("operate.text2video") : videoGenerateMode === "image2video" ? t("operate.image2video") : videoGenerateMode === "firstlast2video" ? t("operate.firstlast2video") : videoGenerateMode === "reference2video" ? t("operate.reference2video") : t("operate.videoEdit")} · {videoAspectRatio} · {videoResolution} · {selectedVideoModel.startsWith("veo") || selectedVideoModel === "geminiOmniVideo" ? "" : `${videoDuration}s`}</>
+                              <>{selectedVideoModel === "happyhorse" ? "HappyHorse 1.0" : selectedVideoModel === "happyhorse11" ? "HappyHorse 1.1" : selectedVideoModel === "wan27" ? "Wan 2.7" : selectedVideoModel === "kling30" ? "Kling 3.0" : selectedVideoModel === "klingV3Turbo" ? "Kling V3 Turbo" : selectedVideoModel === "seedance25" ? "Seedance 2.5" : selectedVideoModel === "seedance2fast" ? "Seedance 2.0 Fast" : selectedVideoModel === "seedance2mini" ? "Seedance 2.0 Mini" : selectedVideoModel === "seedance2" ? "Seedance 2.0" : selectedVideoModel === "veo3" ? "Veo 3.1 Quality" : selectedVideoModel === "veo3fast" ? "Veo 3.1 Fast" : selectedVideoModel === "veo3lite" ? "Veo 3.1 Lite" : selectedVideoModel === "geminiOmniVideo" ? "Gemini Omni" : selectedVideoModel === "minimaxH3" ? "MiniMax H3" : selectedVideoModel} · {videoGenerateMode === "text2video" ? t("operate.text2video") : videoGenerateMode === "image2video" ? t("operate.image2video") : videoGenerateMode === "firstlast2video" ? t("operate.firstlast2video") : videoGenerateMode === "reference2video" ? t("operate.reference2video") : t("operate.videoEdit")} · {videoAspectRatio} · {videoResolution} · {selectedVideoModel.startsWith("veo") || selectedVideoModel === "geminiOmniVideo" ? "" : `${videoDuration}s`}</>
                             ) : (
                               <>{selectedModel === "nanoBananaPro" ? "Nano Banana Pro" : selectedModel === "nanoBanana2" ? "Nano Banana 2" : selectedModel === "nanoBanana2Lite" ? "Nano Banana 2 Lite" : selectedModel === "gptImage2" ? "GPT Image 2" : selectedModel === "seedream5Pro" ? "Seedream 5.0 Pro" : "Seedream 5.0 Lite"} · {aspectRatio}{selectedModel === "nanoBanana2Lite" ? "" : ` · ${selectedModel === "seedream5Lite" || selectedModel === "seedream5Pro" ? quality : duration}`}</>
                             )}

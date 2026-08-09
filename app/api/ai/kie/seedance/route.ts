@@ -16,11 +16,19 @@ const KIE_API_KEY = process.env.KIE_API_KEY!
 const VIDEO_WEBHOOK_URL = process.env.KIE_VIDEO_WEBHOOK_URL
 
 // 视频编辑积分消耗规则
+// Seedance 2.5: 不含视频=45/105, 含视频=30/65 (480p/720p)
 // Seedance 2.0: 有视频=20/40/100, 无视频=30/70/170 (480p/720p/1080p)
 // Seedance 2.0 Fast: 有视频=15/35, 无视频=25/55 (480p/720p)
 // Seedance 2.0 Mini: 有视频=10/20, 无视频=15/35 (480p/720p)
 function calculateVideoPoints(model: string, resolution: string, duration: number, hasInputVideo: boolean): number {
-  if (model === "seedance2fast") {
+  if (model === "seedance25") {
+    // Seedance 2.5: 只支持 480p 和 720p
+    const effectiveResolution = resolution === "1080p" ? "720p" : resolution
+    const pointsPerSecond = hasInputVideo
+      ? (effectiveResolution === "480p" ? 30 : 65)
+      : (effectiveResolution === "480p" ? 45 : 105)
+    return pointsPerSecond * duration
+  } else if (model === "seedance2fast") {
     // Seedance 2.0 Fast: 只支持 480p 和 720p
     const effectiveResolution = resolution === "1080p" ? "720p" : resolution
     const pointsPerSecond = hasInputVideo
@@ -123,15 +131,16 @@ export async function POST(request: NextRequest) {
     // 构建 Kie.ai API 请求体
     // Seedance 2.0 支持: 文生视频、图生视频(首帧)、首尾帧视频、多模态参考生视频
     const modelMap: Record<string, string> = {
+      "seedance25": "bytedance/seedance-2-5",
       "seedance2fast": "bytedance/seedance-2-fast",
       "seedance2": "bytedance/seedance-2",
       "seedance2mini": "bytedance/seedance-2-mini",
     }
     const kieModel = modelMap[model] || "bytedance/seedance-2"
 
-    // Seedance 2.0 Mini 仅支持 480p/720p
+    // Seedance 2.0 Mini / 2.5 仅支持 480p/720p
     const effectiveResolution =
-      model === "seedance2mini" && resolution === "1080p" ? "720p" : (resolution || "720p")
+      (model === "seedance2mini" || model === "seedance25") && resolution === "1080p" ? "720p" : (resolution || "720p")
 
     const kieRequestBody: any = {
       model: kieModel,
@@ -158,14 +167,20 @@ export async function POST(request: NextRequest) {
       }
     } else if (videoGenerateMode === "reference2video") {
       // 多模态参考生视频：可以混合使用图片、视频、音频
+      // Seedance 2.5: 图片最多30, 视频最多10, 音频最多10
+      // Seedance 2.0 系列: 图片最多9, 视频最多3, 音频最多3
+      const isSeedance25 = model === "seedance25"
+      const maxImages = isSeedance25 ? 30 : 9
+      const maxVideos = isSeedance25 ? 10 : 3
+      const maxAudios = isSeedance25 ? 10 : 3
       if (referenceImageUrls && referenceImageUrls.length > 0) {
-        kieRequestBody.input.reference_image_urls = referenceImageUrls.slice(0, 9)
+        kieRequestBody.input.reference_image_urls = referenceImageUrls.slice(0, maxImages)
       }
       if (referenceVideoUrls && referenceVideoUrls.length > 0) {
-        kieRequestBody.input.reference_video_urls = referenceVideoUrls.slice(0, 3)
+        kieRequestBody.input.reference_video_urls = referenceVideoUrls.slice(0, maxVideos)
       }
       if (referenceAudioUrls && referenceAudioUrls.length > 0) {
-        kieRequestBody.input.reference_audio_urls = referenceAudioUrls.slice(0, 3)
+        kieRequestBody.input.reference_audio_urls = referenceAudioUrls.slice(0, maxAudios)
       }
     }
 
